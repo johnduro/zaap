@@ -1,0 +1,56 @@
+********************************************************************************
+
+                                                          :::      ::::::::
+     mlrtp                                              :+:      :+:    :+:
+                                                      +:+ +:+         +:+
+     By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+
+                                                  +#+#+#+#+#+   +#+
+     Created: 2014/06/06 17:35:12 by mle-roy           #+#    #+#
+     Updated: 2014/06/06 19:33:49 by mle-roy          ###   ########.fr         
+
+********************************************************************************
+
+CLIENT --> SERVEUR
+
+AVANCER 				"avance\n"			REP "ok\n"
+
+TURN RIGHT 				"droite\n"			REP "ok\n"
+
+TURN LEFT 				"gauche\n"			REP "ok\n"
+
+VOIR 					"voir\n"
+	REPONSE				"objet objet joueur-[t/n];objet;objet;vide;objet\n"
+
+INVENTAIRE 				"inventaire"
+	REPONSE				"nourriture n, linemate n, deraumere n, sibur n, mendiane n, phiras n, thystame n\n"
+
+PRENDRE 				"prend <objet>\n"	REP "ok/ko\n"
+
+POSER 					"pose <objet>\n"	REP "ok/ko\n"
+
+EXPULSE 				"expulse\n"			REP "ok/ko\n"
+
+BROADCAST 				"broadcast <msg>\n"	REP "ok\n"
+
+DEBUTER INCANTATION 	"incantation\n"
+	REPONSE				"elevation en cours\n" --> "niveau actuel : K\n"
+
+FORK 					"fork\n"			REP "ok"
+
+NBR CONNECT 			"connect_nbr\n"		REP "<valeur>\n"
+
+NIVEAU					"lvl\n"
+	REPONSE				"ylvl n\n"
+
+
+
+
+SERVEUR --> CLIENT
+
+MESSAGE					"message <case>,<msg>\n"
+
+MOVE					"moved\n"
+
+MORT					"mort\n"
+
+BORN					"" ??
