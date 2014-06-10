@@ -12,7 +12,7 @@
 
 NAME_Serv = serveur
 
-SRC_S = serveur.c
+SRC_S = serveur.c debug.c error_serv.c
 
 OBJ_S = $(SRC_S:.c=.o)
 

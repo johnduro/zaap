@@ -125,4 +125,16 @@ typedef struct			s_zaap
 	t_egg				*eggs;
 }						t_zaap;
 
+/*
+** DEBUG
+*/
+
+void    debug_1(t_zaap *zaap);
+
+/*
+** ERROR
+*/
+
+int zaap_error(int code);
+
 #endif

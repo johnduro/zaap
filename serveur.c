@@ -20,6 +20,7 @@
 #include "zaap.h"
 #include "libft.h"
 
+/*
 int		zaap_error(int code)
 {
 	if (code == -1)
@@ -41,6 +42,7 @@ int		zaap_error(int code)
 		ft_putstr_fd("Bind error\n", 2);
 	exit(code);
 }
+*/
 
 void		add_team(t_zaap *zaap, char *name)
 {
@@ -247,15 +249,15 @@ t_zaap		*get_zaap(char **arg)
 	get_sock(new, port);
 	return (new);
 }
-
+/*
 void	print_case(t_map yolo, int nb, int x, int y)
 {
 //	t_stock		*tmp;
-/*	write(1, "lalala\n", 7);
-	(void)yolo;
-	(void)nb;
-	(void)x;
-	(void)y;*/
+//	write(1, "lalala\n", 7);
+//	(void)yolo;
+//	(void)nb;
+//	(void)x;
+//	(void)y;
 
 	printf("Case n*%d pos[%d][%d]\n", nb, x, y);
 //	tmp = yolo.ressources;
@@ -315,6 +317,7 @@ void	debug_1(t_zaap *zaap)
 	if (zaap->teams)
 		print_teams(zaap->teams);
 }
+*/
 
 int		main(int argc, char **argv)
 {
