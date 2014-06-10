@@ -114,12 +114,12 @@ typedef struct			s_egg
 typedef struct			s_zaap
 {
 	int					sock;
-	int					port;
+//	int					port;
 	int					x;
 	int					y;
 	int					nb_start;
 	int					time;
-	t_map				***map;
+	t_map				**map;
 	t_temp				*wait;
 	t_team				*teams;
 	t_egg				*eggs;
