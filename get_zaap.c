@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_zaap.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/06/11 16:10:01 by mle-roy           #+#    #+#             */
+/*   Updated: 2014/06/11 18:51:43 by mle-roy          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <stdlib.h>
 #include <sys/socket.h>
@@ -52,12 +63,14 @@ static void		init_zaap(t_zaap *zaap)
 	zaap->sock = -1;
 	zaap->x = -1;
 	zaap->y = -1;
+	zaap->max = -1;
 	zaap->nb_start = -1;
 	zaap->time = -1;
 	zaap->map = NULL;
 	zaap->wait = NULL;
 	zaap->teams = NULL;
-	zaap->eggs = NULL;
+//	zaap->eggs = NULL;
+	zaap->gfx = NULL;
 }
 
 t_zaap			*get_zaap(char **arg)

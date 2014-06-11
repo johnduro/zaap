@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/09 22:01:53 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/11 21:15:39 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # define RIGHT 2
 # define LEFT 3
 # define DOWN 4
+
+# define START_FOOD 10
 
 # define BUFF 1024
 # define BUFF_NAME 128
@@ -73,15 +75,27 @@ typedef struct			s_player
 	t_action			*a_first;
 	t_action			*a_last;
 	char				buff_wr[BUFF];
+	char				buff_rd[BUFF];
 	struct s_player		*next;
 	struct s_player		*prev;
 }						t_player;
+
+typedef struct			s_egg
+{
+	int					x;
+	int					y;
+	time_t				hatch;
+//	char				team[BUFF_NAME];//besoin ??
+	struct s_egg		*next;
+	struct s_egg		*prev;
+}						t_egg;
 
 typedef struct			s_team
 {
 	char				name[BUFF_NAME];
 	int					player_nb;
 	t_player			*first;
+	t_egg				*eggs;
 	struct s_team		*next;
 	struct s_team		*prev;
 }						t_team;
@@ -98,7 +112,9 @@ typedef struct			s_temp
 typedef struct			s_caps
 {
 	t_player			*player;
+	t_egg				*egg;
 	struct s_caps		*next;
+	struct s_caps		*prev;
 }						t_caps;
 
 typedef struct			s_map
@@ -107,17 +123,23 @@ typedef struct			s_map
 	t_caps				*list;
 }						t_map;
 
-typedef struct			s_egg
+typedef struct			s_buff
 {
-	time_t				hatch;
-	char				team[BUFF_NAME];
-	struct s_egg		*next;
-}						t_egg;
+	char				buff_wr[BUFF];
+	struct s_buff		*next;
+}						t_buff;
+
+typedef struct			s_gfx
+{
+	int					sock;
+	char				buff_rd[BUFF];
+	int					to_send;
+	t_buff				*list;
+}						t_gfx;
 
 typedef struct			s_zaap
 {
 	int					sock;
-//	int					port;
 	int					x;
 	int					y;
 	int					max;
@@ -128,7 +150,8 @@ typedef struct			s_zaap
 	t_map				**map;
 	t_temp				*wait;
 	t_team				*teams;
-	t_egg				*eggs;
+//	t_egg				*eggs;
+	t_gfx				*gfx;
 }						t_zaap;
 
 /*

@@ -1,8 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debug.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/06/11 16:09:36 by mle-roy           #+#    #+#             */
+/*   Updated: 2014/06/11 18:49:56 by mle-roy          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <stdio.h>
 #include "zaap.h"
 #include "libft.h"
-
 
 static void	print_case(t_map yolo, int nb, int x, int y)
 {
@@ -29,7 +39,7 @@ static void	debug_map(t_map **map, t_zaap *zaap)
 		j = 0;
 		while (j < zaap->x)
 		{
-			printf("i=%d, j=%d\n", i, j);
+//			printf("i=%d, j=%d\n", i, j);
 			print_case(map[i][j], all, i, j);
 			all++;
 			j++;
@@ -46,6 +56,7 @@ static void	print_teams(t_team *team)
 	while (team)
 	{
 		printf("team n*%d: %s\n", nb, team->name);
+		nb++;
 		team = team->next;
 	}
 }

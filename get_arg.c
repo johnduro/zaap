@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_arg.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2014/06/11 16:10:13 by mle-roy           #+#    #+#             */
+/*   Updated: 2014/06/11 21:30:31 by mle-roy          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <stdlib.h>
 #include "zaap.h"
@@ -13,6 +24,7 @@ static void		add_team(t_zaap *zaap, char *name)
 	ft_strcpy(new->name, name);
 	new->player_nb = 0;
 	new->first = NULL;
+	new->eggs = NULL;
 	new->next = NULL;
 	new->prev = NULL;
 	if (zaap->teams == NULL)
