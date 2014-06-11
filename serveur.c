@@ -44,6 +44,7 @@ int		zaap_error(int code)
 }
 */
 
+/*
 void		add_team(t_zaap *zaap, char *name)
 {
 	t_team	*new;
@@ -104,7 +105,9 @@ int			get_arg(t_zaap *zaap, char **arg)
 	}
 	return (port);
 }
+*/
 
+/*
 void		init_zaap(t_zaap *zaap)
 {
 	zaap->sock = -1;
@@ -139,7 +142,9 @@ int			rand_a_b(int a, int b)
 {
 	return (rand() % ((b - a) + a));
 }
+*/
 
+/*
 t_stock		*gen_ressources(void)
 {
 	t_stock		*inv;
@@ -215,7 +220,9 @@ void		get_map(t_zaap *zaap)
 //	map = init_map(map, zaap);
 //	zaap->map = &map;
 }
+*/
 
+/*
 void		get_sock(t_zaap *zaap, int port)
 {
 	struct sockaddr_in		sin;
@@ -249,6 +256,7 @@ t_zaap		*get_zaap(char **arg)
 	get_sock(new, port);
 	return (new);
 }
+*/
 /*
 void	print_case(t_map yolo, int nb, int x, int y)
 {

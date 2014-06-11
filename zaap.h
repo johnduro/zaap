@@ -37,6 +37,8 @@
 # define BUFF 1024
 # define BUFF_NAME 128
 
+#include <time.h>
+
 typedef struct			s_action
 {
 	int					nb;
@@ -136,5 +138,13 @@ void    debug_1(t_zaap *zaap);
 */
 
 int zaap_error(int code);
+
+
+
+t_zaap          *get_zaap(char **arg);
+t_stock         *get_inv(void);
+int             rand_a_b(int a, int b);
+void    		get_map(t_zaap *zaap);
+int             get_arg(t_zaap *zaap, char **arg);
 
 #endif
