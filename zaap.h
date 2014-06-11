@@ -38,6 +38,7 @@
 # define BUFF_NAME 128
 
 #include <time.h>
+#include <sys/select.h>
 
 typedef struct			s_action
 {
@@ -119,8 +120,11 @@ typedef struct			s_zaap
 //	int					port;
 	int					x;
 	int					y;
+	int					max;
 	int					nb_start;
 	int					time;
+	fd_set				fd_rd;
+	fd_set				fd_wr;
 	t_map				**map;
 	t_temp				*wait;
 	t_team				*teams;
