@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/11 21:15:39 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/12 17:11:02 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,5 +173,24 @@ t_stock         *get_inv(void);
 int             rand_a_b(int a, int b);
 void    		get_map(t_zaap *zaap);
 int             get_arg(t_zaap *zaap, char **arg);
+void			init_fd(t_zaap *zaap);
+void			check_fd(int ret, t_zaap *zaap);
+int				find_read(char *str);
+void			check_gfx(t_zaap *zaap, t_gfx *gfx);
+void			treat_gfx(t_gfx *gfx, t_zaap *zaap);
+void			add_to_gfx_buf(t_gfx *gfx, char *str);
+void			check_players_fd(t_player *bwspl, t_zaap *zaap, t_team *team);
+void			treat_player(t_player *player, t_zaap *zaap);
+void			remove_pl(t_player *pl, t_team *team);
+void			check_tmp_fd(t_temp *bwstmp, t_zaap *zaap);
+void			remove_tmp(t_temp *tmp, t_zaap *zaap, int flag);
+void			add_new_client(t_team *team, int sock, t_zaap *zaap);
+t_team			*check_teams(char *str, t_team *bwst);
+t_gfx			*init_gfx(int sock);
+t_caps			*init_caps(t_player *player, t_egg *egg);
+void			place_player_in_egg(t_team *t, t_player *n, t_egg *e, t_zaap *z);
+t_egg			*egg_rdy(t_egg *bwsegg);
+void			remove_egg_map(t_egg *egg, t_zaap *zaap);
+void			add_player_to_map(t_player *player, t_zaap *zaap);
 
 #endif
