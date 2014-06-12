@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/12 17:11:02 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/12 20:19:36 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@
 # define FRK 11
 # define CNN 12
 
-# define UP 1
-# define RIGHT 2
-# define LEFT 3
-# define DOWN 4
+# define NORTH 1
+# define EST 2
+# define SOUTH 3
+# define WEST 4
 
 # define START_FOOD 10
 
@@ -94,6 +94,7 @@ typedef struct			s_team
 {
 	char				name[BUFF_NAME];
 	int					player_nb;
+	int					places;
 	t_player			*first;
 	t_egg				*eggs;
 	struct s_team		*next;
@@ -186,7 +187,7 @@ void			check_tmp_fd(t_temp *bwstmp, t_zaap *zaap);
 void			remove_tmp(t_temp *tmp, t_zaap *zaap, int flag);
 void			add_new_client(t_team *team, int sock, t_zaap *zaap);
 t_team			*check_teams(char *str, t_team *bwst);
-t_gfx			*init_gfx(int sock);
+t_gfx			*init_gfx(int sock, t_zaap *zaap);
 t_caps			*init_caps(t_player *player, t_egg *egg);
 void			place_player_in_egg(t_team *t, t_player *n, t_egg *e, t_zaap *z);
 t_egg			*egg_rdy(t_egg *bwsegg);

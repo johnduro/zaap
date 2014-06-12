@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 15:36:38 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/12 16:13:43 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/12 21:06:12 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,23 @@ static void		write_to_gfx(t_gfx *gfx)
 	char		*to_send;
 	t_buff		*bwsbuf;
 
+	int			total;
+	int			len;
+
+	total = 0;
+	printf("WRITE IN [%d]\n", gfx->to_send);
 	bwsbuf = gfx->list;
-	to_send = ft_strnew(gfx->to_send);
+	to_send = ft_strnew(gfx->to_send + 1);
 	while (bwsbuf)
 	{
-		ft_strcat(to_send, bwsbuf->buff_wr);
+		len = ft_strlen(bwsbuf->buff_wr);
+		total += len;
+//		printf("LEN = %d TOTAL = %d TO_SEND %s\n", len, total, to_send);
+		printf("%s\n", bwsbuf->buff_wr);
+//		ft_strcat(to_send, bwsbuf->buff_wr);
 		bwsbuf = bwsbuf->next;
 	}
+	printf("WRITE OUT\n");
 	send(gfx->sock, to_send, gfx->to_send, 0);//retour ?
 	remove_gfx_buff(gfx);
 }

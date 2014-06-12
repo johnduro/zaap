@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 15:25:57 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/12 17:12:31 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/12 20:08:14 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int					find_read(char *str)
 		return (-1);
 	return (ret);
 }
-
 
 static t_temp		*init_tmp(int sock)
 {
@@ -94,10 +93,10 @@ void				check_fd(int ret, t_zaap *zaap)
 	if (FD_ISSET(zaap->sock, &zaap->fd_rd))
 		accept_client(zaap);
 	check_gfx(zaap, zaap->gfx);
-	check_tmp_fd(zaap->wait, zaap);
 	while (bwst)
 	{
 		check_players_fd(bwst->first, zaap, bwst);
 		bwst = bwst->next;
 	}
+	check_tmp_fd(zaap->wait, zaap);
 }

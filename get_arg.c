@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/11 16:10:13 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/11 21:30:31 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/12 19:30:06 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,19 @@ static void		get_teams(t_zaap *zaap, char **arg, int i)
 		zaap_error(-1);
 }
 
+void			add_teams_nb(t_team *bwst, int nb)
+{
+	while (bwst)
+	{
+		bwst->places = nb;
+		bwst = bwst->next;
+	}
+}
+
 int				get_arg(t_zaap *zaap, char **arg)
 {
-	int	i;
-	int	port;
+	int		i;
+	int		port;
 
 	i = 0;
 	while (arg[i])
@@ -78,5 +87,9 @@ int				get_arg(t_zaap *zaap, char **arg)
 			zaap->time = ft_atoi(arg[i + 1]);
 		i++;
 	}
+	if (zaap->teams)
+		add_teams_nb(zaap->teams, zaap->nb_start);
+	else
+		zaap_error(-1);
 	return (port);
 }

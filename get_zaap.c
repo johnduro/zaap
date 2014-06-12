@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/11 16:10:01 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/11 18:51:43 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/12 20:09:12 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 t_stock			*get_inv(void)
 {
-	t_stock	*new;
+	t_stock		*new;
 
 	if ((new = (t_stock *)malloc(sizeof(*new))) == NULL)
 		zaap_error(-2);
@@ -41,8 +41,8 @@ int				rand_a_b(int a, int b)
 
 static void		get_sock(t_zaap *zaap, int port)
 {
-	struct sockaddr_in	sin;
-	struct protoent	*pe;
+	struct sockaddr_in		sin;
+	struct protoent			*pe;
 
 	if (port < 1024)
 		zaap_error(-5);
@@ -69,7 +69,6 @@ static void		init_zaap(t_zaap *zaap)
 	zaap->map = NULL;
 	zaap->wait = NULL;
 	zaap->teams = NULL;
-//	zaap->eggs = NULL;
 	zaap->gfx = NULL;
 }
 

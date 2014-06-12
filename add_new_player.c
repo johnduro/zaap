@@ -6,11 +6,12 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 16:41:27 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/12 18:44:03 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/12 19:52:18 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <unistd.h>
 #include "libft.h"
 #include "zaap.h"
 
@@ -61,14 +62,44 @@ t_team				*check_teams(char *str, t_team *bwst)
 	return (NULL);
 }
 
+static void			set_new_msg(t_player *pl, t_zaap *zaap, t_team *team)
+{
+	char	*tmp;
+	char	*tmp2;
+	char	*tmp3;
+	char	*ret;
+
+	team->places--;
+	tmp = ft_itoa(team->places);
+	tmp2 = ft_strjoin(tmp, "\n");
+	free(tmp);
+	tmp = ft_itoa(zaap->x);
+	tmp3 = ft_strjoin(tmp2, tmp);
+	free(tmp);
+	free(tmp2);
+	tmp = ft_itoa(zaap->y);
+	tmp2 = ft_strjoinwsep(tmp3, tmp, ' ');
+	free(tmp3);
+	free(tmp);
+	ret = ft_strjoin(tmp2, "\n");
+	ft_strcat(pl->buff_wr, ret);
+	free(tmp2);
+	free(ret);
+}
+
 void				add_new_client(t_team *team, int sock, t_zaap *zaap)
 {
 	t_player		*bwspl;
 	t_player		*new;
 	t_egg			*egg;
 
+	if (team->places <= 0)
+	{
+		close(sock);
+		return ;
+	}
 	new = init_player(sock);
-	set_new_message();
+	set_new_msg(new, zaap, team);
 	if (team->first == NULL)
 		team->first = new;
 	else
