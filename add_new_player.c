@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 16:41:27 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/12 19:52:18 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/13 19:04:10 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,5 @@ void				add_new_client(t_team *team, int sock, t_zaap *zaap)
 		place_player_in_egg(team, new, egg, zaap);
 	else
 		place_player_rand(new, zaap);
+	send_new_player(new, zaap->gfx, team);
 }

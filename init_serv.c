@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 16:48:51 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/12 20:52:51 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/13 20:17:45 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,25 @@ t_caps		*init_caps(t_player *player, t_egg *egg)
 	return (new);
 }
 
-void		send_dim_time(t_gfx *gfx, t_zaap *zaap)
+void		send_time_gfx(t_gfx *gfx, t_zaap *zaap)
+{
+	char	*tmp;
+	char	*tmp2;
+
+	tmp = ft_itoa(zaap->time);
+	tmp2 = ft_strjoin("sgt ", tmp);
+	free(tmp);
+	tmp = ft_strjoin(tmp2, "\n");
+	free(tmp2);
+	add_to_gfx_buf(gfx, tmp);
+	free(tmp);
+}
+
+void		send_dim_gfx(t_gfx *gfx, t_zaap *zaap)
 {
 	char	*tmp;
 	char	*tmp2;
 	char	*tmp3;
-	char	*ret;
 
 	tmp = ft_itoa(zaap->x);
 	tmp2 = ft_strjoin("msz ", tmp);
@@ -46,16 +59,10 @@ void		send_dim_time(t_gfx *gfx, t_zaap *zaap)
 	tmp3 = ft_strjoinwsep(tmp2, tmp, ' ');
 	free(tmp);
 	free(tmp2);
-	tmp = ft_strjoin(tmp3, "\nsgt ");
+	tmp = ft_strjoin(tmp3, "\n");
 	free(tmp3);
-	tmp2 = ft_itoa(zaap->time);
-	tmp3 = ft_strjoin(tmp, tmp2);
+	add_to_gfx_buf(gfx, tmp);
 	free(tmp);
-	free(tmp2);
-	ret = ft_strjoin(tmp3, "\n");
-	free(tmp3);
-	add_to_gfx_buf(gfx, ret);
-	free(ret);
 }
 
 char		*get_ressources(t_map map, int i)
@@ -104,13 +111,123 @@ void		send_spot(t_map map, t_gfx *gfx, int y, int x)
 	add_to_gfx_buf(gfx, ret);
 }
 
-void		first_map_send(t_gfx *gfx, t_zaap *zaap)
+void		send_teams_gfx(t_gfx *gfx, t_zaap *zaap)
+{
+	t_team		*bwst;
+	char		*tmp;
+	char		*to_send;
+
+	bwst = zaap->teams;
+	while (bwst)
+	{
+		tmp = ft_strjoin("tna ", bwst->name);
+		to_send = ft_strjoin(tmp, "\n");
+		free(tmp);
+		add_to_gfx_buf(gfx, to_send);
+		free(to_send);
+		bwst = bwst->next;
+	}
+}
+/*
+void		send_player_gfx(t_player *pl, t_gfx *gfx)
+{
+	char	*tmp;
+	char	*tmp2;
+	char	*tmp3;
+
+	tmp = ft_iota(pl->sock);
+	tmp2 = ft_strjoin("ppo #", tmp);
+	free(tmp);
+	tmp3 = ft_itoa(pl->pos_x);
+	tmp = ft_strjoinwsep(tmp2, tmp3, ' ');
+	free(tmp2);
+	free(tmp3);
+	tmp2 = ft_itoa(pl->pos_y);
+	tmp3 = ft_strjoinwsep(tmp, tmp2, ' ');
+	free(tmp);
+	free(tmp2);
+	tmp = ft_itoa(pl->dir);
+	tmp2 = ft_strjoinwsep(tmp3, tmp, ' ');
+	free(tmp3);
+	free(tmp);
+	tmp = ft_strjoin(tmp2, "\n");
+	free(tmp2);
+	add_to_gfx_buf(gfx, tmp);
+	free(tmp);
+}
+*/
+
+char		*get_pos_player(t_player *pl)
+{
+	char	*tmp;
+	char	*tmp2;
+	char	*tmp3;
+
+	tmp = ft_itoa(pl->sock);
+	tmp2 = ft_strjoin("pnw #", tmp);
+	free(tmp);
+	tmp3 = ft_itoa(pl->pos_x);
+	tmp = ft_strjoinwsep(tmp2, tmp3, ' ');
+	free(tmp2);
+	free(tmp3);
+	tmp2 = ft_itoa(pl->pos_y);
+	tmp3 = ft_strjoinwsep(tmp, tmp2, ' ');
+	free(tmp);
+	free(tmp2);
+	tmp = ft_itoa(pl->dir);
+	tmp2 = ft_strjoinwsep(tmp3, tmp, ' ');
+	free(tmp3);
+	free(tmp);
+	return (tmp2);
+}
+
+void		send_new_player(t_player *pl, t_gfx *gfx, t_team *team)
+{
+	char	*tmp;
+	char	*tmp2;
+	char	*tmp3;
+
+	tmp = get_pos_player(pl);
+	tmp2 = ft_itoa(pl->lvl);
+	tmp3 = ft_strjoinwsep(tmp, tmp2, ' ');
+	free(tmp);
+	free(tmp2);
+	tmp = ft_strjoinwsep(tmp3, team->name, ' ');
+	free(tmp3);
+	tmp2 = ft_strjoin(tmp, "\n");
+	free(tmp);
+	add_to_gfx_buf(gfx, tmp2);
+	free(tmp2);
+}
+
+void		send_all_players(t_gfx *gfx, t_zaap *zaap)
+{
+	t_team		*bwst;
+	t_player	*bwspl;
+
+	bwst = zaap->teams;
+	while (bwst)
+	{
+		if (bwst->first)
+		{
+			bwspl = bwst->first;
+			while (bwspl)
+			{
+//				send_player_gfx(bwspl, gfx);
+				send_new_player(bwspl, gfx, bwst);
+				bwspl = bwspl->next;
+			}
+		}
+		bwst = bwst->next;
+	}
+}
+
+void		send_all_map(t_gfx *gfx, t_zaap *zaap)
 {
 	int		i;
 	int		j;
 
 	i = 0;
-	send_dim_time(gfx, zaap);
 	while (i < zaap->y)
 	{
 		j = 0;
@@ -123,6 +240,29 @@ void		first_map_send(t_gfx *gfx, t_zaap *zaap)
 	}
 }
 
+void		first_map_send(t_gfx *gfx, t_zaap *zaap)
+{
+//	int		i;
+//	int		j;
+
+//	i = 0;
+	send_dim_gfx(gfx, zaap);
+	send_time_gfx(gfx, zaap);
+	send_all_map(gfx, zaap);
+/*	while (i < zaap->y)
+	{
+		j = 0;
+		while (j < zaap->x)
+		{
+			send_spot(zaap->map[i][j], gfx, i, j);
+			j++;
+		}
+		i++;
+		}*/
+	send_teams_gfx(gfx, zaap);
+	send_all_players(gfx, zaap);
+}
+
 t_gfx		*init_gfx(int sock, t_zaap *zaap)
 {
 	t_gfx		*new;
@@ -132,8 +272,6 @@ t_gfx		*init_gfx(int sock, t_zaap *zaap)
 	new->sock = sock;
 	new->to_send = 0;
 	new->list = NULL;
-//	printf("INNNNN\n");
 	first_map_send(new, zaap);
-//	printf("OUTTTTTTT\n");
 	return (new);
 }

@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/13 17:07:03 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/13 20:22:14 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,14 @@ typedef struct			s_zaap
 	t_gfx				*gfx;
 }						t_zaap;
 
+typedef int		(*t_fn)(char **, t_gfx *, t_zaap *);
+
+typedef struct			s_pgfx
+{
+	char				*name;
+	t_fn				fn;
+}						t_pgfx;
+
 /*
 ** DEBUG
 */
@@ -193,5 +201,10 @@ void			place_player_in_egg(t_team *t, t_player *n, t_egg *e, t_zaap *z);
 t_egg			*egg_rdy(t_egg *bwsegg);
 void			remove_egg_map(t_egg *egg, t_zaap *zaap);
 void			add_player_to_map(t_player *player, t_zaap *zaap);
+void			send_new_player(t_player *pl, t_gfx *gfx, t_team *team);
+void			send_teams_gfx(t_gfx *gfx, t_zaap *zaap);
+void			send_all_map(t_gfx *gfx, t_zaap *zaap);
+void			send_time_gfx(t_gfx *gfx, t_zaap *zaap);
+void			send_dim_gfx(t_gfx *gfx, t_zaap *zaap);
 
 #endif
