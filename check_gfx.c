@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 15:36:38 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/12 21:06:12 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/13 17:30:42 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 #include "zaap.h"
 #include "libft.h"
 
@@ -27,6 +28,8 @@ static void		remove_gfx_buff(t_gfx *gfx)
 	while (bwsbuf)
 	{
 		keep = bwsbuf->next;
+		if (bwsbuf->buff_wr)
+			free(bwsbuf->buff_wr);
 		free(bwsbuf);
 		bwsbuf = keep;
 	}
@@ -36,27 +39,20 @@ static void		remove_gfx_buff(t_gfx *gfx)
 static void		write_to_gfx(t_gfx *gfx)
 {
 	char		*to_send;
+	char		*tmp;
 	t_buff		*bwsbuf;
 
-//	int			total;
-	int			len;
-
-//	total = 0;
-	printf("WRITE IN [%d]\n", gfx->to_send);
 	bwsbuf = gfx->list;
-	to_send = ft_strnew(gfx->to_send + 1);
+	to_send = ft_strnew(0);
 	while (bwsbuf)
 	{
-		len = ft_strlen(bwsbuf->buff_wr);
-//		total += len;
-//		printf("LEN = %d TOTAL = %d TO_SEND %s\n", len, total, to_send);
-		write(1, bwsbuf->buff_wr, len);
-//		printf("%s\n", bwsbuf->buff_wr);
-//		ft_strcat(to_send, bwsbuf->buff_wr);
+		tmp = ft_strjoin(to_send, bwsbuf->buff_wr);
+		free(to_send);
+		to_send = tmp;
 		bwsbuf = bwsbuf->next;
 	}
-	printf("WRITE OUT\n");
 	send(gfx->sock, to_send, gfx->to_send, 0);//retour ?
+	free(to_send);
 	remove_gfx_buff(gfx);
 }
 

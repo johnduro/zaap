@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 16:19:36 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/12 17:14:17 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/13 16:11:58 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,15 @@ static void			read_tmp(t_temp *tmp, t_zaap *zaap)
 
 void				check_tmp_fd(t_temp *bwstmp, t_zaap *zaap)
 {
+	t_temp		*keep;
+
 	while (bwstmp)
 	{
+		keep = bwstmp->next;
 		if (FD_ISSET(bwstmp->sock, &zaap->fd_wr))
 			write_tmp(bwstmp);
 		else if (FD_ISSET(bwstmp->sock, &zaap->fd_rd))
 			read_tmp(bwstmp, zaap);
-		bwstmp = bwstmp->next;
+		bwstmp = keep;
 	}
 }

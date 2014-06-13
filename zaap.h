@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/12 20:19:36 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/13 17:07:03 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,8 @@ typedef struct			s_map
 
 typedef struct			s_buff
 {
-	char				buff_wr[BUFF + 1];
+//	char				buff_wr[BUFF + 1];
+	char				*buff_wr;
 	struct s_buff		*next;
 }						t_buff;
 
