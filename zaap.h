@@ -47,7 +47,7 @@ typedef struct			s_action
 	int					nb;
 	time_t				finish;
 	int					type;
-	char				buff[BUFF];
+	char				buff[BUFF + 1];
 	struct s_action		*next;
 	struct s_action		*prev;
 }						t_action;
@@ -74,8 +74,8 @@ typedef struct			s_player
 	t_stock				*inventory;
 	t_action			*a_first;
 	t_action			*a_last;
-	char				buff_wr[BUFF];
-	char				buff_rd[BUFF];
+	char				buff_wr[BUFF + 1];
+	char				buff_rd[BUFF + 1];
 	struct s_player		*next;
 	struct s_player		*prev;
 }						t_player;
@@ -92,7 +92,7 @@ typedef struct			s_egg
 
 typedef struct			s_team
 {
-	char				name[BUFF_NAME];
+	char				name[BUFF_NAME + 1];
 	int					player_nb;
 	int					places;
 	t_player			*first;
@@ -104,8 +104,8 @@ typedef struct			s_team
 typedef struct			s_temp
 {
 	int					sock;
-	char				buff_rd[BUFF];
-	char				buff_wr[BUFF];
+	char				buff_rd[BUFF + 1];
+	char				buff_wr[BUFF + 1];
 	struct s_temp		*next;
 	struct s_temp		*prev;
 }						t_temp;
@@ -126,14 +126,14 @@ typedef struct			s_map
 
 typedef struct			s_buff
 {
-	char				buff_wr[BUFF];
+	char				buff_wr[BUFF + 1];
 	struct s_buff		*next;
 }						t_buff;
 
 typedef struct			s_gfx
 {
 	int					sock;
-	char				buff_rd[BUFF];
+	char				buff_rd[BUFF + 1];
 	int					to_send;
 	t_buff				*list;
 }						t_gfx;
@@ -151,7 +151,6 @@ typedef struct			s_zaap
 	t_map				**map;
 	t_temp				*wait;
 	t_team				*teams;
-//	t_egg				*eggs;
 	t_gfx				*gfx;
 }						t_zaap;
 

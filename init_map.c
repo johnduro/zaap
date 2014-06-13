@@ -57,11 +57,13 @@ void				get_map(t_zaap *zp)
 	y = 0;
 	if (zp->x < 20 || zp->y < 20)
 		zaap_error(-4);
-	if ((zp->map = (t_map**)malloc(sizeof(zp->map) * (zp->y + 1))) == NULL)
+//	if ((zp->map = (t_map**)malloc(sizeof(zp->map) * (zp->y + 1))) == NULL)
+	if ((zp->map = (t_map**)malloc(sizeof(t_map*) * zp->y)) == NULL)
 		zaap_error(-2);
 	while (y < zp->y)
 	{
-		zp->map[y] = (t_map*)malloc(sizeof(zp->map) * (zp->x + 1));
+//		zp->map[y] = (t_map*)malloc(sizeof(zp->map) * (zp->x + 1));
+		zp->map[y] = (t_map*)malloc(sizeof(t_map) * zp->x);
 		y++;
 	}
 	init_map(zp);

@@ -31,7 +31,7 @@ static void		find_room_buff(t_buff *bws, char *str, int len)
 
 	while (bws)
 	{
-		if ((BUFF - (ft_strlen(bws->buff_wr) + len)) > 0)
+		if (((BUFF + 1) - (ft_strlen(bws->buff_wr) + len)) > 1)
 		{
 			ft_strcat(bws->buff_wr, str);
 			return ;

@@ -13,6 +13,7 @@
 #include <sys/socket.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 #include "zaap.h"
 #include "libft.h"
 
@@ -37,19 +38,20 @@ static void		write_to_gfx(t_gfx *gfx)
 	char		*to_send;
 	t_buff		*bwsbuf;
 
-	int			total;
+//	int			total;
 	int			len;
 
-	total = 0;
+//	total = 0;
 	printf("WRITE IN [%d]\n", gfx->to_send);
 	bwsbuf = gfx->list;
 	to_send = ft_strnew(gfx->to_send + 1);
 	while (bwsbuf)
 	{
 		len = ft_strlen(bwsbuf->buff_wr);
-		total += len;
+//		total += len;
 //		printf("LEN = %d TOTAL = %d TO_SEND %s\n", len, total, to_send);
-		printf("%s\n", bwsbuf->buff_wr);
+		write(1, bwsbuf->buff_wr, len);
+//		printf("%s\n", bwsbuf->buff_wr);
 //		ft_strcat(to_send, bwsbuf->buff_wr);
 		bwsbuf = bwsbuf->next;
 	}

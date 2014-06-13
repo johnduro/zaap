@@ -54,7 +54,7 @@ static void			treat_tmp(t_temp *tmp, t_zaap *zaap)
 			ft_strcat(tmp->buff_wr, "There is already a gfx client\n");
 		else
 		{
-			zaap->gfx = init_gfx(tmp->sock);
+			zaap->gfx = init_gfx(tmp->sock, zaap);
 			remove_tmp(tmp, zaap, 0);
 		}
 	}

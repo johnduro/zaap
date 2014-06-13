@@ -79,7 +79,7 @@ char		*get_ressources(t_map map, int i)
 
 void		send_spot(t_map map, t_gfx *gfx, int y, int x)
 {
-	char	ret[BUFF];
+	char	ret[BUFF + 1];
 	char	*tmp;
 	int		i;
 
