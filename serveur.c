@@ -16,16 +16,79 @@
 #include <time.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <sys/time.h>
 #include <netdb.h>
 #include <arpa/inet.h>
 #include "zaap.h"
 #include "libft.h"
 
-int			gfx_set_time(char **tab, t_gfx *gfx, t_zaap *zaap)
+int			vd(int coor, int max)
 {
-	(void)tab;
+	if (coor >= 0 && coor < max)
+		return (coor);
+	else if (coor < 0)
+	{
+		while (coor < 0)
+			coor += max;
+		return (coor);
+	}
+	else if (coor >= max)
+	{
+		while (coor >= max)
+			coor -= max;
+		return (coor);
+	}
+	return (0);
+}
+
+void		action_time(struct timeval *res, int time, int lenght)
+{
+	struct timeval	cur;
+	struct timeval	add;
+
+	gettimeofday(&cur, NULL);
+	if (time <= 1)
+	{
+		add.tv_sec = 1 * lenght;
+		add.tv_usec = 0;
+	}
+	else
+	{
+		add.tv_sec = 0;
+		add.tv_usec = ((1000000 / time) * lenght);
+	}
+	timeradd(&cur, &add, res);
+}
+
+int			is_time_yet(struct timeval ok)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	if (time.tv_sec < ok.tv_sec)
+		return (0);
+	else if (time.tv_sec == ok.tv_sec)
+	{
+		if (time.tv_usec < ok.tv_usec)
+			return (0);
+		else
+			return (1);
+	}
+	else if (time.tv_sec > ok.tv_sec)
+		return (1);
+	return (0);
+}
+
+int			gfx_set_time(char **tab, t_gfx *gfx, t_zaap *zaap) //ok
+{
+	int		new;
+
 	(void)gfx;
-	(void)zaap;
+	if (!tab[1])
+		return (-1);
+	if ((new = ft_atoi(tab[1])) < 1)
+		return (-1);
+	zaap->time = new;
 	return (0);
 }
 
@@ -36,11 +99,59 @@ int			gfx_get_time(char **tab, t_gfx *gfx, t_zaap *zaap) //ok
 	return (0);
 }
 
-int			gfx_player_inv(char **tab, t_gfx *gfx, t_zaap *zaap)
+t_player	*get_player(int sock, t_zaap *zaap)
 {
-	(void)tab;
-	(void)gfx;
-	(void)zaap;
+	t_team		*bwst;
+	t_player	*bwspl;
+
+	bwst = zaap->teams;
+	while (bwst)
+	{
+		if (bwst->first)
+		{
+			bwspl = bwst->first;
+			while (bwspl)
+			{
+				if (bwspl->sock == sock)
+					return (bwspl);
+				bwspl = bwspl->next;
+			}
+		}
+	}
+}
+
+char		*get_inv_gfx(int player, t_zaap *zaap)
+{
+	char		*tmp;
+	char		*tmp2;
+	t_player	*get;
+
+	if ((get = get_player(player, zaap)) == NULL)
+		return (NULL);
+	tmp = ft_itoa(get->sock);
+	tmp2 = ft_strjoin("pin #", tmp);
+	free(tmp);
+	tmp = pos_n_stock(get->inventory, get->pos_x, get->pos_y);
+	tmp3 = ft_strjoinwsep(tmp2, tmp);
+	free(tmp2);
+	free(tmp);
+	tmp = ft_strjoin(tmp3, "\n");
+	free(tmp3);
+	return (tmp);
+}
+
+int			gfx_player_inv(char **tab, t_gfx *gfx, t_zaap *zaap) //ok
+{
+	int		player;
+	char	*ret;
+
+	if (!tab[1] || (tab[1] && tab[1][0] != '#'))
+		return (-1);
+	player = ft_atoi(&tab[1][1]);
+	if ((ret = get_inv_gfx(player, zaap)) == NULL)
+		return (-1);
+	add_to_gfx_buf(gfx, ret);
+	free(ret);
 	return (0);
 }
 
@@ -52,11 +163,18 @@ int			gfx_player_lvl(char **tab, t_gfx *gfx, t_zaap *zaap)
 	return (0);
 }
 
-int			gfx_player_pos(char **tab, t_gfx *gfx, t_zaap *zaap)
+
+int			gfx_player_pos(char **tab, t_gfx *gfx, t_zaap *zaap) //ok
 {
-	(void)tab;
-	(void)gfx;
-	(void)zaap;
+	int			player;
+	t_player	*pl;
+
+	if (!tab[1] || (tab[1] && tab[1][0] != '#'))
+		return (-1);
+	player = ft_atoi(&tab[1][1]);
+	if ((pl = get_player(player, zaap)) == NULL)
+		return (-1);
+	send_player_gfx(pl, gfx);
 	return (0);
 }
 

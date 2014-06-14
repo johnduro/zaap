@@ -48,7 +48,7 @@ t_egg			*egg_rdy(t_egg *bwsegg)
 {
 	while (bwsegg)
 	{
-		if (bwsegg->hatch <= time(NULL)) //A REFAIRE
+		if (is_time_yet(bwsegg->hatch)) //A REFAIRE
 			return (bwsegg);
 		bwsegg = bwsegg->next;
 	}

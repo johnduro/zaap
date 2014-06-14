@@ -45,7 +45,7 @@
 typedef struct			s_action
 {
 	int					nb;
-	time_t				finish;
+	struct timeval		finish;
 	int					type;
 	char				buff[BUFF + 1];
 	struct s_action		*next;
@@ -84,7 +84,7 @@ typedef struct			s_egg
 {
 	int					x;
 	int					y;
-	time_t				hatch;
+	struct timeval		hatch;
 //	char				team[BUFF_NAME];//besoin ??
 	struct s_egg		*next;
 	struct s_egg		*prev;
@@ -206,5 +206,11 @@ void			send_teams_gfx(t_gfx *gfx, t_zaap *zaap);
 void			send_all_map(t_gfx *gfx, t_zaap *zaap);
 void			send_time_gfx(t_gfx *gfx, t_zaap *zaap);
 void			send_dim_gfx(t_gfx *gfx, t_zaap *zaap);
+int         	vd(int coor, int max);
+int         	is_time_yet(struct timeval ok);
+void        	action_time(struct timeval *res, int time, int lenght);
+char        	*get_stock(t_stock *inv);
+char        	*pos_n_stock(t_stock *inv, int x, int y);
+void        	send_player_gfx(t_player *pl, t_gfx *gfx);//renommer ac pos
 
 #endif
