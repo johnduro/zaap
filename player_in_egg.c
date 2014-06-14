@@ -6,13 +6,32 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 16:59:23 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/12 17:05:37 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/14 17:56:34 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "zaap.h"
 #include "libft.h"
+
+void			remove_dat_caps(t_caps *bwscps, t_egg *egg, t_zaap *zaap)
+{
+	if (bwscps->prev == NULL && bwscps->next == NULL)
+		zaap->map[egg->y][egg->x].list = NULL;
+	else if (bwscps->prev == NULL && bwscps->next)
+	{
+		zaap->map[egg->y][egg->x].list = bwscps->next;
+		bwscps->prev = NULL;
+	}
+	else if (bwscps->prev && bwscps->next)
+	{
+		bwscps->next->prev = bwscps->prev;
+		bwscps->prev->next = bwscps->next;
+	}
+	else if (bwscps->prev && bwscps->next == NULL)
+		bwscps->prev->next = NULL;
+	free(bwscps);
+}
 
 void			remove_egg_map(t_egg *egg, t_zaap *zaap)
 {
@@ -23,21 +42,7 @@ void			remove_egg_map(t_egg *egg, t_zaap *zaap)
 	{
 		if (bwscps->egg == egg)
 		{
-			if (bwscps->prev == NULL && bwscps->next == NULL)
-				zaap->map[egg->y][egg->x].list = NULL;
-			else if (bwscps->prev == NULL && bwscps->next)
-			{
-				zaap->map[egg->y][egg->x].list = bwscps->next;
-				bwscps->prev = NULL;
-			}
-			else if (bwscps->prev && bwscps->next)
-			{
-				bwscps->next->prev = bwscps->prev;
-				bwscps->prev->next = bwscps->next;
-			}
-			else if (bwscps->prev && bwscps->next == NULL)
-				bwscps->prev->next = NULL;
-			free(bwscps);
+			remove_dat_caps(bwscps, egg, zaap);
 			return ;
 		}
 		bwscps = bwscps->next;
@@ -48,7 +53,7 @@ t_egg			*egg_rdy(t_egg *bwsegg)
 {
 	while (bwsegg)
 	{
-		if (is_time_yet(bwsegg->hatch)) //A REFAIRE
+		if (is_time_yet(bwsegg->hatch))
 			return (bwsegg);
 		bwsegg = bwsegg->next;
 	}

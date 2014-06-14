@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 16:41:27 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/13 19:04:10 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/14 19:30:54 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,16 @@ static void			set_new_msg(t_player *pl, t_zaap *zaap, t_team *team)
 	free(ret);
 }
 
+void				put_client_back(t_player *bwspl, t_player *pl)
+{
+	while (bwspl->next)
+		bwspl = bwspl->next;
+	bwspl->next = pl;
+	pl->prev = bwspl;
+}
+
 void				add_new_client(t_team *team, int sock, t_zaap *zaap)
 {
-	t_player		*bwspl;
 	t_player		*new;
 	t_egg			*egg;
 
@@ -103,16 +110,11 @@ void				add_new_client(t_team *team, int sock, t_zaap *zaap)
 	if (team->first == NULL)
 		team->first = new;
 	else
-	{
-		bwspl = team->first;
-		while (bwspl->next)
-			bwspl = bwspl->next;
-		bwspl->next = new;
-		new->prev = bwspl;
-	}
+		put_client_back(team->first, new);
 	if ((egg = egg_rdy(team->eggs)) != NULL)
 		place_player_in_egg(team, new, egg, zaap);
 	else
 		place_player_rand(new, zaap);
-	send_new_player(new, zaap->gfx, team);
+	if (zaap->gfx)
+		send_new_player(new, zaap->gfx, team);
 }

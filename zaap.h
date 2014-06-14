@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/13 20:22:14 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/14 19:25:39 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ typedef struct			s_egg
 	int					x;
 	int					y;
 	struct timeval		hatch;
-//	char				team[BUFF_NAME];//besoin ??
 	struct s_egg		*next;
 	struct s_egg		*prev;
 }						t_egg;
@@ -126,7 +125,6 @@ typedef struct			s_map
 
 typedef struct			s_buff
 {
-//	char				buff_wr[BUFF + 1];
 	char				*buff_wr;
 	struct s_buff		*next;
 }						t_buff;
@@ -157,11 +155,11 @@ typedef struct			s_zaap
 
 typedef int		(*t_fn)(char **, t_gfx *, t_zaap *);
 
-typedef struct			s_pgfx
+typedef struct			s_prs
 {
 	char				*name;
 	t_fn				fn;
-}						t_pgfx;
+}						t_prs;
 
 /*
 ** DEBUG
@@ -209,8 +207,24 @@ void			send_dim_gfx(t_gfx *gfx, t_zaap *zaap);
 int         	vd(int coor, int max);
 int         	is_time_yet(struct timeval ok);
 void        	action_time(struct timeval *res, int time, int lenght);
+int				gfx_set_time(char **tab, t_gfx *gfx, t_zaap *zaap);
+int				gfx_get_time(char **tab, t_gfx *gfx, t_zaap *zaap);
 char        	*get_stock(t_stock *inv);
 char        	*pos_n_stock(t_stock *inv, int x, int y);
-void        	send_player_gfx(t_player *pl, t_gfx *gfx);//renommer ac pos
+void        	get_pos_player_gfx(t_player *pl, t_gfx *gfx);
+void			send_spot(t_map map, t_gfx *gfx, int y, int x);
+void			treat_gfx(t_gfx *gfx, t_zaap *zaap);
+int				gfx_teams_name(char **tab, t_gfx *gfx, t_zaap *zaap);
+int				gfx_all_map(char **tab, t_gfx *gfx, t_zaap *zaap);
+int				gfx_spot_content(char **tab, t_gfx *gfx, t_zaap *zaap);
+int				gfx_map_size(char **tab, t_gfx *gfx, t_zaap *zaap);
+t_player		*get_player(int sock, t_zaap *zaap);
+int				gfx_player_pos(char **tab, t_gfx *gfx, t_zaap *zaap);
+int				gfx_player_lvl(char **tab, t_gfx *gfx, t_zaap *zaap);
+int				gfx_player_inv(char **tab, t_gfx *gfx, t_zaap *zaap);
+char			*get_pos(int x, int y);
+char			*get_stock(t_stock *inv);
+char			*pos_n_stock(t_stock *inv, int x, int y);
+void			send_spot(t_map map, t_gfx *gfx, int y, int x);
 
 #endif

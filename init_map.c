@@ -6,13 +6,30 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/11 16:10:21 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/12 20:48:05 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/14 19:00:29 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "zaap.h"
 #include "libft.h"
+
+t_caps				*init_caps(t_player *player, t_egg *egg)
+{
+	t_caps		*new;
+
+	if ((new = (t_caps *)malloc(sizeof(*new))) == NULL)
+		zaap_error(-2);
+	new->player = NULL;
+	new->egg = NULL;
+	new->next = NULL;
+	new->prev = NULL;
+	if (player)
+		new->player = player;
+	else if (egg)
+		new->egg = egg;
+	return (new);
+}
 
 static t_stock		*gen_ressources(void)
 {
@@ -57,12 +74,10 @@ void				get_map(t_zaap *zp)
 	y = 0;
 	if (zp->x < 20 || zp->y < 20)
 		zaap_error(-4);
-//	if ((zp->map = (t_map**)malloc(sizeof(zp->map) * (zp->y + 1))) == NULL)
 	if ((zp->map = (t_map**)malloc(sizeof(t_map*) * zp->y)) == NULL)
 		zaap_error(-2);
 	while (y < zp->y)
 	{
-//		zp->map[y] = (t_map*)malloc(sizeof(zp->map) * (zp->x + 1));
 		zp->map[y] = (t_map*)malloc(sizeof(t_map) * zp->x);
 		y++;
 	}
