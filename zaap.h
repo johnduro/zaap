@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/14 19:25:39 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/14 20:24:29 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,14 @@ typedef struct			s_prs
 	t_fn				fn;
 }						t_prs;
 
+typedef int		(*t_fn2)(char **, t_player *, t_zaap *);
+
+typedef struct			s_ply
+{
+	char				*name;
+	t_fn2				fn;
+}						t_ply;
+
 /*
 ** DEBUG
 */
@@ -226,5 +234,6 @@ char			*get_pos(int x, int y);
 char			*get_stock(t_stock *inv);
 char			*pos_n_stock(t_stock *inv, int x, int y);
 void			send_spot(t_map map, t_gfx *gfx, int y, int x);
+char			**split_n_trim(char *str);
 
 #endif

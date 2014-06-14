@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/14 18:02:27 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/14 19:37:39 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/14 20:13:23 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,13 @@ static void				check_ret(int ret, t_gfx *gfx)
 
 void					treat_gfx(t_gfx *gfx, t_zaap *zaap)
 {
-	char		*trim;
 	char		**split;
 	t_prs		*parse;
 	int			i;
 	int			ret;
 
 	ret = 1;
-	trim = ft_strtrim(gfx->buff_rd);
-	split = ft_strsplit(trim, ' ');
+	split = split_n_trim(gfx->buff_rd);
 	parse = get_parse_gfx();
 	i = 0;
 	while (parse[i].name)
@@ -88,6 +86,5 @@ void					treat_gfx(t_gfx *gfx, t_zaap *zaap)
 	}
 	check_ret(ret, gfx);
 	ft_strclr(gfx->buff_rd);
-	free(trim);
 	ft_tabfree(&split);
 }
