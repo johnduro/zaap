@@ -34,6 +34,11 @@ void			action_time(struct timeval *res, int time, int lenght)
 	struct timeval		cur;
 	struct timeval		add;
 
+	if (lenght == 0)
+	{
+		gettimeofday(res, NULL);
+		return ;
+	}
 	gettimeofday(&cur, NULL);
 	if (time <= 1)
 	{

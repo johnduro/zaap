@@ -53,10 +53,12 @@ void			remove_pl(t_player *pl, t_team *team)
 	free(pl);
 }
 
-static void		write_player(t_player *player)
+static void		write_player(t_player *player, t_team *team)
 {
 	send(player->sock, player->buff_wr, ft_strlen(player->buff_wr), 0);
 	ft_strclr(player->buff_wr);
+	if (!(player->alive))
+		remove_pl(player, team);
 }
 
 static void		read_player(t_player *pl, t_zaap *zaap, t_team *t)
@@ -88,12 +90,15 @@ static void		read_player(t_player *pl, t_zaap *zaap, t_team *t)
 
 void			check_players_fd(t_player *bwspl, t_zaap *zaap, t_team *team)
 {
+	t_player	*keep;
+
 	while (bwspl)
 	{
+		keep = bwspl->next;
 		if (FD_ISSET(bwspl->sock, &zaap->fd_wr))
-			write_player(bwspl);
+			write_player(bwspl, team);
 		else if (FD_ISSET(bwspl->sock, &zaap->fd_rd))
 			read_player(bwspl, zaap, team);
-		bwspl = bwspl->next;
+		bwspl = keep;
 	}
 }

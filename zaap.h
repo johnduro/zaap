@@ -14,7 +14,7 @@
 # define ZAAP_H
 
 # define USAGE1 "Usage: ./serveur -p <port> -x <width> -y <height>"
-# define USAGE2 "-n <team> [<team>] [<team>] ... -c <nb> -t <t>\n"
+# define USAGE2 " -n <team> [<team>] [<team>] ... -c <nb> -t <t>\n"
 
 # define AVC 1
 # define DRT 2
@@ -44,7 +44,7 @@
 
 typedef struct			s_action
 {
-	int					nb;
+//	int					nb;
 	struct timeval		finish;
 	int					type;
 	char				buff[BUFF + 1];
@@ -70,7 +70,10 @@ typedef struct			s_player
 	int					pos_y;
 	int					dir;
 	int					lvl;
-	int					free; //??
+	int					nba;
+	int					alive;
+	struct timeval		tick;
+//	int					free; //??
 	t_stock				*inventory;
 	t_action			*a_first;
 	t_action			*a_last;
@@ -168,6 +171,14 @@ typedef struct			s_ply
 	char				*name;
 	t_fn2				fn;
 }						t_ply;
+
+typedef int		(*t_fn3)(t_action *, t_player *, t_zaap *);
+
+typedef struct			s_pac
+{
+	int					type;
+	t_fn3				fn;
+}						t_pac;
 
 /*
 ** DEBUG

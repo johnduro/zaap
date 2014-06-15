@@ -22,7 +22,7 @@ static void			place_player_rand(t_player *new, t_zaap *zaap)
 	add_player_to_map(new, zaap);
 }
 
-static t_player		*init_player(int sock)
+static t_player		*init_player(int sock, t_zaap *zaap)
 {
 	t_player		*new;
 
@@ -33,6 +33,9 @@ static t_player		*init_player(int sock)
 	new->pos_y = 0;
 	new->dir = rand_a_b(1, 5);
 	new->lvl = 1;
+	new->nba = 0;
+	new->alive = 1;
+	action_time(&(new->tick), zaap->time, 126);
 	new->inventory = get_inv();
 	new->inventory->food = START_FOOD;
 	new->a_first = NULL;
@@ -105,7 +108,7 @@ void				add_new_client(t_team *team, int sock, t_zaap *zaap)
 		close(sock);
 		return ;
 	}
-	new = init_player(sock);
+	new = init_player(sock, zaap);
 	set_new_msg(new, zaap, team);
 	if (team->first == NULL)
 		team->first = new;
