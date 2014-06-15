@@ -28,9 +28,10 @@ static void		free_actions(t_action *list)
 		list = keep;
 	}
 }
-
-void			remove_pl(t_player *pl, t_team *team)
+//void                    remove_player_map(t_player *player, t_zaap *zaap)
+void			remove_pl(t_player *pl, t_team *team, t_zaap *zaap)
 {
+	remove_player_map(pl, zaap);
 	close(pl->sock);
 	if (pl->prev == NULL && pl->next == NULL)
 		team->first = NULL;
@@ -53,12 +54,12 @@ void			remove_pl(t_player *pl, t_team *team)
 	free(pl);
 }
 
-static void		write_player(t_player *player, t_team *team)
+static void		write_player(t_player *player, t_zaap *zaap, t_team *team)
 {
 	send(player->sock, player->buff_wr, ft_strlen(player->buff_wr), 0);
 	ft_strclr(player->buff_wr);
 	if (!(player->alive))
-		remove_pl(player, team);
+		remove_pl(player, team, zaap);
 }
 
 static void		read_player(t_player *pl, t_zaap *zaap, t_team *t)
@@ -76,7 +77,7 @@ static void		read_player(t_player *pl, t_zaap *zaap, t_team *t)
 			ret = recv(pl->sock, pl->buff_rd, read + 1, 0);
 			if (ret <= 0)
 			{
-				remove_pl(pl, t);
+				remove_pl(pl, t, zaap);
 				return ;
 			}
 			pl->buff_rd[ret] = '\0';
@@ -85,7 +86,7 @@ static void		read_player(t_player *pl, t_zaap *zaap, t_team *t)
 		}
 	}
 	else if (ret <= 0)
-		remove_pl(pl, t);
+		remove_pl(pl, t, zaap);
 }
 
 void			check_players_fd(t_player *bwspl, t_zaap *zaap, t_team *team)
@@ -96,7 +97,7 @@ void			check_players_fd(t_player *bwspl, t_zaap *zaap, t_team *team)
 	{
 		keep = bwspl->next;
 		if (FD_ISSET(bwspl->sock, &zaap->fd_wr))
-			write_player(bwspl, team);
+			write_player(bwspl, zaap, team);
 		else if (FD_ISSET(bwspl->sock, &zaap->fd_rd))
 			read_player(bwspl, zaap, team);
 		bwspl = keep;

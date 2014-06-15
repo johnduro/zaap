@@ -30,7 +30,7 @@
 # define CNN 12
 
 # define NORTH 1
-# define EST 2
+# define EAST 2
 # define SOUTH 3
 # define WEST 4
 
@@ -63,6 +63,8 @@ typedef struct			s_stock
 	int					thystame;
 }						t_stock;
 
+typedef struct	s_team		t_team;
+
 typedef struct			s_player
 {
 	int					sock;
@@ -77,6 +79,7 @@ typedef struct			s_player
 	t_stock				*inventory;
 	t_action			*a_first;
 	t_action			*a_last;
+	t_team				*p_team;
 	char				buff_wr[BUFF + 1];
 	char				buff_rd[BUFF + 1];
 	struct s_player		*next;
@@ -92,7 +95,7 @@ typedef struct			s_egg
 	struct s_egg		*prev;
 }						t_egg;
 
-typedef struct			s_team
+struct					s_team
 {
 	char				name[BUFF_NAME + 1];
 	int					player_nb;
@@ -101,7 +104,7 @@ typedef struct			s_team
 	t_egg				*eggs;
 	struct s_team		*next;
 	struct s_team		*prev;
-}						t_team;
+};
 
 typedef struct			s_temp
 {
@@ -207,7 +210,7 @@ void			treat_gfx(t_gfx *gfx, t_zaap *zaap);
 void			add_to_gfx_buf(t_gfx *gfx, char *str);
 void			check_players_fd(t_player *bwspl, t_zaap *zaap, t_team *team);
 void			treat_player(t_player *player, t_zaap *zaap);
-void			remove_pl(t_player *pl, t_team *team);
+void			remove_pl(t_player *pl, t_team *team, t_zaap *zaap);
 void			check_tmp_fd(t_temp *bwstmp, t_zaap *zaap);
 void			remove_tmp(t_temp *tmp, t_zaap *zaap, int flag);
 void			add_new_client(t_team *team, int sock, t_zaap *zaap);
@@ -246,5 +249,7 @@ char			*get_stock(t_stock *inv);
 char			*pos_n_stock(t_stock *inv, int x, int y);
 void			send_spot(t_map map, t_gfx *gfx, int y, int x);
 char			**split_n_trim(char *str);
+void			remove_player_map(t_player *player, t_zaap *zaap);
+void			add_player_map(t_player *player, t_zaap *zaap);
 
 #endif

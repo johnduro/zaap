@@ -109,6 +109,7 @@ void				add_new_client(t_team *team, int sock, t_zaap *zaap)
 		return ;
 	}
 	new = init_player(sock, zaap);
+	new->p_team = team;
 	set_new_msg(new, zaap, team);
 	if (team->first == NULL)
 		team->first = new;
