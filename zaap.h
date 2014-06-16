@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/14 20:24:29 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/16 18:49:58 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct			s_action
 //	int					nb;
 	struct timeval		finish;
 	int					type;
+	int					lenght;
 	char				buff[BUFF + 1];
 	struct s_action		*next;
 	struct s_action		*prev;
@@ -220,7 +221,7 @@ void			check_gfx(t_zaap *zaap, t_gfx *gfx);
 void			treat_gfx(t_gfx *gfx, t_zaap *zaap);
 void			add_to_gfx_buf(t_gfx *gfx, char *str);
 void			check_players_fd(t_player *bwspl, t_zaap *zaap, t_team *team);
-void			treat_player(t_player *player, t_zaap *zaap);
+void			treat_player(t_player *pl, t_zaap *zaap);
 void			remove_pl(t_player *pl, t_team *team, t_zaap *zaap);
 void			check_tmp_fd(t_temp *bwstmp, t_zaap *zaap);
 void			remove_tmp(t_temp *tmp, t_zaap *zaap, int flag);
@@ -262,5 +263,19 @@ void			send_spot(t_map map, t_gfx *gfx, int y, int x);
 char			**split_n_trim(char *str);
 void			remove_player_map(t_player *player, t_zaap *zaap);
 void			add_player_map(t_player *player, t_zaap *zaap);
+void			add_action_player(t_action *act, t_player *pl, t_zaap *zp);
+t_action		*init_action(int type, char *str, int lenght);
+int				player_go(char **tab, t_player *pl, t_zaap *zaap);
+int				player_see(char **tab, t_player *pl, t_zaap *zaap);
+int				player_left(char **tab, t_player *pl, t_zaap *zaap);
+int				player_right(char **tab, t_player *pl, t_zaap *zaap);
+int				player_inv(char **tab, t_player *pl, t_zaap *zaap);
+int				player_broadcast(char **tab, t_player *pl, t_zaap *zaap);
+int				player_expulse(char **tab, t_player *pl, t_zaap *zaap);
+int				player_drop(char **tab, t_player *pl, t_zaap *zaap);
+int				player_take(char **tab, t_player *pl, t_zaap *zaap);
+int				player_connect(char **tab, t_player *pl, t_zaap *zaap);
+int				player_fork(char **tab, t_player *pl, t_zaap *zaap);
+int				player_incant(char **tab, t_player *pl, t_zaap *zaap);
 
 #endif
