@@ -6,10 +6,11 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/16 17:35:22 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/16 17:55:29 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/16 20:45:41 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "zaap.h"
 #include "libft.h"
 
