@@ -29,6 +29,14 @@
 # define FRK 11
 # define CNN 12
 
+# define FOD 0
+# define LIN 1
+# define DER 2
+# define SIR 3
+# define MEN 4
+# define PHY 5
+# define THY 6
+
 # define NORTH 1
 # define EAST 2
 # define SOUTH 3
@@ -38,6 +46,9 @@
 
 # define BUFF 1024
 # define BUFF_NAME 128
+
+# define INV_1 "{nourriture %d, linemate %d, deraumere %d, sibur %d,"
+# define INV_2 " mendiane %d, phiras %d, thystame %d}\n"
 
 #include <time.h>
 #include <sys/select.h>

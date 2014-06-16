@@ -273,6 +273,8 @@ void	add_player_buff(t_player *pl, char *str)
 
 int		check_food(t_player *pl, t_zaap *zaap)
 {
+	char	ret[BUFF + 1];
+
 	if (is_time_yet(pl->tick))
 	{
 		(pl->inventory->food)--;
@@ -280,6 +282,8 @@ int		check_food(t_player *pl, t_zaap *zaap)
 		{
 			pl->alive = 0;
 			add_player_buff(pl, "mort\n");
+			sprintf(ret, "pdi #%d\n", pl->sock);
+			add_to_gfx_buf(zaap->gfx, ret);
 			return (-1);
 		}
 		else
@@ -288,7 +292,29 @@ int		check_food(t_player *pl, t_zaap *zaap)
 	return (0);
 }
 
-int		make_fork(t_action *act, t_player *pl, t_zaap *zaap)
+void	send_change(int sock, t_gfx *gfx, char flag, int obj)
+{
+	char	*tmp;
+	char	*tmp2;
+	char	*tmp3;
+
+	tmp = ft_itoa(sock);
+	if (flag)
+		tmp2 = ft_strjoin("pgt #", tmp);
+	else
+		tmp2 = ft_strjoin("pdr #", tmp);
+	free(tmp);
+	tmp = ft_itoa(obj);
+	tmp3 = ft_strjoinwsep(tmp2, tmp, ' ');
+	free(tmp2);
+	free(tmp);
+	tmp = ft_strjoin(tmp3, "\n");
+	free(tmp3);
+	add_to_gfx_buf(gfx, tmp);
+	free(tmp);
+}
+
+int		make_fork(t_action *act, t_player *pl, t_zaap *zaap) //pas fait
 {
 	(void)act;
 	(void)pl;
@@ -296,7 +322,7 @@ int		make_fork(t_action *act, t_player *pl, t_zaap *zaap)
 	return (0);
 }
 
-int		make_incant(t_action *act, t_player *pl, t_zaap *zaap)
+int		make_incant(t_action *act, t_player *pl, t_zaap *zaap) //pas fait
 {
 	(void)act;
 	(void)pl;
@@ -304,41 +330,196 @@ int		make_incant(t_action *act, t_player *pl, t_zaap *zaap)
 	return (0);
 }
 
-int		make_broadcast(t_action *act, t_player *pl, t_zaap *zaap)
+int		make_broadcast(t_action *act, t_player *pl, t_zaap *zaap) //pas fait
 {
 	(void)act;
 	(void)pl;
 	(void)zaap;
 	return (0);
+}
+
+void	move_player(t_player *pl, t_zaap *zaap)
+{
+	remove_player_map(pl, zaap);
+	if (pl->dir == NORTH)
+		pl->pos_y = vd((pl->pos_y + 1), zaap->y);
+	else if (pl->dir == EAST)
+		pl->pos_x = vd((pl->pos_x + 1), zaap->x);
+	else if (pl->dir == SOUTH)
+		pl->pos_y = vd((pl->pos_y - 1), zaap->y);
+	else if (pl->dir == WEST)
+		pl->pos_x = vd((pl->pos_x - 1), zaap->x);
+	add_player_to_map(pl, zaap);
+	get_pos_player_gfx(pl, zaap->gfx);
+}
+
+void	gfx_expulse(int sock, t_gfx *gfx)
+{
+	char	ret[BUFF + 1];
+
+	sprintf(ret, "pex #%d\n", sock);
+	add_to_gfx_buf(gfx, ret);
 }
 
 int		make_expulse(t_action *act, t_player *pl, t_zaap *zaap)
 {
+	t_caps	*bwscps;
+	char	flag;
+
 	(void)act;
-	(void)pl;
-	(void)zaap;
+	flag = 0;
+	bwscps = zaap->map[pl->pos_y][pl->pos_x].list;
+	gfx_expulse(pl->sock, zaap->gfx);
+	while (bwscps)
+	{
+		if (bwscps->player)
+		{
+			move_player(bwscps->player, zaap);
+			get_pos_player_gfx(bwscps->player, zaap->gfx)
+			add_player_buff(bwscps->player, "deplacement 5\n");
+			flag = 1;
+		}
+		bwscps = bwscps->next;
+	}
+	if (flag)
+		add_player_buff(pl, "ok\n");
+	else
+		add_player_buff(pl, "ko\n");
 	return (0);
 }
 
 int		make_inv(t_action *act, t_player *pl, t_zaap *zaap)
 {
+	char		tmp[BUFF + 1];
+	char		tmp2[BUFF + 1];
+	char		*ret;
+	t_stock		*i;
+
 	(void)act;
-	(void)pl;
 	(void)zaap;
+	i = pl->invventory;
+	sprintf(tmp, INV_1, i->food, i->linemate, i->deraumere, i->sibur);
+	sprintf(tmp2, INV_2, i->mendiane, i->, i->phiras, i->thysatame);
+	ret = ft_strjoin(tmp, tmp2);
+	add_player_buff(pl, ret);
+	free(ret);
 	return (0);
 }
 
-int		make_see(t_action *act, t_player *pl, t_zaap *zaap)
+//{nourriture, joueur sibur, phiras phiras, }
+
+char	*see_west(int x, int y, t_zaap *z, int lvl)
 {
-	add_player_buff(pl, "voir ok\n");
+
+}
+char	*see_east(int x, int y, t_zaap *z, int lvl)
+{
+
+}
+char	*see_north(int x, int y, t_zaap *z, int lvl)
+{
+
+}
+
+char	*spot_inv(t_stock *inv)
+{
+
+}
+
+char	*see_spot(t_map map)
+{
+	char	*inv;
+	char	*player;
+
+	inv = spot_inv(map.ressources);
+	player = spot_player(map.list);
+	ret = ft_strjoin(inv, player);
+	free(inv);
+	free(player);
+	return (ret);
+}
+
+char	*line_south(int start, int max, int y, t_zaap *z)
+{
+	int		i;
+	char	flag;
+
+	i = 0;
+	flag = 1;
+	tmp2 = ft_strnew(0);
+	while (i < max)
+	{
+		tmp = see_spot(z->map[y][x]);
+		if (flag)
+		{
+			keep = ft_strjoin(tmp2, tmp);
+			flag = 0;
+		}
+		else
+			keep = ft_strjoinwsep(tmp2, tmp, ' ');
+		free(tmp);
+		free(tmp2);
+		tmp2 = keep;
+		i++;
+		x = vd(x + 1, z->x)
+	}
+	tmp = ft_strjoin(tmp2, ", ");
+	free(tmp2);
+	return (tmp);
+}
+
+char	*see_south(int x, int y, t_zaap *z, int lvl)
+{
+	char	*tmp;
+	char	*tmp2;
+	char	*keep;
+	int		max;
+
+	max = 1;
+	tmp2 = ft_strnew(0);
+	while (lvl >= 0)
+	{
+		tmp = line_south(x, max, y, z);
+		keep = ft_strjoin(tmp2, tmp);
+		free(tmp);
+		free(tmp2);
+		tmp2 = keep;
+		lvl--;
+		y = vd(y + 1, z->y);
+		x = vd(x + 1, z->x);
+		max += 2;
+	}
+	return (tmp2);
+}
+
+int		make_see(t_action *act, t_player *pl, t_zaap *zaap) //pas fait
+{
+	char	*ret[BUFF + 1];
+	char	*all;
+
 	(void)act;
-	(void)pl;
-	(void)zaap;
+	if (pl->dir == SOUTH)
+		all = see_south(pl->pos_x, pl->pos_y, zaap, pl->lvl);
+	else if (pl->dir == NORTH)
+		all = see_north(pl->pos_x, pl->pos_y, zaap, pl->lvl);
+	else if (pl->dir == EAST)
+		all = see_east(pl->pos_x, pl->pos_y, zaap, pl->lvl);
+	else if (pl->dir == WEST)
+		all = see_west(pl->pos_x, pl->pos_y, zaap, pl->lvl);
+	all[(ft_strlen(all) - 2)] = '\0';
+	sprintf(ret, "{%s}\n", all);
+	free(all);
+	add_player_buff(pl, ret);
 	return (0);
 }
 
-int		change_thystame(t_stock *map, t_stock *inv, char flag)
+int		change_thystame(t_player *pl, t_zaap *zaap, char flag)
 {
+	t_stock		*map;
+	t_stock		*inv;
+
+	map = zaap->map[pl->pos_y][pl->pos_x].ressources;
+	inv = player->inventory;
 	if (flag)
 	{
 		if (map->thystame <= 0)
@@ -353,11 +534,18 @@ int		change_thystame(t_stock *map, t_stock *inv, char flag)
 		(map->thystame)++;
 		(inv->thystame)--;
 	}
+	if (zaap->gfx)
+		send_change(pl->sock, zaap->gfx, flag, FOD);
 	return (0);
 }
 
-int		change_phiras(t_stock *map, t_stock *inv, char flag)
+int		change_phiras(t_player *pl, t_zaap *zaap, char flag)
 {
+	t_stock		*map;
+	t_stock		*inv;
+
+	map = zaap->map[pl->pos_y][pl->pos_x].ressources;
+	inv = player->inventory;
 	if (flag)
 	{
 		if (map->phiras <= 0)
@@ -372,11 +560,18 @@ int		change_phiras(t_stock *map, t_stock *inv, char flag)
 		(map->phiras)++;
 		(inv->phiras)--;
 	}
+	if (zaap->gfx)
+		send_change(pl->sock, zaap->gfx, flag, FOD);
 	return (0);
 }
 
-int		change_mendiane(t_stock *map, t_stock *inv, char flag)
+int		change_mendiane(t_player *pl, t_zaap *zaap, char flag)
 {
+	t_stock		*map;
+	t_stock		*inv;
+
+	map = zaap->map[pl->pos_y][pl->pos_x].ressources;
+	inv = player->inventory;
 	if (flag)
 	{
 		if (map->mendiane <= 0)
@@ -391,11 +586,18 @@ int		change_mendiane(t_stock *map, t_stock *inv, char flag)
 		(map->mendiane)++;
 		(inv->mendiane)--;
 	}
+	if (zaap->gfx)
+		send_change(pl->sock, zaap->gfx, flag, FOD);
 	return (0);
 }
 
-int		change_sibur(t_stock *map, t_stock *inv, char flag)
+int		change_sibur(t_player *pl, t_zaap *zaap, char flag)
 {
+	t_stock		*map;
+	t_stock		*inv;
+
+	map = zaap->map[pl->pos_y][pl->pos_x].ressources;
+	inv = player->inventory;
 	if (flag)
 	{
 		if (map->sibur <= 0)
@@ -410,11 +612,18 @@ int		change_sibur(t_stock *map, t_stock *inv, char flag)
 		(map->sibur)++;
 		(inv->sibur)--;
 	}
+	if (zaap->gfx)
+		send_change(pl->sock, zaap->gfx, flag, FOD);
 	return (0);
 }
 
-int		change_deraumere(t_stock *map, t_stock *inv, char flag)
+int		change_deraumere(t_player *pl, t_zaap *zaap, char flag)
 {
+	t_stock		*map;
+	t_stock		*inv;
+
+	map = zaap->map[pl->pos_y][pl->pos_x].ressources;
+	inv = player->inventory;
 	if (flag)
 	{
 		if (map->deraumere <= 0)
@@ -429,11 +638,18 @@ int		change_deraumere(t_stock *map, t_stock *inv, char flag)
 		(map->deraumere)++;
 		(inv->deraumere)--;
 	}
+	if (zaap->gfx)
+		send_change(pl->sock, zaap->gfx, flag, FOD);
 	return (0);
 }
 
-int		change_linemate(t_stock *map, t_stock *inv, char flag)
+int		change_linemate(t_player *pl, t_zaap *zaap, char flag)
 {
+	t_stock		*map;
+	t_stock		*inv;
+
+	map = zaap->map[pl->pos_y][pl->pos_x].ressources;
+	inv = player->inventory;
 	if (flag)
 	{
 		if (map->linemate <= 0)
@@ -448,11 +664,18 @@ int		change_linemate(t_stock *map, t_stock *inv, char flag)
 		(map->linemate)++;
 		(inv->linemate)--;
 	}
+	if (zaap->gfx)
+		send_change(pl->sock, zaap->gfx, flag, FOD);
 	return (0);
 }
 
-int		change_food(t_stock *map, t_stock *inv, char flag)
+int		change_food(t_player *pl, t_zaap *zaap, char flag)
 {
+	t_stock		*map;
+	t_stock		*inv;
+
+	map = zaap->map[pl->pos_y][pl->pos_x].ressources;
+	inv = player->inventory;
 	if (flag)
 	{
 		if (map->food <= 0)
@@ -467,41 +690,56 @@ int		change_food(t_stock *map, t_stock *inv, char flag)
 		(map->food)++;
 		(inv->food)--;
 	}
+	if (zaap->gfx)
+		send_change(pl->sock, zaap->gfx, flag, FOD);
 	return (0);
 }
 
-int		obj_use(char *str, t_stock *map, t_stock *inv, char flag)
+int		obj_use(char *str, t_player *pl, t_zaap *zaap, char flag)
 {
+	t_stock		*map;
+	t_stock		*inv;
+
 	if (!ft_strcmp(str, "food"))
-		return (change_food(map, inv, flag));
+		return (change_food(pl, zaap, flag));
 	else if (!ft_strcmp(str, "linemate"))
-		return (change_linemate(map, inv, flag));
+		return (change_linemate(pl, zaap, flag));
 	else if (!ft_strcmp(str, "deraumere"))
-		return (change_deraumere(map, inv, flag));
+		return (change_deraumere(pl, zaap, flag));
 	else if (!ft_strcmp(str, "sibur"))
-		return (change_sibur(map, inv, flag));
+		return (change_sibur(pl, zaap, flag));
 	else if (!ft_strcmp(str, "mendiane"))
-		return (change_mendiane(map, inv, flag));
+		return (change_mendiane(pl, zaap, flag));
 	else if (!ft_strcmp(str, "phiras"))
-		return (change_phiras(map, inv, flag));
+		return (change_phiras(pl, zaap, flag));
 	else if (!ft_strcmp(str, "thystame"))
-		return (change_thystame(map, inv, flag));
+		return (change_thystame(pl, zaap, flag));
 	return (0)
 }
 
 int		make_drop(t_action *act, t_player *pl, t_zaap *zaap)
 {
-	(void)act;
-	(void)pl;
-	(void)zaap;
+	int		ret;
+
+	ret = -1;
+	ret = obj_use(act->buff_rd, pl, zaap, 0);
+	if (ret)
+		add_player_buff(pl, "ko\n");
+	else
+		add_player_buff(pl, "ok\n");
 	return (0);
 }
 
 int		make_take(t_action *act, t_player *pl, t_zaap *zaap)
 {
-	(void)act;
-	(void)pl;
-	(void)zaap;
+	int		ret;
+
+	ret = -1;
+	ret = obj_use(act->buff_rd, pl, zaap, 1);
+	if (ret)
+		add_player_buff(pl, "ko\n");
+	else
+		add_player_buff(pl, "ok\n");
 	return (0);
 }
 
@@ -555,17 +793,7 @@ int		make_right(t_action *act, t_player *pl, t_zaap *zaap)
 int		make_go(t_action *act, t_player *pl, t_zaap *zaap)
 {
 	(void)act;
-	remove_player_map(pl, zaap);
-	if (pl->dir == NORTH)
-		pl->pos_y = vd((pl->pos_y + 1), zaap->y);
-	else if (pl->dir == EAST)
-		pl->pos_x = vd((pl->pos_x + 1), zaap->x);
-	else if (pl->dir == SOUTH)
-		pl->pos_y = vd((pl->pos_y - 1), zaap->y);
-	else if (pl->dir == WEST)
-		pl->pos_x = vd((pl->pos_x - 1), zaap->x);
-	add_player_to_map(pl, zaap);
-	get_pos_player_gfx(pl, zaap->gfx)
+	move_player(pl, zaap);
 	add_player_buff(pl, "ok\n");
 	return (0);
 }
