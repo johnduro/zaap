@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:28 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/16 21:07:46 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/17 22:33:46 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,19 +180,146 @@ int		make_fork(t_action *act, t_player *pl, t_zaap *zaap)
 	return (0);
 }
 
-int		make_incant(t_action *act, t_player *pl, t_zaap *zaap) //pas fait
+void	send_suc_elv_gfx(t_player *pl, t_gfx *gfx)
 {
-	(void)act;
-	(void)pl;
-	(void)zaap;
+	char	tmp[BUFF + 1];
+
+	sprintf(tmp, "pie %d %d 1\n", pl->pos_x, pl->pos_y);
+	add_to_gfx_buf(gfx, tmp);
+}
+
+int		make_incant(t_action *act, t_player *pl, t_zaap *zaap)
+{
+	static struct timeval	ref;
+	char					tmp[BUFF + 1];
+
+	if (ref.tv_sec != act->finish.tv_sec || ref.tv_usec != act->finish.tv_usec)
+	{
+		ref.tv_sec = act->finish.tv_sec;
+		ref.tv_usec = act->finish.tv_usec;
+		if (zaap->gfx)
+			send_suc_elv_gfx(pl, zaap->gfx);
+	}
+	(pl->lvl)++;
+	sprintf(tmp, "niveau actuel : %d\n", pl->lvl);
+	add_player_buff(pl, tmp);
 	return (0);
 }
 
+int		ft_distance_carre(t_player *p1, t_player *p2)
+{
+	int		ret;
+	int		x;
+	int		y;
+
+	x = (p1->pos_x - p2->pos_x);
+	y = (p1->pos_y - p2->pos_y);
+	ret = (x * x) + (y * y);
+	return (ret);
+}
+
+t_player  ft_find_pos(t_zaap *zaap, t_player *src, int plan)
+{
+	t_player		pos2;
+
+	pos2.pos_x = src->pos_x;
+	pos2.pos_y = src->pos_y;
+	if (((plan + 3) % 4) != 0 && plan != 0)
+	{
+		if (plan < 5)
+			pos2.pos_x -= zaap->x;
+		else
+			pos2.pos_x += zaap->x;
+	}
+	if (((plan + 1) % 4) != 0 && plan != 0)
+	{
+		if ((plan % 8) < 3)
+			pos2.pos_y -= zaap->y;
+		else
+			pos2.pos_y += zaap->y;
+	}
+	return (pos2);
+}
+
+int		ft_direction(t_player *src, t_player *dest)
+{
+	int		ret;
+	int		dx;
+	int		dy;
+
+	dx = (src->pos_x - dest->pos_x) * (src->pos_x - dest->pos_x);
+	dy = (src->pos_y - dest->pos_y) * (src->pos_y - dest->pos_y);
+	ret = 1;
+	if (dx == dy)
+		ret += 1;
+	if (src->pos_x < dest->pos_x && (dx > dy || (dx == dy && src->pos_y > dest->pos_y)))
+		ret += 2;
+	else if (src->pos_y > dest->pos_y && (dx < dy || (dx == dy && src->pos_x > src->pos_x)))
+		ret += 4;
+	else if (src->pos_x > dest->pos_x && (dx > dy || (dx == dy && src->pos_y < dest->pos_y)))
+		ret += 6;
+	if (dest->dir == 2)
+		ret = ((ret + 1) % 8) + 1;
+	else if (dest->dir == 3)
+		ret = ((ret + 3) % 8) + 1;
+	else if (dest->dir == 4)
+		ret = ((ret + 5) % 8) + 1;
+	return (ret);
+}
+
+int		ft_broadcast(t_zaap *zaap, t_player *src, t_player *dest)
+{
+	t_player	plan;
+	t_player	tmp;
+	int		i;
+	int		min;
+	int		ret;
+
+	if ((min = ft_distance_carre(src, dest)) == 0)
+		return (0);
+//	plan = 0;
+	i = 1;
+	while (i <= 8)
+	{
+		tmp = ft_find_pos(zaap, src, i);
+		ret = ft_distance_carre(&tmp, dest);
+		if (ret < min)
+		{
+			min = ret;
+			plan = tmp;
+		}
+		i++;
+	}
+//	pos2 = ft_find_pos(arg, pos, plan);
+	ret = ft_direction(&plan, dest);
+	return (ret);
+}
+
+
 int		make_broadcast(t_action *act, t_player *pl, t_zaap *zaap) //pas fait
 {
-	(void)act;
-	(void)pl;
-	(void)zaap;
+	t_team		*bwst;
+	t_player	*bwspl;
+	int			ret;
+	char		tmp[BUFF + 1];
+
+	bwst = zaap->teams;
+	ret = -1;
+	while (bwst)
+	{
+		bwspl = bwst->first;
+		while (bwspl)
+		{
+			if (bwspl != pl)
+			{
+				ret = ft_broadcast(zaap, pl, bwspl);
+				sprintf(tmp, "msg %d %s\n", ret, act->buff);
+				add_player_buff(bwspl, tmp);
+			}
+			bwspl = bwspl->next;
+		}
+		bwst = bwst->next;
+	}
 	return (0);
 }
 
@@ -231,7 +358,8 @@ int		make_expulse(t_action *act, t_player *pl, t_zaap *zaap)
 	gfx_expulse(pl->sock, zaap->gfx);
 	while (bwscps)
 	{
-		if (bwscps->player)
+		if (bwscps->player && (!bwscps->player->a_first
+			|| bwscps->player->a_first->type != ELV))
 		{
 			move_player(bwscps->player, zaap);
 			if (zaap->gfx)
@@ -899,6 +1027,249 @@ void	send_hatching_gfx(int sock, t_gfx *gfx)
 	add_to_gfx_buf(gfx, ret);
 }
 
+void	add_action_front(t_action *act, t_player *pl)
+{
+	t_action	*cpy;
+
+	cpy = init_action(ELV, NULL, 300);
+	cpy->finish.tv_sec = act->finish.tv_sec;
+	cpy->finish.tv_usec = act->finish.tv_usec;
+	if (pl->a_first == NULL)
+	{
+		pl->a_first = cpy;
+		pl->a_last = cpy;
+	}
+	else
+	{
+		cpy->next = pl->a_first;
+		pl->a_first->prev = cpy;
+		pl->a_first = cpy;
+	}
+}
+
+int		check_lvl_elev(t_caps *bwscps, int lvl, int nb)
+{
+	int			count;
+
+	count = 0;
+	while (bwscps)
+	{
+		if (bwscps->player && bwscps->player->lvl == lvl)
+			count++;
+		bwscps = bwscps->next;
+	}
+	if (count < nb)
+		return (-1);
+	return (0);
+}
+
+int		check_lvl7(t_player *pl, t_zaap *zp)
+{
+	t_stock		*spot;
+	t_caps		*bwscps;
+
+	spot = zp->map[pl->pos_y][pl->pos_x].ressources;
+	bwscps = zp->map[pl->pos_y][pl->pos_x].list;
+	if (check_lvl_elev(bwscps, pl->lvl, 6))
+		return (-1);
+	if (spot->linemate < 2 || spot->deraumere < 2 || spot->sibur < 2
+		|| spot->mendiane < 2 || spot->phiras < 1 || spot->thystame < 1)
+		return (-1);
+	return (0);
+}
+
+int		check_lvl6(t_player *pl, t_zaap *zp)
+{
+	t_stock		*spot;
+	t_caps		*bwscps;
+
+	spot = zp->map[pl->pos_y][pl->pos_x].ressources;
+	bwscps = zp->map[pl->pos_y][pl->pos_x].list;
+	if (check_lvl_elev(bwscps, pl->lvl, 6))
+		return (-1);
+	if (spot->linemate < 1 || spot->deraumere < 2
+		|| spot->sibur < 3 || spot->phiras < 1)
+		return (-1);
+	return (0);
+}
+
+int		check_lvl5(t_player *pl, t_zaap *zp)
+{
+	t_stock		*spot;
+	t_caps		*bwscps;
+
+	spot = zp->map[pl->pos_y][pl->pos_x].ressources;
+	bwscps = zp->map[pl->pos_y][pl->pos_x].list;
+	if (check_lvl_elev(bwscps, pl->lvl, 4))
+		return (-1);
+	if (spot->linemate < 1 || spot->deraumere < 2
+		|| spot->sibur < 1 || spot->mendiane < 3)
+		return (-1);
+	return (0);
+}
+
+int		check_lvl4(t_player *pl, t_zaap *zp)
+{
+	t_stock		*spot;
+	t_caps		*bwscps;
+
+	spot = zp->map[pl->pos_y][pl->pos_x].ressources;
+	bwscps = zp->map[pl->pos_y][pl->pos_x].list;
+	if (check_lvl_elev(bwscps, pl->lvl, 4))
+		return (-1);
+	if (spot->linemate < 1 || spot->deraumere < 1
+		|| spot->sibur < 2 || spot->phiras < 1)
+		return (-1);
+	return (0);
+}
+
+int		check_lvl3(t_player *pl, t_zaap *zp)
+{
+	t_stock		*spot;
+	t_caps		*bwscps;
+
+	spot = zp->map[pl->pos_y][pl->pos_x].ressources;
+	bwscps = zp->map[pl->pos_y][pl->pos_x].list;
+	if (check_lvl_elev(bwscps, pl->lvl, 2))
+		return (-1);
+	if (spot->linemate < 2 || spot->sibur < 1 || spot->phiras < 2)
+		return (-1);
+	return (0);
+}
+
+int		check_lvl2(t_player *pl, t_zaap *zp)
+{
+	t_stock		*spot;
+	t_caps		*bwscps;
+
+	spot = zp->map[pl->pos_y][pl->pos_x].ressources;
+	bwscps = zp->map[pl->pos_y][pl->pos_x].list;
+	if (check_lvl_elev(bwscps, pl->lvl, 2))
+		return (-1);
+	if (spot->linemate < 1 || spot->deraumere < 1 || spot->sibur < 1)
+		return (-1);
+	return (0);
+}
+
+int		check_lvl1(t_player *pl, t_zaap *zp)
+{
+	t_stock		*spot;
+
+	spot = zp->map[pl->pos_y][pl->pos_x].ressources;
+	if (spot->linemate < 1)
+		return (-1);
+	return (0);
+}
+
+int		check_elev(t_player *pl, t_zaap *zaap)
+{
+	int		ret;
+
+	ret = -1;
+	if (pl->lvl == 1)
+		ret = check_lvl1(pl, zaap);
+	else if (pl->lvl == 2)
+		ret = check_lvl2(pl, zaap);
+	else if (pl->lvl == 3)
+		ret = check_lvl2(pl, zaap);
+	else if (pl->lvl == 4)
+		ret = check_lvl2(pl, zaap);
+	else if (pl->lvl == 5)
+		ret = check_lvl2(pl, zaap);
+	else if (pl->lvl == 6)
+		ret = check_lvl2(pl, zaap);
+	else if (pl->lvl == 7)
+		ret = check_lvl2(pl, zaap);
+	else if (pl->lvl == 8)
+		ret = -1;
+	return (ret);
+}
+
+void	send_start_elv_gfx(t_player *pl, t_zaap *zaap)
+{
+	char		tmp[BUFF + 1];
+	char		*tmp2;
+	char		*tmp3;
+	char		*tmp4;
+	t_caps		*bwscps;
+
+	bwscps = zaap->map[pl->pos_y][pl->pos_x].list;
+	sprintf(tmp, "pic %d %d %d #%d ", pl->pos_x, pl->pos_y, pl->lvl, pl->sock);
+	tmp2 = ft_strnew(0);
+	while (bwscps)
+	{
+		if (bwscps->player && bwscps->player->lvl == pl->lvl
+			&& bwscps->player != pl)
+		{
+			tmp3 = ft_itoa(bwscps->player->sock);
+			tmp4 = ft_strjoin("#", tmp3);
+			ft_addnstr(&tmp2, 1, 1, tmp4);
+			ft_free_all_four(tmp3, tmp4, NULL, NULL);
+		}
+		bwscps = bwscps->next;
+	}
+	tmp3 = ft_strjoin(tmp, tmp2);
+	add_to_gfx_buf(zaap->gfx, tmp3);
+	ft_free_all_four(tmp3, tmp2, NULL, NULL);
+}
+
+void	send_failed_elv_gfx(t_player *pl, t_gfx *gfx)
+{
+	char	tmp[BUFF + 1];
+
+	sprintf(tmp, "pie %d %d 0\n", pl->pos_x, pl->pos_y);
+	add_to_gfx_buf(gfx, tmp);
+}
+
+void	start_elev(t_action *act, t_player *pl, t_zaap *zaap)
+{
+	t_caps		*bwscps;
+
+	if (zaap->gfx)
+		send_start_elv_gfx(pl, zaap);
+	if (check_elev(pl, zaap))
+	{
+		add_player_buff(pl, "ko\n");
+		prep_next_act(act, pl, zaap);
+		if (zaap->gfx)
+			send_failed_elv_gfx(pl, zaap->gfx);
+	}
+	else
+	{
+		bwscps = zaap->map[pl->pos_y][pl->pos_x].list;
+		while (bwscps)
+		{
+			if (bwscps->player && (bwscps->player->lvl == pl->lvl))
+			{
+				add_player_buff(bwscps->player, "elevation en cours\n");
+				if (bwscps->player != pl)
+					add_action_front(act, bwscps->player);
+			}
+			bwscps = bwscps->next;
+		}
+	}
+}
+
+void	prep_next_act(t_action *act, t_player *pl, t_zaap *zaap)
+{
+	if (act->next == NULL)
+	{
+		pl->a_first = NULL;
+		pl->a_last = NULL;
+	}
+	else if (act->next)
+	{
+		pl->a_first = act->next;
+		pl->a_first->prev = NULL;
+		action_time(&(pl->a_first->finish), zaap->time, pl->a_first->lenght);
+		if (pl->a_first->type == FRK && zaap->gfx)
+			send_hatching_gfx(pl->sock, zaap->gfx);
+		else if (pl->a_first->type == ELV)
+			start_elev(pl->a_first, pl, zaap);
+	}
+	free(act);
+}
+
 void	make_action(t_action *act, t_player *pl, t_zaap *zaap)
 {
 	int		i;
@@ -912,20 +1283,7 @@ void	make_action(t_action *act, t_player *pl, t_zaap *zaap)
 			parse[i].fn(act, pl, zaap);
 		i++;
 	}
-	if (act->next == NULL)
-	{
-		pl->a_first = NULL;
-		pl->a_last = NULL;
-	}
-	else if (act->next)
-	{
-		pl->a_first = act->next;
-		pl->a_first->prev = NULL;
-		action_time(&(pl->a_first->finish), zaap->time, pl->a_first->lenght);
-		if (pl->a_first->type == FRK && zaap->gfx)
-			send_hatching_gfx(pl->sock, zaap->gfx);
-	}
-	free(act);
+	prep_next_act(act, pl, zaap);
 }
 
 void	player_game(t_player *pl, t_zaap *zaap)
@@ -937,7 +1295,8 @@ void	player_game(t_player *pl, t_zaap *zaap)
 		if (is_time_yet(pl->a_first->finish))
 		{
 			make_action(pl->a_first, pl, zaap);
-			pl->nba--;
+			if (pl->nba)
+				pl->nba--;
 		}
 	}
 }
@@ -953,6 +1312,8 @@ void	rotten_egg(t_egg *egg, t_team *team, t_zaap *zaap)
 	}
 	remove_egg_map(egg, zaap);
 	remove_egg_team(egg, team);
+	if (team->places)
+		(team->places)--;
 }
 
 void	hatching_egg(t_egg *egg, t_team *team, t_zaap *zaap)

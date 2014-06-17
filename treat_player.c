@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/16 17:35:22 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/16 20:45:41 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/17 19:01:49 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void		add_action_player(t_action *act, t_player *pl, t_zaap *zp)
 		action_time(&(act->finish), zp->time, act->lenght);
 		if (act->type == FRK && zp->gfx)
 			send_hatching_gfx(pl->sock, zp->gfx);
+		else if (act->type == ELV)
+			start_elev(act, pl, zp);
 	}
 	else
 	{

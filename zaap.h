@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/16 18:49:58 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/17 22:31:09 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -282,5 +282,7 @@ int				player_incant(char **tab, t_player *pl, t_zaap *zaap);
 void			add_caps_map(t_caps *caps, int x, int y, t_zaap *zaap);
 void			send_hatching_gfx(int sock, t_gfx *gfx);
 void			remove_egg_team(t_egg *egg, t_team *team);
+void			start_elev(t_action *act, t_player *pl, t_zaap *zaap);
+void			prep_next_act(t_action *act, t_player *pl, t_zaap *zaap);
 
 #endif
