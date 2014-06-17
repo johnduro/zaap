@@ -49,20 +49,10 @@ void			remove_player_map(t_player *player, t_zaap *zaap)
 	}
 }
 
-void			add_player_to_map(t_player *player, t_zaap *zaap)
+void			add_player_to_map(t_player *pl, t_zaap *zaap)
 {
-	t_caps		*bwscps;
 	t_caps		*new_pos;
 
-	new_pos = init_caps(player, NULL);
-	bwscps = zaap->map[player->pos_y][player->pos_x].list;
-	if (bwscps == NULL)
-		zaap->map[player->pos_y][player->pos_x].list = new_pos;
-	else
-	{
-		while (bwscps->next)
-			bwscps = bwscps->next;
-		bwscps->next = new_pos;
-		new_pos->prev = bwscps;
-	}
+	new_pos = init_caps(pl, NULL);
+	add_caps_map(new_pos, pl->pos_x, pl->pos_y, zaap);
 }

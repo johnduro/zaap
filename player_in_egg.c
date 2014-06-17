@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdio.h>
 #include "zaap.h"
 #include "libft.h"
 
@@ -53,14 +54,14 @@ t_egg			*egg_rdy(t_egg *bwsegg)
 {
 	while (bwsegg)
 	{
-		if (is_time_yet(bwsegg->hatch))
+		if (bwsegg->ok)
 			return (bwsegg);
 		bwsegg = bwsegg->next;
 	}
 	return (NULL);
 }
 
-static void		remove_egg_team(t_egg *egg, t_team *team)
+void			remove_egg_team(t_egg *egg, t_team *team)
 {
 	if (egg->prev == NULL && egg->next == NULL)
 		team->eggs = NULL;
@@ -79,11 +80,21 @@ static void		remove_egg_team(t_egg *egg, t_team *team)
 	free(egg);
 }
 
+void			send_egg_connect(int sock, t_gfx *gfx)
+{
+	char	tmp[BUFF + 1];
+
+	sprintf(tmp, "ebo #%d\n", sock);
+	add_to_gfx_buf(gfx, tmp);
+}
+
 void			place_player_in_egg(t_team *t, t_player *n, t_egg *e, t_zaap *z)
 {
 	n->pos_x = e->x;
 	n->pos_y = e->y;
 	add_player_to_map(n, z);
+	if (z->gfx)
+		send_egg_connect(n->sock, z->gfx);
 	remove_egg_map(e, z);
 	remove_egg_team(e, t);
 }

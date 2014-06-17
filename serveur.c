@@ -104,11 +104,79 @@ void	send_change(int sock, t_gfx *gfx, char flag, int obj)
 	free(tmp);
 }
 
-int		make_fork(t_action *act, t_player *pl, t_zaap *zaap) //pas fait
+t_egg	*init_egg(int x, int y, int time)
 {
+	t_egg			*new;
+	static int		nb = 1;
+
+	if ((new = (t_egg *)malloc(sizeof(*new))) == NULL)
+		zaap_error(-2);
+	new->ok = 0;
+	new->x = x;
+	new->y = y;
+	new->nb = nb;
+	new->next = NULL;
+	new->prev = NULL;
+	action_time(&(new->hatch), time, 600);
+	nb++;
+	return (new);
+}
+
+void	add_caps_map(t_caps *caps, int x, int y, t_zaap *zaap)
+{
+	t_caps	*bwscps;
+
+	bwscps = zaap->map[y][x].list;
+	if (bwscps == NULL)
+		zaap->map[y][x].list = caps;
+	else
+	{
+		while (bwscps->next)
+			bwscps = bwscps->next;
+		bwscps->next = caps;
+		caps->prev = bwscps;
+	}
+}
+
+void	add_egg_map(t_egg *egg, t_zaap *zaap)
+{
+	t_caps	*caps;
+
+	caps = init_caps(NULL, egg);
+	add_caps_map(caps, egg->x, egg->y, zaap);
+}
+
+void	add_egg_team(t_egg *egg, t_team *team)
+{
+	t_egg	*bwseg;
+
+	if (team->eggs == NULL)
+		team->eggs = egg;
+	else
+	{
+		bwseg = team->eggs;
+		while (bwseg->next)
+			bwseg = bwseg->next;
+		bwseg->next = egg;
+		egg->prev = bwseg;
+	}
+}
+
+int		make_fork(t_action *act, t_player *pl, t_zaap *zaap)
+{
+	t_egg	*egg;
+	char	tmp[BUFF + 1];
+
 	(void)act;
-	(void)pl;
-	(void)zaap;
+	egg = init_egg(pl->pos_x, pl->pos_y, zaap->time);
+	add_egg_team(egg, pl->p_team);
+	add_egg_map(egg, zaap);
+	if (zaap->gfx)
+	{
+		sprintf(tmp, "enw #%d #%d %d %d\n", egg->nb, pl->sock, egg->x, egg->y);
+		add_to_gfx_buf(zaap->gfx, tmp);
+	}
+	add_player_buff(pl, "ok\n");
 	return (0);
 }
 
@@ -235,7 +303,6 @@ void    ft_addinv(char **s, t_stock *inv)
     int     bol;
 
     bol = 0;
-//    bol = ft_addnstr(s, bol, square.players, "joueur");
     bol = ft_addnstr(s, bol, inv->food, "nourriture");
     bol = ft_addnstr(s, bol, inv->linemate, "linemate");
     bol = ft_addnstr(s, bol, inv->deraumere, "deraumere");
@@ -269,23 +336,6 @@ char	*spot_player(t_caps *bwscps, int flag)
 	return (NULL);
 }
 
-/*
-char	*spot_inv(t_stock *inv)
-{
-	char	*tmp;
-	char	*tmp2;
-	char	*keep;
-
-	tmp = ft_strnew(0);
-	keep = tmp;
-	tmp = str_mult(inv->food, "nourriture");
-	tmp2 = str_mult(inv->linemate, "linemate");
-	keep = tmp;
-	tmp = ft_strjoinwsep(tmp, tmp2, ' ');
-	free(keep);
-	free(tmp2);
-}
-*/
 char	*see_spot(t_map map, int flag)
 {
 	char	*inv;
@@ -294,7 +344,6 @@ char	*see_spot(t_map map, int flag)
 
 	inv = ft_strnew(0);
 	ft_addinv(&inv, map.ressources);
-//	inv = spot_inv(map.ressources);
 	player = spot_player(map.list, flag);
 	if (player)
 	{
@@ -306,38 +355,33 @@ char	*see_spot(t_map map, int flag)
 		return (inv);
 	return (ret);
 }
-//{nourriture, joueur sibur, phiras phiras, }
 
 char	*line_west(int x, int max, int y, t_zaap *z)
 {
 	int		i;
 	char	flag;
 	char	*tmp;
-	char	*tmp2;
-	char	*keep;
+	char	*ret;
 
 	i = 0;
 	flag = 1;
-	tmp2 = ft_strnew(0);
+	ret = ft_strnew(0);
 	while (i < max)
 	{
 		tmp = see_spot(z->map[y][x], max);
 		if (flag)
 		{
-			keep = ft_strjoin(tmp2, tmp);
+			ft_strjoin_free(&ret, tmp);
 			flag = 0;
 		}
 		else
-			keep = ft_strjoinwsep(tmp2, tmp, ' ');
+			ft_addnstr(&ret, 1, 1, tmp);
 		free(tmp);
-		free(tmp2);
-		tmp2 = keep;
 		i++;
 		y = vd(y - 1, z->y);
 	}
-	tmp = ft_strjoin(tmp2, ", ");
-	free(tmp2);
-	return (tmp);
+	ft_strjoin_free(&ret, ", ");
+	return (ret);
 }
 
 char	*see_west(int x, int y, t_zaap *z, int lvl)
@@ -369,31 +413,27 @@ char	*line_east(int x, int max, int y, t_zaap *z)
 	int		i;
 	char	flag;
 	char	*tmp;
-	char	*tmp2;
-	char	*keep;
+	char	*ret;
 
 	i = 0;
 	flag = 1;
-	tmp2 = ft_strnew(0);
+	ret = ft_strnew(0);
 	while (i < max)
 	{
 		tmp = see_spot(z->map[y][x], max);
 		if (flag)
 		{
-			keep = ft_strjoin(tmp2, tmp);
+			ft_strjoin_free(&ret, tmp);
 			flag = 0;
 		}
 		else
-			keep = ft_strjoinwsep(tmp2, tmp, ' ');
+			ft_addnstr(&ret, 1, 1, tmp);
 		free(tmp);
-		free(tmp2);
-		tmp2 = keep;
 		i++;
 		y = vd(y + 1, z->y);
 	}
-	tmp = ft_strjoin(tmp2, ", ");
-	free(tmp2);
-	return (tmp);
+	ft_strjoin_free(&ret, ", ");
+	return (ret);
 }
 
 char	*see_east(int x, int y, t_zaap *z, int lvl)
@@ -425,31 +465,27 @@ char	*line_north(int x, int max, int y, t_zaap *z)
 	int		i;
 	char	flag;
 	char	*tmp;
-	char	*tmp2;
-	char	*keep;
+	char	*ret;
 
 	i = 0;
 	flag = 1;
-	tmp2 = ft_strnew(0);
+	ret = ft_strnew(0);
 	while (i < max)
 	{
 		tmp = see_spot(z->map[y][x], max);
 		if (flag)
 		{
-			keep = ft_strjoin(tmp2, tmp);
+			ft_strjoin_free(&ret, tmp);
 			flag = 0;
 		}
 		else
-			keep = ft_strjoinwsep(tmp2, tmp, ' ');
+			ft_addnstr(&ret, 1, 1, tmp);
 		free(tmp);
-		free(tmp2);
-		tmp2 = keep;
 		i++;
 		x = vd(x + 1, z->x);
 	}
-	tmp = ft_strjoin(tmp2, ", ");
-	free(tmp2);
-	return (tmp);
+	ft_strjoin_free(&ret, ", ");
+	return (ret);
 }
 
 char	*see_north(int x, int y, t_zaap *z, int lvl)
@@ -481,31 +517,27 @@ char	*line_south(int x, int max, int y, t_zaap *z)
 	int		i;
 	char	flag;
 	char	*tmp;
-	char	*tmp2;
-	char	*keep;
+	char	*ret;
 
 	i = 0;
 	flag = 1;
-	tmp2 = ft_strnew(0);
+	ret = ft_strnew(0);
 	while (i < max)
 	{
 		tmp = see_spot(z->map[y][x], max);
 		if (flag)
 		{
-			keep = ft_strjoin(tmp2, tmp);
+			ft_strjoin_free(&ret, tmp);
 			flag = 0;
 		}
 		else
-			keep = ft_strjoinwsep(tmp2, tmp, ' ');
+			ft_addnstr(&ret, 1, 1, tmp);
 		free(tmp);
-		free(tmp2);
-		tmp2 = keep;
 		i++;
 		x = vd(x - 1, z->x);
 	}
-	tmp = ft_strjoin(tmp2, ", ");
-	free(tmp2);
-	return (tmp);
+	ft_strjoin_free(&ret, ", ");
+	return (ret);
 }
 
 char	*see_south(int x, int y, t_zaap *z, int lvl)
@@ -532,7 +564,7 @@ char	*see_south(int x, int y, t_zaap *z, int lvl)
 	return (tmp2);
 }
 
-int		make_see(t_action *act, t_player *pl, t_zaap *zaap) //pas fait
+int		make_see(t_action *act, t_player *pl, t_zaap *zaap)
 {
 	char	ret[BUFF + 1];
 	char	*all;
@@ -737,9 +769,6 @@ int		change_food(t_player *pl, t_zaap *zaap, char flag)
 
 int		obj_use(char *str, t_player *pl, t_zaap *zaap, char flag)
 {
-//	t_stock		*map;
-//	t_stock		*inv;
-
 	if (!ft_strcmp(str, "food"))
 		return (change_food(pl, zaap, flag));
 	else if (!ft_strcmp(str, "linemate"))
@@ -862,6 +891,14 @@ t_pac	*get_parse_make(void)
 	return (parse);
 }
 
+void	send_hatching_gfx(int sock, t_gfx *gfx)
+{
+	char	ret[BUFF + 1];
+
+	sprintf(ret, "pfk #%d\n", sock);
+	add_to_gfx_buf(gfx, ret);
+}
+
 void	make_action(t_action *act, t_player *pl, t_zaap *zaap)
 {
 	int		i;
@@ -869,14 +906,12 @@ void	make_action(t_action *act, t_player *pl, t_zaap *zaap)
 
 	i = 0;
 	parse = get_parse_make();
-	printf("la\n");
 	while (i < 12)
 	{
 		if (parse[i].type == act->type)
 			parse[i].fn(act, pl, zaap);
 		i++;
 	}
-	printf("pas la\n");
 	if (act->next == NULL)
 	{
 		pl->a_first = NULL;
@@ -887,6 +922,8 @@ void	make_action(t_action *act, t_player *pl, t_zaap *zaap)
 		pl->a_first = act->next;
 		pl->a_first->prev = NULL;
 		action_time(&(pl->a_first->finish), zaap->time, pl->a_first->lenght);
+		if (pl->a_first->type == FRK && zaap->gfx)
+			send_hatching_gfx(pl->sock, zaap->gfx);
 	}
 	free(act);
 }
@@ -898,7 +935,56 @@ void	player_game(t_player *pl, t_zaap *zaap)
 	if (pl->a_first)
 	{
 		if (is_time_yet(pl->a_first->finish))
+		{
 			make_action(pl->a_first, pl, zaap);
+			pl->nba--;
+		}
+	}
+}
+
+void	rotten_egg(t_egg *egg, t_team *team, t_zaap *zaap)
+{
+	char	ret[BUFF + 1];
+
+	if (zaap->gfx)
+	{
+		sprintf(ret, "edi #%d\n", egg->nb);
+		add_to_gfx_buf(zaap->gfx, ret);
+	}
+	remove_egg_map(egg, zaap);
+	remove_egg_team(egg, team);
+}
+
+void	hatching_egg(t_egg *egg, t_team *team, t_zaap *zaap)
+{
+	char	ret[BUFF  +1];
+
+	egg->ok = 1;
+	team->places++;
+	action_time(&(egg->hatch), zaap->time, 1260);
+	if (zaap->gfx)
+	{
+		sprintf(ret, "eht #%d\n", egg->nb);
+		add_to_gfx_buf(zaap->gfx, ret);
+	}
+}
+
+void	check_eggs(t_team *team, t_zaap *zaap)
+{
+	t_egg	*bwseg;
+	t_egg	*keep;
+
+	if (team->eggs == NULL)
+		return ;
+	bwseg = team->eggs;
+	while (bwseg)
+	{
+		keep = bwseg->next;
+		if (bwseg->ok && is_time_yet(bwseg->hatch))
+			rotten_egg(bwseg, team, zaap);
+		else if (!bwseg->ok && is_time_yet(bwseg->hatch))
+			hatching_egg(bwseg, team, zaap);
+		bwseg = keep;
 	}
 }
 
@@ -910,7 +996,8 @@ void	make_game(t_zaap *zaap)
 	bwst = zaap->teams;
 	while (bwst)
 	{
-//		check_eggs(bwst, zaap);//a faire
+//		check_win(bwst, zaap); //a faire
+		check_eggs(bwst, zaap);
 		bwspl = bwst->first;
 		while (bwspl)
 		{
@@ -929,7 +1016,7 @@ void	loop_map(t_zaap *zaap)
 	while (42)
 	{
 		ret = 0;
-		make_game(zaap); //a faire
+		make_game(zaap);
 		init_fd(zaap);
 		tv.tv_sec = 0;
 		tv.tv_usec = 0;

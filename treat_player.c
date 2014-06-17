@@ -37,6 +37,8 @@ void		add_action_player(t_action *act, t_player *pl, t_zaap *zp)
 		pl->a_first = act;
 		pl->a_last = act;
 		action_time(&(act->finish), zp->time, act->lenght);
+		if (act->type == FRK && zp->gfx)
+			send_hatching_gfx(pl->sock, zp->gfx);
 	}
 	else
 	{
@@ -73,23 +75,19 @@ void		treat_player(t_player *pl, t_zaap *zaap)
 	char		**split;
 	t_ply		*parse;
 	int			i;
-	int			ret; //besoin ?
 
 	i = 0;
-	ret = 1;
 	split = split_n_trim(pl->buff_rd);
 	parse = get_parse_play();
 	while (parse[i].name)
 	{
 		if (!ft_strcmp(parse[i].name, *split))
 		{
-			ret = parse[i].fn(split, pl, zaap);
+			parse[i].fn(split, pl, zaap);
 			break ;
 		}
 		i++;
 	}
-	(void)ret;
-//check_player_ret(ret, pl);
 	ft_strclr(pl->buff_rd);
 	ft_tabfree(&split);
 }

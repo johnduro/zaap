@@ -102,6 +102,8 @@ typedef struct			s_egg
 {
 	int					x;
 	int					y;
+	int					ok;
+	int					nb;
 	struct timeval		hatch;
 	struct s_egg		*next;
 	struct s_egg		*prev;
@@ -277,5 +279,8 @@ int				player_take(char **tab, t_player *pl, t_zaap *zaap);
 int				player_connect(char **tab, t_player *pl, t_zaap *zaap);
 int				player_fork(char **tab, t_player *pl, t_zaap *zaap);
 int				player_incant(char **tab, t_player *pl, t_zaap *zaap);
+void			add_caps_map(t_caps *caps, int x, int y, t_zaap *zaap);
+void			send_hatching_gfx(int sock, t_gfx *gfx);
+void			remove_egg_team(t_egg *egg, t_team *team);
 
 #endif
