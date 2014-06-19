@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:22:00 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 16:24:50 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/19 20:09:37 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,13 @@ static char		*line_north(int x, int max, int y, t_zaap *z)
 			flag = 0;
 		}
 		else
-			ft_addnstr(&ret, 1, 1, tmp);
+			ft_strjoin_free(&ret, tmp);
+//			ft_addnstr(&ret, 1, 1, tmp);
 		free(tmp);
 		i++;
 		x = vd(x + 1, z->x);
+		ft_strjoin_free(&ret, ", ");
 	}
-	ft_strjoin_free(&ret, ", ");
 	return (ret);
 }
 
@@ -85,12 +86,13 @@ static char		*line_south(int x, int max, int y, t_zaap *z)
 			flag = 0;
 		}
 		else
-			ft_addnstr(&ret, 1, 1, tmp);
+			ft_strjoin_free(&ret, tmp);
+//			ft_addnstr(&ret, 1, 1, tmp);
 		free(tmp);
 		i++;
 		x = vd(x - 1, z->x);
+		ft_strjoin_free(&ret, ", ");
 	}
-	ft_strjoin_free(&ret, ", ");
 	return (ret);
 }
 

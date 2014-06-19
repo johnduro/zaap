@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 15:41:31 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 18:16:41 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/19 19:06:37 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,11 @@ static int			check_food(t_player *pl, t_zaap *zaap)
 		{
 			pl->alive = 0;
 			add_player_buff(pl, "mort\n");
-			sprintf(ret, "pdi #%d\n", pl->sock);
-			add_to_gfx_buf(zaap->gfx, ret);
+			if (zaap->gfx)
+			{
+				sprintf(ret, "pdi #%d\n", pl->sock);
+				add_to_gfx_buf(zaap->gfx, ret);
+			}
 			return (-1);
 		}
 		else
