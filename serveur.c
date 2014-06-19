@@ -296,6 +296,14 @@ int		ft_broadcast(t_zaap *zaap, t_player *src, t_player *dest)
 }
 
 
+void	send_bc_gfx(int sock, char *str, t_gfx *gfx)
+{
+	char	ret[BUFF + 1];
+
+	sprintf(ret, "pbc #%d %s\n", sock, str);
+	add_to_gfx_buf(gfx, ret);
+}
+
 int		make_broadcast(t_action *act, t_player *pl, t_zaap *zaap) //pas fait
 {
 	t_team		*bwst;
@@ -313,13 +321,15 @@ int		make_broadcast(t_action *act, t_player *pl, t_zaap *zaap) //pas fait
 			if (bwspl != pl)
 			{
 				ret = ft_broadcast(zaap, pl, bwspl);
-				sprintf(tmp, "msg %d %s\n", ret, act->buff);
+				sprintf(tmp, "message %d %s\n", ret, act->buff);
 				add_player_buff(bwspl, tmp);
 			}
 			bwspl = bwspl->next;
 		}
 		bwst = bwst->next;
 	}
+	if (zaap->gfx)
+		send_bc_gfx(pl->sock,act->buff, zaap->gfx);
 	return (0);
 }
 

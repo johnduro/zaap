@@ -33,11 +33,31 @@ t_stock			*get_inv(void)
 	new->thystame = 0;
 	return (new);
 }
+/*
+int                     rand_a_b(int min, int max)
+{
+	int             ret;
+	int             range;
+	int             buckets;
+	int             limit;
+
+	range = max - min;
+	buckets = RAND_MAX / range;
+	limit = buckets * range;
+
+	while (ret >= limit)
+	{
+		ret = random();
+	}
+	return (min + (ret / buckets));
+}
+*/
 
 int				rand_a_b(int a, int b)
 {
 	return (rand() % ((b - a) + a));
 }
+
 
 static void		get_sock(t_zaap *zaap, int port)
 {
