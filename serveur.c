@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:28 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 18:00:44 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/19 18:30:01 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,13 @@ void	add_player_buff(t_player *pl, char *str)
 
 void	send_change(int sock, t_gfx *gfx, char flag, int obj)
 {
-	char	*tmp;
+	char	tmp[BUFF + 1];
+
+	if (flag)
+		sprintf(tmp, "pgt #%d %d\n", sock, obj);
+	else
+		sprintf(tmp, "pdr #%d %d\n", sock, obj);
+/*	char	*tmp;
 	char	*tmp2;
 	char	*tmp3;
 
@@ -78,9 +84,9 @@ void	send_change(int sock, t_gfx *gfx, char flag, int obj)
 	free(tmp2);
 	free(tmp);
 	tmp = ft_strjoin(tmp3, "\n");
-	free(tmp3);
+	free(tmp3);*/
 	add_to_gfx_buf(gfx, tmp);
-	free(tmp);
+//	free(tmp);
 }
 
 int		make_inv(t_action *act, t_player *pl, t_zaap *zaap)

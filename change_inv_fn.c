@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:11:11 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 16:12:47 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/19 18:22:28 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int			change_thystame(t_player *pl, t_zaap *zaap, char flag)
 		(inv->thystame)--;
 	}
 	if (zaap->gfx)
-		send_change(pl->sock, zaap->gfx, flag, FOD);
+		send_change(pl->sock, zaap->gfx, flag, THY);
 	return (0);
 }
 
@@ -61,7 +61,7 @@ int			change_phiras(t_player *pl, t_zaap *zaap, char flag)
 		(inv->phiras)--;
 	}
 	if (zaap->gfx)
-		send_change(pl->sock, zaap->gfx, flag, FOD);
+		send_change(pl->sock, zaap->gfx, flag, PHY);
 	return (0);
 }
 
@@ -87,7 +87,7 @@ int			change_mendiane(t_player *pl, t_zaap *zaap, char flag)
 		(inv->mendiane)--;
 	}
 	if (zaap->gfx)
-		send_change(pl->sock, zaap->gfx, flag, FOD);
+		send_change(pl->sock, zaap->gfx, flag, MEN);
 	return (0);
 }
 
@@ -113,7 +113,7 @@ int			change_sibur(t_player *pl, t_zaap *zaap, char flag)
 		(inv->sibur)--;
 	}
 	if (zaap->gfx)
-		send_change(pl->sock, zaap->gfx, flag, FOD);
+		send_change(pl->sock, zaap->gfx, flag, SIR);
 	return (0);
 }
 
@@ -139,6 +139,6 @@ int			change_deraumere(t_player *pl, t_zaap *zaap, char flag)
 		(inv->deraumere)--;
 	}
 	if (zaap->gfx)
-		send_change(pl->sock, zaap->gfx, flag, FOD);
+		send_change(pl->sock, zaap->gfx, flag, DER);
 	return (0);
 }

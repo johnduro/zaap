@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:07:30 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 16:09:07 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/19 18:35:00 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int		change_linemate(t_player *pl, t_zaap *zaap, char flag)
 		(inv->linemate)--;
 	}
 	if (zaap->gfx)
-		send_change(pl->sock, zaap->gfx, flag, FOD);
+		send_change(pl->sock, zaap->gfx, flag, LIN);
 	return (0);
 }
 
@@ -67,7 +67,7 @@ static int		change_food(t_player *pl, t_zaap *zaap, char flag)
 
 static int		obj_use(char *str, t_player *pl, t_zaap *zaap, char flag)
 {
-	if (!ft_strcmp(str, "food"))
+	if (!ft_strcmp(str, "nourriture"))
 		return (change_food(pl, zaap, flag));
 	else if (!ft_strcmp(str, "linemate"))
 		return (change_linemate(pl, zaap, flag));
@@ -81,7 +81,7 @@ static int		obj_use(char *str, t_player *pl, t_zaap *zaap, char flag)
 		return (change_phiras(pl, zaap, flag));
 	else if (!ft_strcmp(str, "thystame"))
 		return (change_thystame(pl, zaap, flag));
-	return (0);
+	return (-1);
 }
 
 int				make_drop(t_action *act, t_player *pl, t_zaap *zaap)

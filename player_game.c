@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 15:41:31 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 17:00:56 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/19 18:16:41 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,19 @@ static t_pac		*get_parse_make(void)
 	static t_pac	parse[] =
 
 	{
-		{AVC, &make_go},
-		{DRT, &make_right},
-		{GAU, &make_left},
-		{SEE, &make_see},
-		{INV, &make_inv},
-		{TAK, &make_take},
-		{PUT, &make_drop},
-		{EXP, &make_expulse},
-		{BRD, &make_broadcast},
-		{ELV, &make_incant},
-		{FRK, &make_fork},
-		{CNN, &make_connect},
-		{0, NULL}
+	{AVC, &make_go},
+	{DRT, &make_right},
+	{GAU, &make_left},
+	{SEE, &make_see},
+	{INV, &make_inv},
+	{TAK, &make_take},
+	{PUT, &make_drop},
+	{EXP, &make_expulse},
+	{BRD, &make_broadcast},
+	{ELV, &make_incant},
+	{FRK, &make_fork},
+	{CNN, &make_connect},
+	{0, NULL}
 	};
 	return (parse);
 }
