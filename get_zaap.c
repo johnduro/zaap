@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/11 16:10:01 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 17:55:55 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/19 18:07:09 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int                     rand_a_b(int min, int max)
 
 int				rand_a_b(int a, int b)
 {
-	return (rand() % (b - a) + a);
+	return (random() % (b - a) + a);
 }
 
 

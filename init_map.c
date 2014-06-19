@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/11 16:10:21 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/14 19:00:29 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/19 18:06:57 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void			init_map(t_zaap *zaap)
 
 	i = 0;
 	j = 0;
-	srand(time(NULL));
+	srandom(time(NULL));
 	while (i < zaap->y)
 	{
 		j = 0;
