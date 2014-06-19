@@ -6,10 +6,11 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:07:30 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 18:35:00 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/19 21:22:04 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "zaap.h"
 #include "libft.h"
 
@@ -67,19 +68,19 @@ static int		change_food(t_player *pl, t_zaap *zaap, char flag)
 
 static int		obj_use(char *str, t_player *pl, t_zaap *zaap, char flag)
 {
-	if (!ft_strcmp(str, "nourriture"))
+	if (!ft_strncmp(str, "nourriture", 10))
 		return (change_food(pl, zaap, flag));
-	else if (!ft_strcmp(str, "linemate"))
+	else if (!ft_strncmp(str, "linemate", 8))
 		return (change_linemate(pl, zaap, flag));
-	else if (!ft_strcmp(str, "deraumere"))
+	else if (!ft_strncmp(str, "deraumere", 9))
 		return (change_deraumere(pl, zaap, flag));
-	else if (!ft_strcmp(str, "sibur"))
+	else if (!ft_strncmp(str, "sibur", 5))
 		return (change_sibur(pl, zaap, flag));
-	else if (!ft_strcmp(str, "mendiane"))
+	else if (!ft_strncmp(str, "mendiane", 8))
 		return (change_mendiane(pl, zaap, flag));
-	else if (!ft_strcmp(str, "phiras"))
+	else if (!ft_strncmp(str, "phiras", 6))
 		return (change_phiras(pl, zaap, flag));
-	else if (!ft_strcmp(str, "thystame"))
+	else if (!ft_strncmp(str, "thystame", 8))
 		return (change_thystame(pl, zaap, flag));
 	return (-1);
 }

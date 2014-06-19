@@ -6,10 +6,11 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/16 17:35:22 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/17 19:01:49 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/19 21:21:37 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include "zaap.h"
 #include "libft.h"
@@ -22,7 +23,10 @@ t_action	*init_action(int type, char *str, int lenght)
 		zaap_error(-2);
 	new->type = type;
 	if (str && *str != '\0')
+	{
+		bzero(new->buff, BUFF);
 		ft_strcat(new->buff, str);
+	}
 	new->lenght = lenght;
 	new->next = NULL;
 	new->prev = NULL;
