@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/17 22:31:09 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/19 17:02:42 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 
 # define START_FOOD 10
 
-# define BUFF 1024
+# define BUFF 8024
 # define BUFF_NAME 128
 
 # define INV_1 "{nourriture %d, linemate %d, deraumere %d, sibur %d,"
@@ -284,5 +284,46 @@ void			send_hatching_gfx(int sock, t_gfx *gfx);
 void			remove_egg_team(t_egg *egg, t_team *team);
 void			start_elev(t_action *act, t_player *pl, t_zaap *zaap);
 void			prep_next_act(t_action *act, t_player *pl, t_zaap *zaap);
+void			check_eggs(t_team *team, t_zaap *zaap);
+void			player_game(t_player *pl, t_zaap *zaap);
+void			prep_next_act(t_action *act, t_player *pl, t_zaap *zaap);
+void			start_elev(t_action *act, t_player *pl, t_zaap *zaap);
+int				check_lvl_elev(t_caps *bwscps, int lvl, int nb);
+int				check_lvl1(t_player *pl, t_zaap *zp);
+int				check_lvl2(t_player *pl, t_zaap *zp);
+int				check_lvl3(t_player *pl, t_zaap *zp);
+int				check_lvl4(t_player *pl, t_zaap *zp);
+int				check_lvl5(t_player *pl, t_zaap *zp);
+int				check_lvl6(t_player *pl, t_zaap *zp);
+int				check_lvl7(t_player *pl, t_zaap *zp);
+void			send_failed_elv_gfx(t_player *pl, t_gfx *gfx);
+int				make_go(t_action *act, t_player *pl, t_zaap *zaap);
+int				make_right(t_action *act, t_player *pl, t_zaap *zaap);
+int				make_left(t_action *act, t_player *pl, t_zaap *zaap);
+void			move_player(t_player *pl, t_zaap *zaap);//modifier ac dir
+int				make_take(t_action *act, t_player *pl, t_zaap *zaap);
+int				make_drop(t_action *act, t_player *pl, t_zaap *zaap);
+int				change_thystame(t_player *pl, t_zaap *zaap, char flag);
+int				change_phiras(t_player *pl, t_zaap *zaap, char flag);
+int				change_mendiane(t_player *pl, t_zaap *zaap, char flag);
+int				change_sibur(t_player *pl, t_zaap *zaap, char flag);
+int				change_deraumere(t_player *pl, t_zaap *zaap, char flag);
+int				make_see(t_action *act, t_player *pl, t_zaap *zaap);
+int				ft_addnstr(char **s, int bol, int n, char *str);
+void			ft_strjoin_free(char **s1, char *s2);
+char			*see_spot(t_map map, int flag);
+char			*see_north(int x, int y, t_zaap *z, int lvl);
+char			*see_south(int x, int y, t_zaap *z, int lvl);
+char			*see_east(int x, int y, t_zaap *z, int lvl);
+char			*see_west(int x, int y, t_zaap *z, int lvl);
+int				make_expulse(t_action *act, t_player *pl, t_zaap *zaap);
+int				make_incant(t_action *act, t_player *pl, t_zaap *zaap);
+int				make_fork(t_action *act, t_player *pl, t_zaap *zaap);
+int				make_inv(t_action *act, t_player *pl, t_zaap *zaap);
+int				make_connect(t_action *act, t_player *pl, t_zaap *zaap);
+int				make_broadcast(t_action *act, t_player *pl, t_zaap *zaap);
+void			send_change(int sock, t_gfx *gfx, char flag, int obj);
+int				ft_broadcast(t_zaap *zaap, t_player *src, t_player *dest);
+void			add_player_buff(t_player *pl, char *str);
 
 #endif
