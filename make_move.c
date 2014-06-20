@@ -13,16 +13,16 @@
 #include "zaap.h"
 #include "libft.h"
 
-void		move_player(t_player *pl, t_zaap *zaap)//modifier avec dir
+void		move_player(t_player *pl, t_zaap *zaap, int dir)
 {
 	remove_player_map(pl, zaap);
-	if (pl->dir == NORTH)
+	if (dir == NORTH)
 		pl->pos_y = vd((pl->pos_y + 1), zaap->y);
-	else if (pl->dir == EAST)
+	else if (dir == EAST)
 		pl->pos_x = vd((pl->pos_x + 1), zaap->x);
-	else if (pl->dir == SOUTH)
+	else if (dir == SOUTH)
 		pl->pos_y = vd((pl->pos_y - 1), zaap->y);
-	else if (pl->dir == WEST)
+	else if (dir == WEST)
 		pl->pos_x = vd((pl->pos_x - 1), zaap->x);
 	add_player_to_map(pl, zaap);
 	if (zaap->gfx)
@@ -66,7 +66,7 @@ int			make_right(t_action *act, t_player *pl, t_zaap *zaap)
 int			make_go(t_action *act, t_player *pl, t_zaap *zaap)
 {
 	(void)act;
-	move_player(pl, zaap);
+	move_player(pl, zaap, pl->dir);
 	add_player_buff(pl, "ok\n");
 	return (0);
 }

@@ -51,7 +51,7 @@ int					check_lvl_elev(t_caps *bwscps, int lvl, int nb)
 	return (0);
 }
 
-static int			check_elev(t_player *pl, t_zaap *zaap)
+int			check_elev(t_player *pl, t_zaap *zaap) //faire des pointeur sur fonction ?
 {
 	int		ret;
 
@@ -61,15 +61,15 @@ static int			check_elev(t_player *pl, t_zaap *zaap)
 	else if (pl->lvl == 2)
 		ret = check_lvl2(pl, zaap);
 	else if (pl->lvl == 3)
-		ret = check_lvl2(pl, zaap);
+		ret = check_lvl3(pl, zaap);
 	else if (pl->lvl == 4)
-		ret = check_lvl2(pl, zaap);
+		ret = check_lvl4(pl, zaap);
 	else if (pl->lvl == 5)
-		ret = check_lvl2(pl, zaap);
+		ret = check_lvl5(pl, zaap);
 	else if (pl->lvl == 6)
-		ret = check_lvl2(pl, zaap);
+		ret = check_lvl6(pl, zaap);
 	else if (pl->lvl == 7)
-		ret = check_lvl2(pl, zaap);
+		ret = check_lvl7(pl, zaap);
 	else if (pl->lvl == 8)
 		ret = -1;
 	return (ret);
@@ -100,6 +100,7 @@ static void			send_start_elv_gfx(t_player *pl, t_zaap *zaap)
 		bwscps = bwscps->next;
 	}
 	tmp3 = ft_strjoin(tmp, tmp2);
+	ft_strjoin_free(&tmp3, "\n");
 	add_to_gfx_buf(zaap->gfx, tmp3);
 	ft_free_all_four(tmp3, tmp2, NULL, NULL);
 }

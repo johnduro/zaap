@@ -64,7 +64,7 @@ char			*see_spot(t_map map, int flag)
 	player = spot_player(map.list, flag);
 	if (player)
 	{
-		ret = ft_strjoin(inv, player);
+		ret = ft_strjoinwsep(player, inv, ' ');
 		free(inv);
 		free(player);
 	}

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "zaap.h"
 #include "libft.h"
 
@@ -88,6 +89,8 @@ static int		obj_use(char *str, t_player *pl, t_zaap *zaap, char flag)
 int				make_drop(t_action *act, t_player *pl, t_zaap *zaap)
 {
 	int		ret;
+	char	*tmp;
+	t_map	map;
 
 	ret = -1;
 	ret = obj_use(act->buff, pl, zaap, 0);
@@ -95,12 +98,22 @@ int				make_drop(t_action *act, t_player *pl, t_zaap *zaap)
 		add_player_buff(pl, "ko\n");
 	else
 		add_player_buff(pl, "ok\n");
+	if (zaap->gfx)
+	{
+		tmp = get_inv_gfx(pl->sock, zaap);
+		add_to_gfx_buf(zaap->gfx, tmp);
+		free(tmp);
+		map = zaap->map[pl->pos_y][pl->pos_x];
+		send_spot(map, zaap->gfx, pl->pos_y, pl->pos_x);
+	}
 	return (0);
 }
 
 int				make_take(t_action *act, t_player *pl, t_zaap *zaap)
 {
 	int		ret;
+	char	*tmp;
+	t_map	map;
 
 	ret = -1;
 	ret = obj_use(act->buff, pl, zaap, 1);
@@ -108,5 +121,13 @@ int				make_take(t_action *act, t_player *pl, t_zaap *zaap)
 		add_player_buff(pl, "ko\n");
 	else
 		add_player_buff(pl, "ok\n");
+	if (zaap->gfx)
+	{
+		tmp = get_inv_gfx(pl->sock, zaap);
+		add_to_gfx_buf(zaap->gfx, tmp);
+		free(tmp);
+		map = zaap->map[pl->pos_y][pl->pos_x];
+		send_spot(map, zaap->gfx, pl->pos_y, pl->pos_x);
+	}
 	return (0);
 }

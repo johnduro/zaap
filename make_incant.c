@@ -25,8 +25,11 @@ void		send_suc_elv_gfx(t_player *pl, t_gfx *gfx)
 int			make_incant(t_action *act, t_player *pl, t_zaap *zaap)
 {
 	static struct timeval		ref;
+//	static int					x = -1;
+//	static int					y = -1;
 	char						tmp[BUFF + 1];
 
+//	if (check_elev(pl, zaap))
 	if (ref.tv_sec != act->finish.tv_sec || ref.tv_usec != act->finish.tv_usec)
 	{
 		ref.tv_sec = act->finish.tv_sec;
@@ -37,5 +40,10 @@ int			make_incant(t_action *act, t_player *pl, t_zaap *zaap)
 	(pl->lvl)++;
 	sprintf(tmp, "niveau actuel : %d\n", pl->lvl);
 	add_player_buff(pl, tmp);
+	if (zaap->gfx)
+	{
+		sprintf(tmp, "plv #%d %d\n", pl->sock, pl->lvl);
+		add_to_gfx_buf(zaap->gfx, tmp);
+	}
 	return (0);
 }

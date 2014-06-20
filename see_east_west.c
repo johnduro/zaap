@@ -28,18 +28,21 @@ static char		*line_west(int x, int max, int y, t_zaap *z)
 	{
 		tmp = see_spot(z->map[y][x], max);
 		if (flag)
-		{
-			ft_strjoin_free(&ret, tmp);
 			flag = 0;
-		}
-		else
-			ft_strjoin_free(&ret, tmp);
+//		{
+//			ft_strjoin_free(&ret, tmp);
+//			flag = 0;
+//		}
+//		else
+		ft_strjoin_free(&ret, tmp);
 //			ft_addnstr(&ret, 1, 1, tmp);
 		free(tmp);
 		i++;
 		y = vd(y - 1, z->y);
 		ft_strjoin_free(&ret, ", ");
 	}
+	if (flag)
+		ft_strjoin_free(&ret, ", ");
 	return (ret);
 }
 
@@ -81,18 +84,21 @@ static char		*line_east(int x, int max, int y, t_zaap *z)
 	{
 		tmp = see_spot(z->map[y][x], max);
 		if (flag)
-		{
-			ft_strjoin_free(&ret, tmp);
 			flag = 0;
-		}
-		else
-			ft_strjoin_free(&ret, tmp);
+//		{
+//			ft_strjoin_free(&ret, tmp);
+//			flag = 0;
+//		}
+//		else
+		ft_strjoin_free(&ret, tmp);
 //			ft_addnstr(&ret, 1, 1, tmp);
 		free(tmp);
 		i++;
 		y = vd(y + 1, z->y);
 		ft_strjoin_free(&ret, ", ");
 	}
+	if (flag)
+		ft_strjoin_free(&ret, ", ");
 	return (ret);
 }
 

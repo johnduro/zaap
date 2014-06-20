@@ -300,7 +300,7 @@ void			send_failed_elv_gfx(t_player *pl, t_gfx *gfx);
 int				make_go(t_action *act, t_player *pl, t_zaap *zaap);
 int				make_right(t_action *act, t_player *pl, t_zaap *zaap);
 int				make_left(t_action *act, t_player *pl, t_zaap *zaap);
-void			move_player(t_player *pl, t_zaap *zaap);//modifier ac dir
+void			move_player(t_player *pl, t_zaap *zaap, int dir);
 int				make_take(t_action *act, t_player *pl, t_zaap *zaap);
 int				make_drop(t_action *act, t_player *pl, t_zaap *zaap);
 int				change_thystame(t_player *pl, t_zaap *zaap, char flag);
@@ -325,5 +325,8 @@ int				make_broadcast(t_action *act, t_player *pl, t_zaap *zaap);
 void			send_change(int sock, t_gfx *gfx, char flag, int obj);
 int				ft_broadcast(t_zaap *zaap, t_player *src, t_player *dest);
 void			add_player_buff(t_player *pl, char *str);
+int				check_elev(t_player *pl, t_zaap *zaap);
+char			*get_inv_gfx(int player, t_zaap *zaap);
+char			*get_lvl_gfx(int sock, t_zaap *zaap);
 
 #endif

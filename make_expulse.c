@@ -22,6 +22,27 @@ static void		gfx_expulse(int sock, t_gfx *gfx)
 	add_to_gfx_buf(gfx, ret);
 }
 
+void			send_expulse_pl(t_player *v, t_player *e)
+{
+	if (e->dir == v->dir)
+		add_player_buff(v, "deplacement 5\n");
+	else if ((e->dir == NORTH && v->dir == SOUTH)
+	|| (e->dir == EAST && v->dir == WEST)
+	|| (e->dir == SOUTH && v->dir == NORTH)
+	|| (e->dir == WEST && v->dir == EAST))
+		add_player_buff(v, "deplacement 1\n");
+	else if ((e->dir == NORTH && v->dir == WEST)
+	|| (e->dir == EAST && v->dir == NORTH)
+	|| (e->dir == SOUTH && v->dir == EAST)
+	|| (e->dir == WEST && v->dir == SOUTH))
+		add_player_buff(v, "deplacement 3\n");
+	else if ((e->dir == NORTH && v->dir == EAST)
+	|| (e->dir == EAST && v->dir == SOUTH)
+	|| (e->dir == SOUTH && v->dir == WEST)
+	|| (e->dir == WEST && v->dir == NORTH))
+		add_player_buff(v, "deplacement 7\n");
+}
+
 int				make_expulse(t_action *act, t_player *pl, t_zaap *zaap)
 {
 	t_caps		*bwscps;
@@ -30,16 +51,18 @@ int				make_expulse(t_action *act, t_player *pl, t_zaap *zaap)
 	(void)act;
 	flag = 0;
 	bwscps = zaap->map[pl->pos_y][pl->pos_x].list;
-	gfx_expulse(pl->sock, zaap->gfx);
+	if (zaap->gfx)
+		gfx_expulse(pl->sock, zaap->gfx);
 	while (bwscps)
 	{
-		if (bwscps->player && (!bwscps->player->a_first
-							   || bwscps->player->a_first->type != ELV))
+		if (bwscps->player && bwscps->player != pl
+		&& (!bwscps->player->a_first || bwscps->player->a_first->type != ELV))
 		{
-			move_player(bwscps->player, zaap);
+			move_player(bwscps->player, zaap, pl->dir);
 			if (zaap->gfx)
 				get_pos_player_gfx(bwscps->player, zaap->gfx);
-			add_player_buff(bwscps->player, "deplacement 5\n");
+			send_expulse_pl(bwscps->player, pl);
+//			add_player_buff(bwscps->player, "deplacement 5\n");
 			flag = 1;
 		}
 		bwscps = bwscps->next;

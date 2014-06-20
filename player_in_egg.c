@@ -94,7 +94,7 @@ void			place_player_in_egg(t_team *t, t_player *n, t_egg *e, t_zaap *z)
 	n->pos_y = e->y;
 	add_player_to_map(n, z);
 	if (z->gfx)
-		send_egg_connect(n->sock, z->gfx);
+		send_egg_connect(e->nb, z->gfx);
 	remove_egg_map(e, z);
 	remove_egg_team(e, t);
 }

@@ -14,7 +14,7 @@
 #include "zaap.h"
 #include "libft.h"
 
-static char		*get_inv_gfx(int player, t_zaap *zaap)
+char			*get_inv_gfx(int player, t_zaap *zaap)
 {
 	char		*tmp;
 	char		*tmp2;
@@ -50,7 +50,7 @@ int				gfx_player_inv(char **tab, t_gfx *gfx, t_zaap *zaap)
 	return (0);
 }
 
-static char		*get_lvl_gfx(int sock, t_zaap *zaap)
+char			*get_lvl_gfx(int sock, t_zaap *zaap)
 {
 	char		*tmp;
 	char		*tmp2;

@@ -83,6 +83,11 @@ void		treat_player(t_player *pl, t_zaap *zaap)
 	int			i;
 
 	i = 0;
+	if (pl->buff_rd[0] == '\n')
+	{
+		ft_strclr(pl->buff_rd);
+		return ;
+	}
 	split = split_n_trim(pl->buff_rd);
 	parse = get_parse_play();
 	while (parse[i].name)
