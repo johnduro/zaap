@@ -38,7 +38,7 @@ static char		*spot_player(t_caps *bwscps, int flag)
 	nb = 0;
 	while (bwscps)
 	{
-		if (bwscps->player != NULL)
+		if (bwscps && bwscps->player != NULL)
 			nb++;
 		bwscps = bwscps->next;
 	}
