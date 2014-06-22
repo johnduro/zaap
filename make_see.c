@@ -17,16 +17,16 @@
 
 static void		ft_addinv(char **s, t_stock *inv)
 {
-    int		bol;
+	int		bol;
 
-    bol = 0;
-    bol = ft_addnstr(s, bol, inv->food, "nourriture");
-    bol = ft_addnstr(s, bol, inv->linemate, "linemate");
-    bol = ft_addnstr(s, bol, inv->deraumere, "deraumere");
-    bol = ft_addnstr(s, bol, inv->sibur, "sibur");
-    bol = ft_addnstr(s, bol, inv->mendiane, "mendiane");
-    bol = ft_addnstr(s, bol, inv->phiras, "phiras");
-    bol = ft_addnstr(s, bol, inv->thystame, "thystame");
+	bol = 0;
+	bol = ft_addnstr(s, bol, inv->food, "nourriture");
+	bol = ft_addnstr(s, bol, inv->linemate, "linemate");
+	bol = ft_addnstr(s, bol, inv->deraumere, "deraumere");
+	bol = ft_addnstr(s, bol, inv->sibur, "sibur");
+	bol = ft_addnstr(s, bol, inv->mendiane, "mendiane");
+	bol = ft_addnstr(s, bol, inv->phiras, "phiras");
+	bol = ft_addnstr(s, bol, inv->thystame, "thystame");
 }
 
 
@@ -38,7 +38,7 @@ static char		*spot_player(t_caps *bwscps, int flag)
 	nb = 0;
 	while (bwscps)
 	{
-		if (bwscps->player)
+		if (bwscps->player != NULL)
 			nb++;
 		bwscps = bwscps->next;
 	}
