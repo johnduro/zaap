@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:50:52 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 17:49:06 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 17:55:19 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,17 @@ static void		send_bc_gfx(int sock, char *str, t_gfx *gfx)
 	add_to_gfx_buf(gfx, ret);
 }
 
-static void		bc_to_pl(t_action *act, t_player *src, t_player *bwspl)
+static void		bc_to_pl(t_action *act, t_player *s, t_player *bwspl, t_zaap *z)
 {
+	int			ret;
+	char		tmp[BUFF + 1];
+
+	ret = -1;
 	while (bwspl)
 	{
-		if (bwspl != src)
+		if (bwspl != s)
 		{
-			ret = ft_broadcast(zaap, src, bwspl);
+			ret = ft_broadcast(z, s, bwspl);
 			sprintf(tmp, "message %d,%s\n", ret, act->buff);
 			add_player_buff(bwspl, tmp);
 		}
@@ -39,16 +43,15 @@ static void		bc_to_pl(t_action *act, t_player *src, t_player *bwspl)
 int				make_broadcast(t_action *act, t_player *pl, t_zaap *zaap)
 {
 	t_team		*bwst;
-	t_player	*bwspl;
-	int			ret;
-	char		tmp[BUFF + 1];
+//	t_player	*bwspl;
+//	int			ret;
 
 	bwst = zaap->teams;
-	ret = -1;
+//	ret = -1;
 	while (bwst)
 	{
 		if (bwst->first)
-			bc_to_pl(act, pl, bwst->first);
+			bc_to_pl(act, pl, bwst->first, zaap);
 		bwst = bwst->next;
 	}
 	if (zaap->gfx)
