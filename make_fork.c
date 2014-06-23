@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:33:54 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 17:04:55 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 17:17:54 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void			add_caps_map(t_caps *caps, int x, int y, t_zaap *zaap)
 	t_caps		*bwscps;
 
 	bwscps = zaap->map[y][x].list;
-	if (bwscps == NULL)
+	if (zaap->map[y][x].list == NULL)
 		zaap->map[y][x].list = caps;
 	else
 	{

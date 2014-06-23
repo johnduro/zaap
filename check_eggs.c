@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 15:36:26 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 16:01:17 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 17:17:34 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ void				check_eggs(t_team *team, t_zaap *zaap)
 	while (bwseg)
 	{
 		keep = bwseg->next;
-		if (bwseg->ok && is_time_yet(bwseg->hatch))
-			rotten_egg(bwseg, team, zaap);
-		else if (!bwseg->ok && is_time_yet(bwseg->hatch))
+		if (!bwseg->ok && is_time_yet(bwseg->hatch))
 			hatching_egg(bwseg, team, zaap);
+		else if (bwseg->ok && is_time_yet(bwseg->hatch))
+			rotten_egg(bwseg, team, zaap);
 		bwseg = keep;
 	}
 }
