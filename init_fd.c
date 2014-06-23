@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 15:20:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/12 15:25:07 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 19:19:38 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void			init_players_fd(t_player *bwspl, t_zaap *zaap)
 {
 	while (bwspl)
 	{
-		if (ft_strlen(bwspl->buff_wr) > 0)
+		if (bwspl->to_send > 0)
 			FD_SET(bwspl->sock, &zaap->fd_wr);
 		else
 			FD_SET(bwspl->sock, &zaap->fd_rd);

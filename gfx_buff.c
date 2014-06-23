@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 16:00:59 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/13 17:32:02 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 19:11:38 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "zaap.h"
 #include "libft.h"
 
-static t_buff	*init_buff(void)
+t_buff			*init_buff(void)
 {
 	t_buff		*new;
 

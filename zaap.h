@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 16:47:47 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 19:26:44 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,12 @@ typedef struct			s_stock
 
 typedef struct	s_team		t_team;
 
+typedef struct			s_buff
+{
+	char				*buff_wr;
+	struct s_buff		*next;
+}						t_buff;
+
 typedef struct			s_player
 {
 	int					sock;
@@ -88,12 +94,14 @@ typedef struct			s_player
 	int					lvl;
 	int					nba;
 	int					alive;
+	int					to_send;
+	t_buff				*list;
 	struct timeval		tick;
 	t_stock				*inventory;
 	t_action			*a_first;
 	t_action			*a_last;
 	t_team				*p_team;
-	char				buff_wr[BUFF + 1];
+//	char				buff_wr[BUFF + 1];
 	char				buff_rd[BUFF + 1];
 	struct s_player		*next;
 	struct s_player		*prev;
@@ -143,12 +151,6 @@ typedef struct			s_map
 	t_stock				*ressources;
 	t_caps				*list;
 }						t_map;
-
-typedef struct			s_buff
-{
-	char				*buff_wr;
-	struct s_buff		*next;
-}						t_buff;
 
 typedef struct			s_gfx
 {
@@ -329,5 +331,6 @@ void			add_player_buff(t_player *pl, char *str);
 int				check_elev(t_player *pl, t_zaap *zaap);
 char			*get_inv_gfx(int player, t_zaap *zaap);
 char			*get_lvl_gfx(int sock, t_zaap *zaap);
+t_buff			*init_buff(void);
 
 #endif

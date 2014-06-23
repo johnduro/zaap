@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:28 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 15:50:23 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 19:27:11 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,26 @@ char	**split_n_trim(char *str)
 
 void	add_player_buff(t_player *pl, char *str)
 {
-	if ((BUFF - (ft_strlen(pl->buff_wr) + ft_strlen(str))) > 1)
-		ft_strcat(pl->buff_wr, str);
+//	if ((BUFF - (ft_strlen(pl->buff_wr) + ft_strlen(str))) > 1)
+//		ft_strcat(pl->buff_wr, str);
+	int		len;
+	t_buff	*bwsb;
+
+	len = ft_strlen(str);
+	pl->to_send += len;
+	if (pl->list == NULL)
+	{
+		pl->list = init_buff();
+		pl->list->buff_wr = ft_strdup(str);
+	}
+	else
+	{
+		bwsb = pl->list;
+		while (bwsb->next)
+			bwsb = bwsb->next;
+		bwsb->next = init_buff();
+		bwsb->next->buff_wr = ft_strdup(str);
+	}
 }
 
 void	send_change(int sock, t_gfx *gfx, char flag, int obj)
