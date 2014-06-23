@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:02:03 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 16:05:39 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 22:53:49 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void		move_player(t_player *pl, t_zaap *zaap, int dir)
 {
 	remove_player_map(pl, zaap);
 	if (dir == NORTH)
-		pl->pos_y = vd((pl->pos_y + 1), zaap->y);
+		pl->pos_y = vd((pl->pos_y - 1), zaap->y);
 	else if (dir == EAST)
 		pl->pos_x = vd((pl->pos_x + 1), zaap->x);
 	else if (dir == SOUTH)
-		pl->pos_y = vd((pl->pos_y - 1), zaap->y);
+		pl->pos_y = vd((pl->pos_y + 1), zaap->y);
 	else if (dir == WEST)
 		pl->pos_x = vd((pl->pos_x - 1), zaap->x);
 	add_player_to_map(pl, zaap);
