@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:50:52 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 16:23:06 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 17:49:06 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void		bc_to_pl(t_action *act, t_player *src, t_player *bwspl)
 		if (bwspl != src)
 		{
 			ret = ft_broadcast(zaap, src, bwspl);
-			sprintf(tmp, "message %d %s\n", ret, act->buff);
+			sprintf(tmp, "message %d,%s\n", ret, act->buff);
 			add_player_buff(bwspl, tmp);
 		}
 		bwspl = bwspl->next;
