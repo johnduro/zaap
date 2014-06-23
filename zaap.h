@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 17:02:42 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 16:06:24 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@
 # define BUFF 8024
 # define BUFF_NAME 128
 
+# define MIN_X 17
+# define MIN_Y 17
+
 # define INV_1 "{nourriture %d, linemate %d, deraumere %d, sibur %d,"
 # define INV_2 " mendiane %d, phiras %d, thystame %d}\n"
 
@@ -55,7 +58,6 @@
 
 typedef struct			s_action
 {
-//	int					nb;
 	struct timeval		finish;
 	int					type;
 	int					lenght;

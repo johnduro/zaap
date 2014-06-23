@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/11 16:10:21 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 18:06:57 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 16:06:07 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void				get_map(t_zaap *zp)
 	int		y;
 
 	y = 0;
-	if (zp->x < 20 || zp->y < 20)
+	if (zp->x < MIN_X || zp->y < MIN_Y)
 		zaap_error(-4);
 	if ((zp->map = (t_map**)malloc(sizeof(t_map*) * zp->y)) == NULL)
 		zaap_error(-2);
