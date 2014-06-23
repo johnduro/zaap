@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:55:10 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 16:57:06 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 16:04:04 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,14 @@ int				ft_direction(t_player *src, t_player *dest)
 	ret = 1;
 	if (dx == dy)
 		ret += 1;
-	if (src->pos_x < dest->pos_x && (dx > dy || (dx == dy && src->pos_y > dest->pos_y)))
+	if (src->pos_x < dest->pos_x
+		&& (dx > dy || (dx == dy && src->pos_y > dest->pos_y)))
 		ret += 2;
-	else if (src->pos_y > dest->pos_y && (dx < dy || (dx == dy && src->pos_x > src->pos_x)))
+	else if (src->pos_y > dest->pos_y
+			 && (dx < dy || (dx == dy && src->pos_x > src->pos_x)))
 		ret += 4;
-	else if (src->pos_x > dest->pos_x && (dx > dy || (dx == dy && src->pos_y < dest->pos_y)))
+	else if (src->pos_x > dest->pos_x
+			&& (dx > dy || (dx == dy && src->pos_y < dest->pos_y)))
 		ret += 6;
 	if (dest->dir == 2)
 		ret = ((ret + 1) % 8) + 1;
@@ -84,7 +87,6 @@ int			ft_broadcast(t_zaap *zaap, t_player *src, t_player *dest)
 
 	if ((min = ft_distance_carre(src, dest)) == 0)
 		return (0);
-//plan = 0;
 	i = 1;
 	while (i <= 8)
 	{
@@ -97,7 +99,6 @@ int			ft_broadcast(t_zaap *zaap, t_player *src, t_player *dest)
 		}
 		i++;
 	}
-//pos2 = ft_find_pos(arg, pos, plan);
 	ret = ft_direction(&plan, dest);
 	return (ret);
 }

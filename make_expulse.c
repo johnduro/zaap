@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:28:46 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 17:04:28 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 15:57:16 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,14 @@ void			send_expulse_pl(t_player *v, t_player *e)
 		add_player_buff(v, "deplacement 7\n");
 }
 
+static void		send_ok(t_player *pl, int flag)
+{
+	if (flag)
+		add_player_buff(pl, "ok\n");
+	else
+		add_player_buff(pl, "ko\n");
+}
+
 int				make_expulse(t_action *act, t_player *pl, t_zaap *zaap)
 {
 	t_caps		*bwscps;
@@ -62,14 +70,10 @@ int				make_expulse(t_action *act, t_player *pl, t_zaap *zaap)
 			if (zaap->gfx)
 				get_pos_player_gfx(bwscps->player, zaap->gfx);
 			send_expulse_pl(bwscps->player, pl);
-//			add_player_buff(bwscps->player, "deplacement 5\n");
 			flag = 1;
 		}
 		bwscps = bwscps->next;
 	}
-	if (flag)
-		add_player_buff(pl, "ok\n");
-	else
-		add_player_buff(pl, "ko\n");
+	send_ok(pl, flag);
 	return (0);
 }

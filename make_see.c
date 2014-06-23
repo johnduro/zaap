@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:15:16 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 17:03:54 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 15:53:54 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static void		ft_addinv(char **s, t_stock *inv)
 	bol = ft_addnstr(s, bol, inv->phiras, "phiras");
 	bol = ft_addnstr(s, bol, inv->thystame, "thystame");
 }
-
 
 static char		*spot_player(t_caps *bwscps, int flag)
 {

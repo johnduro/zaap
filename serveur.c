@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:28 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 18:30:01 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 15:50:23 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,6 @@ char	**split_n_trim(char *str)
 	return (tab);
 }
 
-//int is_time_yet(struct timeval ok);
-//void action_time(struct timeval *res, int time, int lenght);
-
 void	add_player_buff(t_player *pl, char *str)
 {
 	if ((BUFF - (ft_strlen(pl->buff_wr) + ft_strlen(str))) > 1)
@@ -69,24 +66,7 @@ void	send_change(int sock, t_gfx *gfx, char flag, int obj)
 		sprintf(tmp, "pgt #%d %d\n", sock, obj);
 	else
 		sprintf(tmp, "pdr #%d %d\n", sock, obj);
-/*	char	*tmp;
-	char	*tmp2;
-	char	*tmp3;
-
-	tmp = ft_itoa(sock);
-	if (flag)
-		tmp2 = ft_strjoin("pgt #", tmp);
-	else
-		tmp2 = ft_strjoin("pdr #", tmp);
-	free(tmp);
-	tmp = ft_itoa(obj);
-	tmp3 = ft_strjoinwsep(tmp2, tmp, ' ');
-	free(tmp2);
-	free(tmp);
-	tmp = ft_strjoin(tmp3, "\n");
-	free(tmp3);*/
 	add_to_gfx_buf(gfx, tmp);
-//	free(tmp);
 }
 
 int		make_inv(t_action *act, t_player *pl, t_zaap *zaap)
@@ -107,35 +87,35 @@ int		make_inv(t_action *act, t_player *pl, t_zaap *zaap)
 	return (0);
 }
 
-void    ft_strjoin_free(char **s1, char *s2)
+void	ft_strjoin_free(char **s1, char *s2)
 {
-    char    *tmp;
+	char	*tmp;
 
-    tmp = *s1;
-    *s1 = ft_strjoin(tmp, s2);
-    ft_strdel(&tmp);
+	tmp = *s1;
+	*s1 = ft_strjoin(tmp, s2);
+	ft_strdel(&tmp);
 }
 
-int     ft_addnstr(char **s, int bol, int n, char *str)
+int		ft_addnstr(char **s, int bol, int n, char *str)
 {
-    int     i;
-    int     ret;
+	int		i;
+	int		ret;
 
-    i = 0;
-    ret = 0;
-    if (bol && n)
-        ft_strjoin_free(s, " ");
-    else if (bol)
-        ret = 1;
-    while (i < n)
-    {
-        ft_strjoin_free(s, str);
-        i++;
-        if (i !=  n)
-            ft_strjoin_free(s, " ");
-        ret = 1;
-    }
-    return (ret);
+	i = 0;
+	ret = 0;
+	if (bol && n)
+		ft_strjoin_free(s, " ");
+	else if (bol)
+		ret = 1;
+	while (i < n)
+	{
+		ft_strjoin_free(s, str);
+		i++;
+		if (i != n)
+			ft_strjoin_free(s, " ");
+		ret = 1;
+	}
+	return (ret);
 }
 
 int		make_connect(t_action *act, t_player *pl, t_zaap *zaap)
@@ -169,7 +149,33 @@ void	send_failed_elv_gfx(t_player *pl, t_gfx *gfx)
 	add_to_gfx_buf(gfx, tmp);
 }
 
-void	make_game(t_zaap *zaap)
+int		check_win(t_team *team, t_zaap *zaap)
+{
+	t_player	*bwspl;
+	int			count;
+	char		ret[BUFF + 1];
+
+	bwspl = team->first;
+	count = 0;
+	while (bwspl)
+	{
+		if (bwspl && bwspl->lvl == 8)
+			count++;
+		bwspl = bwspl->next;
+	}
+	if (count >= 6)
+	{
+		if (zaap->gfx)
+		{
+			sprintf(ret, "seg %s\n", team->name);
+			add_to_gfx_buf(zaap->gfx, ret);
+		}
+		return (1);
+	}
+	return (0);
+}
+
+int		make_game(t_zaap *zaap)
 {
 	t_team		*bwst;
 	t_player	*bwspl;
@@ -177,7 +183,8 @@ void	make_game(t_zaap *zaap)
 	bwst = zaap->teams;
 	while (bwst)
 	{
-//		check_win(bwst, zaap); //a faire
+		if (check_win(bwst, zaap))
+			return (1);
 		check_eggs(bwst, zaap);
 		bwspl = bwst->first;
 		while (bwspl)
@@ -187,6 +194,7 @@ void	make_game(t_zaap *zaap)
 		}
 		bwst = bwst->next;
 	}
+	return (0);
 }
 
 void	loop_map(t_zaap *zaap)
@@ -197,7 +205,8 @@ void	loop_map(t_zaap *zaap)
 	while (42)
 	{
 		ret = 0;
-		make_game(zaap);
+		if (make_game(zaap))
+			break ;
 		init_fd(zaap);
 		tv.tv_sec = 0;
 		tv.tv_usec = 0;

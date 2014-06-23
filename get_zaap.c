@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/11 16:10:01 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 18:07:09 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 16:02:41 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,31 +33,11 @@ t_stock			*get_inv(void)
 	new->thystame = 0;
 	return (new);
 }
-/*
-int                     rand_a_b(int min, int max)
-{
-	int             ret;
-	int             range;
-	int             buckets;
-	int             limit;
-
-	range = max - min;
-	buckets = RAND_MAX / range;
-	limit = buckets * range;
-
-	while (ret >= limit)
-	{
-		ret = random();
-	}
-	return (min + (ret / buckets));
-}
-*/
 
 int				rand_a_b(int a, int b)
 {
 	return (random() % (b - a) + a);
 }
-
 
 static void		get_sock(t_zaap *zaap, int port)
 {

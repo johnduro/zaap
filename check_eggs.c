@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 15:36:26 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 15:39:43 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 16:01:17 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void			rotten_egg(t_egg *egg, t_team *team, t_zaap *zaap)
 
 static void			hatching_egg(t_egg *egg, t_team *team, t_zaap *zaap)
 {
-	char		ret[BUFF  +1];
+	char		ret[BUFF + 1];
 
 	egg->ok = 1;
 	team->places++;

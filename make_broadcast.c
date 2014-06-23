@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:50:52 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 14:43:04 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 15:57:55 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int				make_broadcast(t_action *act, t_player *pl, t_zaap *zaap)
 		bwst = bwst->next;
 	}
 	if (zaap->gfx)
-		send_bc_gfx(pl->sock,act->buff, zaap->gfx);
+		send_bc_gfx(pl->sock, act->buff, zaap->gfx);
 	add_player_buff(pl, "ok\n");
 	return (0);
 }

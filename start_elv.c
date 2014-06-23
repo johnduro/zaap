@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 15:49:27 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 17:03:19 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 15:52:08 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int					check_lvl_elev(t_caps *bwscps, int lvl, int nb)
 	return (0);
 }
 
-int			check_elev(t_player *pl, t_zaap *zaap) //faire des pointeur sur fonction ?
+int			check_elev(t_player *pl, t_zaap *zaap)
 {
 	int		ret;
 
@@ -74,7 +74,6 @@ int			check_elev(t_player *pl, t_zaap *zaap) //faire des pointeur sur fonction ?
 		ret = -1;
 	return (ret);
 }
-
 
 static void			send_start_elv_gfx(t_player *pl, t_zaap *zaap)
 {
@@ -104,7 +103,6 @@ static void			send_start_elv_gfx(t_player *pl, t_zaap *zaap)
 	add_to_gfx_buf(zaap->gfx, tmp3);
 	ft_free_all_four(tmp3, tmp2, NULL, NULL);
 }
-
 
 void					start_elev(t_action *act, t_player *pl, t_zaap *zaap)
 {

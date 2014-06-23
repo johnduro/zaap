@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/14 18:30:23 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/14 18:39:42 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 15:52:39 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int				gfx_player_lvl(char **tab, t_gfx *gfx, t_zaap *zaap)
 	free(ret);
 	return (0);
 }
-
 
 int				gfx_player_pos(char **tab, t_gfx *gfx, t_zaap *zaap)
 {

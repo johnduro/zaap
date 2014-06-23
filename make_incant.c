@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:31:40 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 16:32:49 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 15:54:26 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,8 @@ void		send_suc_elv_gfx(t_player *pl, t_gfx *gfx)
 int			make_incant(t_action *act, t_player *pl, t_zaap *zaap)
 {
 	static struct timeval		ref;
-//	static int					x = -1;
-//	static int					y = -1;
 	char						tmp[BUFF + 1];
 
-//	if (check_elev(pl, zaap))
 	if (ref.tv_sec != act->finish.tv_sec || ref.tv_usec != act->finish.tv_usec)
 	{
 		ref.tv_sec = act->finish.tv_sec;

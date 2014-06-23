@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 15:41:31 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 20:37:25 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 15:53:08 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,6 @@ static t_pac		*get_parse_make(void)
 	};
 	return (parse);
 }
-/*
-void				prep_next_act(t_action *act, t_player *pl, t_zaap *zaap)
-{
-	if (act->next == NULL)
-	{
-		pl->a_first = NULL;
-		pl->a_last = NULL;
-	}
-	else if (act->next)
-	{
-		pl->a_first = act->next;
-		pl->a_first->prev = NULL;
-		action_time(&(pl->a_first->finish), zaap->time, pl->a_first->lenght);
-		if (pl->a_first->type == FRK && zaap->gfx)
-			send_hatching_gfx(pl->sock, zaap->gfx);
-		else if (pl->a_first->type == ELV)
-			start_elev(pl->a_first, pl, zaap);
-	}
-	free(act);
-}
-*/
 
 void				prep_next_act(t_action *act, t_player *pl, t_zaap *zaap)
 {
