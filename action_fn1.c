@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/16 17:56:32 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/16 20:46:55 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 14:47:50 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int				player_inv(char **tab, t_player *pl, t_zaap *zaap)
 
 	if (pl->nba >= 10)
 		return (-1);
-	action = init_action(INV, tab[1], 7);
+	action = init_action(INV, tab[1], 1);
 	add_action_player(action, pl, zaap);
 	return (0);
 }
