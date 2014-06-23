@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:55:10 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 16:04:04 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 16:16:42 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ int				ft_direction(t_player *src, t_player *dest)
 		&& (dx > dy || (dx == dy && src->pos_y > dest->pos_y)))
 		ret += 2;
 	else if (src->pos_y > dest->pos_y
-			 && (dx < dy || (dx == dy && src->pos_x > src->pos_x)))
+		&& (dx < dy || (dx == dy && src->pos_x > src->pos_x)))
 		ret += 4;
 	else if (src->pos_x > dest->pos_x
-			&& (dx > dy || (dx == dy && src->pos_y < dest->pos_y)))
+		&& (dx > dy || (dx == dy && src->pos_y < dest->pos_y)))
 		ret += 6;
 	if (dest->dir == 2)
 		ret = ((ret + 1) % 8) + 1;
@@ -77,7 +77,7 @@ int				ft_direction(t_player *src, t_player *dest)
 	return (ret);
 }
 
-int			ft_broadcast(t_zaap *zaap, t_player *src, t_player *dest)
+int				ft_broadcast(t_zaap *zaap, t_player *src, t_player *dest)
 {
 	t_player	plan;
 	t_player	tmp;

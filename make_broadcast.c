@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:50:52 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 15:57:55 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 16:23:06 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,20 @@ static void		send_bc_gfx(int sock, char *str, t_gfx *gfx)
 	add_to_gfx_buf(gfx, ret);
 }
 
+static void		bc_to_pl(t_action *act, t_player *src, t_player *bwspl)
+{
+	while (bwspl)
+	{
+		if (bwspl != src)
+		{
+			ret = ft_broadcast(zaap, src, bwspl);
+			sprintf(tmp, "message %d %s\n", ret, act->buff);
+			add_player_buff(bwspl, tmp);
+		}
+		bwspl = bwspl->next;
+	}
+}
+
 int				make_broadcast(t_action *act, t_player *pl, t_zaap *zaap)
 {
 	t_team		*bwst;
@@ -33,17 +47,8 @@ int				make_broadcast(t_action *act, t_player *pl, t_zaap *zaap)
 	ret = -1;
 	while (bwst)
 	{
-		bwspl = bwst->first;
-		while (bwspl)
-		{
-			if (bwspl != pl)
-			{
-				ret = ft_broadcast(zaap, pl, bwspl);
-				sprintf(tmp, "message %d %s\n", ret, act->buff);
-				add_player_buff(bwspl, tmp);
-			}
-			bwspl = bwspl->next;
-		}
+		if (bwst->first)
+			bc_to_pl(act, pl, bwst->first);
 		bwst = bwst->next;
 	}
 	if (zaap->gfx)

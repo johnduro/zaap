@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/11 16:09:36 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/11 18:49:56 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 16:17:56 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "zaap.h"
 #include "libft.h"
 
-static void	print_case(t_map yolo, int nb, int x, int y)
+static void		print_case(t_map yolo, int nb, int x, int y)
 {
 	printf("Case n*%d pos[%d][%d]\n", nb, x, y);
 	printf("Linemate %d, ", yolo.ressources->linemate);
@@ -25,7 +25,7 @@ static void	print_case(t_map yolo, int nb, int x, int y)
 	printf("thystame %d\n", yolo.ressources->thystame);
 }
 
-static void	debug_map(t_map **map, t_zaap *zaap)
+static void		debug_map(t_map **map, t_zaap *zaap)
 {
 	int	i;
 	int	j;
@@ -39,7 +39,6 @@ static void	debug_map(t_map **map, t_zaap *zaap)
 		j = 0;
 		while (j < zaap->x)
 		{
-//			printf("i=%d, j=%d\n", i, j);
 			print_case(map[i][j], all, i, j);
 			all++;
 			j++;
@@ -48,7 +47,7 @@ static void	debug_map(t_map **map, t_zaap *zaap)
 	}
 }
 
-static void	print_teams(t_team *team)
+static void		print_teams(t_team *team)
 {
 	int	nb;
 
@@ -61,7 +60,7 @@ static void	print_teams(t_team *team)
 	}
 }
 
-void	debug_1(t_zaap *zaap)
+void			debug_1(t_zaap *zaap)
 {
 	printf("Sock = %d\n", zaap->sock);
 	printf("x = %d || y = %d\n", zaap->x, zaap->y);
