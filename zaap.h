@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 16:06:24 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 16:47:47 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ typedef struct			s_player
 	int					nba;
 	int					alive;
 	struct timeval		tick;
-//	int					free; //??
 	t_stock				*inventory;
 	t_action			*a_first;
 	t_action			*a_last;

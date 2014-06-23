@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 16:59:23 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/14 17:56:34 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 17:04:01 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void			remove_dat_caps(t_caps *bwscps, t_egg *egg, t_zaap *zaap)
 	else if (bwscps->prev == NULL && bwscps->next)
 	{
 		zaap->map[egg->y][egg->x].list = bwscps->next;
-		bwscps->prev = NULL;
+		bwscps->next->prev = NULL;
 	}
 	else if (bwscps->prev && bwscps->next)
 	{
@@ -41,7 +41,7 @@ void			remove_egg_map(t_egg *egg, t_zaap *zaap)
 	bwscps = zaap->map[egg->y][egg->x].list;
 	while (bwscps)
 	{
-		if (bwscps->egg == egg)
+		if (bwscps && bwscps->egg && bwscps->egg == egg)
 		{
 			remove_dat_caps(bwscps, egg, zaap);
 			return ;
