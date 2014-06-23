@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 17:08:39 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/16 21:02:43 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 17:36:23 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void			remove_caps_player(t_caps *bwscps, t_player *pl, t_zaap *zaap)
 	else if (bwscps->prev == NULL && bwscps->next)
 	{
 		zaap->map[pl->pos_y][pl->pos_x].list = bwscps->next;
-		bwscps->prev = NULL;
+		bwscps->next->prev = NULL;
 	}
 	else if (bwscps->prev && bwscps->next)
 	{
