@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:07:30 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/19 21:22:04 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 21:37:12 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "zaap.h"
 #include "libft.h"
 
-static int		change_linemate(t_player *pl, t_zaap *zaap, char flag)
+int				change_linemate(t_player *pl, t_zaap *zaap, char flag)
 {
 	t_stock		*map;
 	t_stock		*inv;

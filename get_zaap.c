@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/11 16:10:01 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 16:02:41 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 19:59:04 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static void		init_zaap(t_zaap *zaap)
 	zaap->wait = NULL;
 	zaap->teams = NULL;
 	zaap->gfx = NULL;
+	zaap->inc = NULL;
 }
 
 t_zaap			*get_zaap(char **arg)

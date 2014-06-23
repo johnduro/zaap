@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:55:10 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 16:16:42 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 22:26:01 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int				ft_direction(t_player *src, t_player *dest)
 		&& (dx > dy || (dx == dy && src->pos_y > dest->pos_y)))
 		ret += 2;
 	else if (src->pos_y > dest->pos_y
-		&& (dx < dy || (dx == dy && src->pos_x > src->pos_x)))
+		&& (dx < dy || (dx == dy && src->pos_x > dest->pos_x)))
 		ret += 4;
 	else if (src->pos_x > dest->pos_x
 		&& (dx > dy || (dx == dy && src->pos_y < dest->pos_y)))
@@ -79,7 +79,8 @@ int				ft_direction(t_player *src, t_player *dest)
 
 int				ft_broadcast(t_zaap *zaap, t_player *src, t_player *dest)
 {
-	t_player	plan;
+//	t_player	plan;
+	int			plan;
 	t_player	tmp;
 	int			i;
 	int			min;
@@ -88,6 +89,7 @@ int				ft_broadcast(t_zaap *zaap, t_player *src, t_player *dest)
 	if ((min = ft_distance_carre(src, dest)) == 0)
 		return (0);
 	i = 1;
+	plan = 0;
 	while (i <= 8)
 	{
 		tmp = ft_find_pos(zaap, src, i);
@@ -95,10 +97,11 @@ int				ft_broadcast(t_zaap *zaap, t_player *src, t_player *dest)
 		if (ret < min)
 		{
 			min = ret;
-			plan = tmp;
+			plan = i;
 		}
 		i++;
 	}
-	ret = ft_direction(&plan, dest);
+	tmp = ft_find_pos(zaap, src, plan);
+	ret = ft_direction(&tmp, dest);
 	return (ret);
 }

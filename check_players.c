@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 16:11:37 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 19:27:40 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 19:59:37 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void			remove_player_buf(t_player *pl)
 	pl->list = NULL;
 }
 
-//void                    remove_player_map(t_player *player, t_zaap *zaap)
 void			remove_pl(t_player *pl, t_team *team, t_zaap *zaap)
 {
 	remove_player_buf(pl);
@@ -89,10 +88,11 @@ static void		write_player(t_player *player, t_zaap *zaap, t_team *team)
 		to_send = tmp;
 		bwsbuf = bwsbuf->next;
 	}
-	send(player->sock, to_send, player->to_send, 0); //retour ??
+	if ((send(player->sock, to_send, player->to_send, 0)) == -1)
+		printf("SENDING FAILED\n");//retour ??
+	printf("sending to player: %d\n-->%s", player->sock, to_send);
 	free(to_send);
 	remove_player_buf(player);
-//	ft_strclr(player->buff_wr);
 	if (!(player->alive))
 		remove_pl(player, team, zaap);
 }

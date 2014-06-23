@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 19:26:44 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 21:55:32 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 # define SOUTH 3
 # define WEST 4
 
-# define START_FOOD 10
+# define START_FOOD 1000000000
 
 # define BUFF 8024
 # define BUFF_NAME 128
@@ -160,6 +160,16 @@ typedef struct			s_gfx
 	t_buff				*list;
 }						t_gfx;
 
+typedef struct			s_inc
+{
+	struct timeval		ref;
+	int					x;
+	int					y;
+	int					nb;
+	struct s_inc		*next;
+	struct s_inc		*prev;
+}						t_inc;
+
 typedef struct			s_zaap
 {
 	int					sock;
@@ -173,6 +183,7 @@ typedef struct			s_zaap
 	t_map				**map;
 	t_temp				*wait;
 	t_team				*teams;
+	t_inc				*inc;
 	t_gfx				*gfx;
 }						t_zaap;
 
@@ -311,6 +322,7 @@ int				change_phiras(t_player *pl, t_zaap *zaap, char flag);
 int				change_mendiane(t_player *pl, t_zaap *zaap, char flag);
 int				change_sibur(t_player *pl, t_zaap *zaap, char flag);
 int				change_deraumere(t_player *pl, t_zaap *zaap, char flag);
+int				change_linemate(t_player *pl, t_zaap *zaap, char flag);
 int				make_see(t_action *act, t_player *pl, t_zaap *zaap);
 int				ft_addnstr(char **s, int bol, int n, char *str);
 void			ft_strjoin_free(char **s1, char *s2);

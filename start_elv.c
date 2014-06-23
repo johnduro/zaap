@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 15:49:27 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 15:52:08 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/23 21:44:23 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "zaap.h"
 #include "libft.h"
 
-static void			add_action_front(t_action *act, t_player *pl)
+static void		add_action_front(t_action *act, t_player *pl)
 {
 	t_action	*cpy;
 
@@ -35,7 +35,7 @@ static void			add_action_front(t_action *act, t_player *pl)
 	}
 }
 
-int					check_lvl_elev(t_caps *bwscps, int lvl, int nb)
+int				check_lvl_elev(t_caps *bwscps, int lvl, int nb)
 {
 	int		count;
 
@@ -51,7 +51,7 @@ int					check_lvl_elev(t_caps *bwscps, int lvl, int nb)
 	return (0);
 }
 
-int			check_elev(t_player *pl, t_zaap *zaap)
+int				check_elev(t_player *pl, t_zaap *zaap)
 {
 	int		ret;
 
@@ -75,7 +75,7 @@ int			check_elev(t_player *pl, t_zaap *zaap)
 	return (ret);
 }
 
-static void			send_start_elv_gfx(t_player *pl, t_zaap *zaap)
+static void		send_start_elv_gfx(t_player *pl, t_zaap *zaap)
 {
 	char		tmp[BUFF + 1];
 	char		*tmp2;
@@ -104,9 +104,65 @@ static void			send_start_elv_gfx(t_player *pl, t_zaap *zaap)
 	ft_free_all_four(tmp3, tmp2, NULL, NULL);
 }
 
-void					start_elev(t_action *act, t_player *pl, t_zaap *zaap)
+t_inc			*init_inc(int count, struct timeval tm)
+{
+	t_inc		*new;
+
+	if ((new = (t_inc *)malloc(sizeof(*new))) == NULL)
+		zaap_error(-2);
+//	new->x = pl->pos_x;
+//	new->y = pl->pos_y;
+//	new->lvl = pl->lvl;
+	new->nb = count;
+	new->ref.tv_sec = tm.tv_sec;
+	new->ref.tv_usec = tm.tv_usec;
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
+}
+
+void			add_new_inc(t_action *act, t_zaap *z, int c)
+{
+	t_inc		*inc;
+	t_inc		*bwsi;
+
+	inc = init_inc(c, act->finish);
+	if (z->inc == NULL)
+		z->inc = inc;
+	else
+	{
+		bwsi = z->inc;
+		while (bwsi->next)
+			bwsi = bwsi->next;
+		bwsi->next = inc;
+		inc->prev = bwsi;
+	}
+}
+
+void			add_elev(t_action *act, t_player *pl, t_zaap *zaap)
 {
 	t_caps		*bwscps;
+	int			count;
+
+	count = 0;
+	bwscps = zaap->map[pl->pos_y][pl->pos_x].list;
+	while (bwscps)
+	{
+		if (bwscps->player && (bwscps->player->lvl == pl->lvl))
+		{
+			count++;
+			add_player_buff(bwscps->player, "elevation en cours\n");
+			if (bwscps->player != pl)
+				add_action_front(act, bwscps->player);
+		}
+		bwscps = bwscps->next;
+	}
+	add_new_inc(act, zaap, count);
+}
+
+void			start_elev(t_action *act, t_player *pl, t_zaap *zaap)
+{
+//	t_caps		*bwscps;
 
 	if (zaap->gfx)
 		send_start_elv_gfx(pl, zaap);
@@ -119,7 +175,8 @@ void					start_elev(t_action *act, t_player *pl, t_zaap *zaap)
 	}
 	else
 	{
-		bwscps = zaap->map[pl->pos_y][pl->pos_x].list;
+		add_elev(act, pl, zaap);
+/*		bwscps = zaap->map[pl->pos_y][pl->pos_x].list;
 		while (bwscps)
 		{
 			if (bwscps->player && (bwscps->player->lvl == pl->lvl))
@@ -129,6 +186,6 @@ void					start_elev(t_action *act, t_player *pl, t_zaap *zaap)
 					add_action_front(act, bwscps->player);
 			}
 			bwscps = bwscps->next;
-		}
+			}*/
 	}
 }
