@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/24 17:37:10 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 18:02:51 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,13 @@ typedef struct			s_zaap
 	t_inc				*inc;
 	t_gfx				*gfx;
 }						t_zaap;
+typedef struct			s_fill
+{
+	int					x;
+	int					y;
+	int					min;
+	int					max;
+}						t_fill;
 
 typedef int		(*t_fn)(char **, t_gfx *, t_zaap *);
 

@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 15:49:27 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/24 17:36:18 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 18:20:30 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void		add_action_front(t_action *act, t_player *pl)
 		pl->a_first->prev = cpy;
 		pl->a_first = cpy;
 	}
+	(pl->nba)++;
 }
 
 int				check_lvl_elev(t_caps *bwscps, int lvl, int nb)

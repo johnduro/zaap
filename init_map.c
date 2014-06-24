@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/11 16:10:21 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 16:06:07 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 18:27:16 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,14 +96,6 @@ void				add_res(t_stock *inv, int nb, int type)
 		inv->thystame += nb;
 }
 
-typedef struct		s_fill
-{
-	int				x;
-	int				y;
-	int				min;
-	int				max;
-}					t_fill;
-
 void				line_ns(t_fill f, int mod, t_zaap *zp, int type)
 {
 	int		nb;
@@ -164,27 +156,22 @@ void				line_we(t_fill f, int mod, t_zaap *zp, int type)
 	}
 }
 
-void				xplosion(int x, int y, t_zaap *zp, int type)
+void				xplosion(t_fill f, t_zaap *zp, int type)
 {
 	int		mod;
-	t_fill	fill;
 
 	mod = 1;
-	fill.min = 5;
-	fill.max = 10;
-	fill.x = x;
-	fill.y = y;
-	add_res(zp->map[y][x].ressources, rand_a_b(fill.min, fill.max), type);
-	while (mod <= 10)
+	add_res(zp->map[f.y][f.x].ressources, rand_a_b(f.min, f.max), type);
+	while (mod <= 7)
 	{
-		line_ns(fill, mod, zp, type);
-		line_ew(fill, mod, zp, type);
-		line_sn(fill, mod, zp, type);
-		line_we(fill, mod, zp, type);
-		if (fill.min)
-			fill.min--;
-		if (fill.max > 4)
-			fill.max--;
+		line_ns(f, mod, zp, type);
+		line_ew(f, mod, zp, type);
+		line_sn(f, mod, zp, type);
+		line_we(f, mod, zp, type);
+		if (f.min)
+			f.min--;
+		if (f.max > 2)
+			f.max--;
 		mod++;
 	}
 }
@@ -192,15 +179,20 @@ void				xplosion(int x, int y, t_zaap *zp, int type)
 void				mine_xplode(t_zaap *zp)
 {
 	int			type;
-	int			x;
-	int			y;
+	t_fill		fill;
 
+	fill.min = 5;
+	fill.max = 10;
 	type = 1;
 	while (type < 7)
 	{
-		x = rand_a_b(0, zp->x);
-		y = rand_a_b(0, zp->y);
-		xplosion(x, y, zp, type);
+		fill.x = rand_a_b(0, zp->x);
+		fill.y = rand_a_b(0, zp->y);
+		xplosion(fill, zp, type);
+		if (fill.min)
+			fill.min--;
+		if (fill.max > 5)
+			fill.max--;
 		type++;
 	}
 }
@@ -210,7 +202,7 @@ void				fill_map(t_zaap *zp)
 	int		nbtm;
 
 	nbtm = 0;
-	nbtm = get_nb_team(zp->teams);//a faire
+	nbtm = get_nb_team(zp->teams);
 	while (nbtm)
 	{
 		mine_xplode(zp);
@@ -229,7 +221,8 @@ void				get_map(t_zaap *zp)
 		zaap_error(-2);
 	while (y < zp->y)
 	{
-		zp->map[y] = (t_map*)malloc(sizeof(t_map) * zp->x);
+		if ((zp->map[y] = (t_map*)malloc(sizeof(t_map) * zp->x)) == NULL)
+			zaap_error(-2);
 		y++;
 	}
 	init_map(zp);

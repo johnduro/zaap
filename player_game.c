@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 15:41:31 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 15:53:08 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 18:22:39 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void				player_game(t_player *pl, t_zaap *zaap)
 		if (is_time_yet(pl->a_first->finish))
 		{
 			make_action(pl->a_first, pl, zaap);
-			if (pl->nba)
+			if (pl->nba > 0)
 				pl->nba--;
 		}
 	}
