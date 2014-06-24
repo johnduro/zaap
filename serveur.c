@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:28 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/24 19:26:02 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 19:32:42 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,11 @@ void	regen_map(t_zaap *zp)
 		{
 			inv = zp->map[i][j].ressources;
 			if (inv->food == 0)
+			{
 				inv->food = rand_a_b(1, 11);
+				if (zp->gfx)
+					send_spot(zp->map[i][j], zp->gfx, i, j);
+			}
 			j++;
 		}
 		i++;
