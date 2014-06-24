@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:31:40 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 21:38:29 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 16:14:55 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,7 @@ int			end_of_inc(t_action *act, t_player *pl, t_zaap *zaap)
 
 	ret = 0;
 	inc = find_inc(act->finish, zaap);
-	if (!inc)
+	if (inc == NULL)
 		return (-1);
 	(inc->nb)--;
 	ret = check_elev(pl, zaap);
