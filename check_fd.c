@@ -92,7 +92,8 @@ void				check_fd(int ret, t_zaap *zaap)
 	bwst = zaap->teams;
 	if (FD_ISSET(zaap->sock, &zaap->fd_rd))
 		accept_client(zaap);
-	check_gfx(zaap, zaap->gfx);
+	if (zaap->gfx)
+		check_gfx(zaap, zaap->gfx);
 	while (bwst)
 	{
 		check_players_fd(bwst->first, zaap, bwst);
