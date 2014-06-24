@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 15:49:27 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 21:44:23 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 17:36:18 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,8 @@ t_inc			*init_inc(int count, struct timeval tm)
 
 	if ((new = (t_inc *)malloc(sizeof(*new))) == NULL)
 		zaap_error(-2);
-//	new->x = pl->pos_x;
-//	new->y = pl->pos_y;
-//	new->lvl = pl->lvl;
 	new->nb = count;
+	new->check = -2;
 	new->ref.tv_sec = tm.tv_sec;
 	new->ref.tv_usec = tm.tv_usec;
 	new->next = NULL;
@@ -162,8 +160,6 @@ void			add_elev(t_action *act, t_player *pl, t_zaap *zaap)
 
 void			start_elev(t_action *act, t_player *pl, t_zaap *zaap)
 {
-//	t_caps		*bwscps;
-
 	if (zaap->gfx)
 		send_start_elv_gfx(pl, zaap);
 	if (check_elev(pl, zaap))
@@ -174,18 +170,5 @@ void			start_elev(t_action *act, t_player *pl, t_zaap *zaap)
 			send_failed_elv_gfx(pl, zaap->gfx);
 	}
 	else
-	{
 		add_elev(act, pl, zaap);
-/*		bwscps = zaap->map[pl->pos_y][pl->pos_x].list;
-		while (bwscps)
-		{
-			if (bwscps->player && (bwscps->player->lvl == pl->lvl))
-			{
-				add_player_buff(bwscps->player, "elevation en cours\n");
-				if (bwscps->player != pl)
-					add_action_front(act, bwscps->player);
-			}
-			bwscps = bwscps->next;
-			}*/
-	}
 }

@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/24 16:16:13 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 17:37:10 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 # define SOUTH 3
 # define WEST 4
 
-# define START_FOOD 1000000
+# define START_FOOD 10
 
 # define BUFF 8024
 # define BUFF_NAME 128
@@ -163,8 +163,7 @@ typedef struct			s_gfx
 typedef struct			s_inc
 {
 	struct timeval		ref;
-	int					x;
-	int					y;
+	int					check;
 	int					nb;
 	struct s_inc		*next;
 	struct s_inc		*prev;

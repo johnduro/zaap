@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:55:10 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 22:48:56 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 17:35:39 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,6 @@ int				ft_direction(t_player *src, t_player *dest)
 
 	dx = (src->pos_x - dest->pos_x) * (src->pos_x - dest->pos_x);
 	dy = (src->pos_y - dest->pos_y) * (src->pos_y - dest->pos_y);
-	printf("dx=%d\ndy=%d\n", dx, dy);
-	printf("pos src x = %d; y = %d\n", src->pos_x, src->pos_y);
-	printf("pos dest x = %d; y = %d; dir = %d\n", dest->pos_x, dest->pos_y, dest->dir);
 	ret = 1;
 	if (dx == dy)
 		ret += 1;
@@ -83,7 +80,6 @@ int				ft_direction(t_player *src, t_player *dest)
 
 int				ft_broadcast(t_zaap *zaap, t_player *src, t_player *dest)
 {
-//	t_player	plan;
 	int			plan;
 	t_player	tmp;
 	int			i;

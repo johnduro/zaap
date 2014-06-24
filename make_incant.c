@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:31:40 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/24 16:14:55 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 17:30:29 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,28 +267,27 @@ void		dbz_fn(t_player *pl, t_zaap *zaap)
 int			end_of_inc(t_action *act, t_player *pl, t_zaap *zaap)
 {
 	t_inc	*inc;
-	int		ret;
 
-	ret = 0;
 	inc = find_inc(act->finish, zaap);
 	if (inc == NULL)
 		return (-1);
 	(inc->nb)--;
-	ret = check_elev(pl, zaap);
+	if (inc->check == -2)
+		inc->check = check_elev(pl, zaap);
 	if (inc->nb == 0)
 	{
 		if (zaap->gfx)
 		{
-			if (ret)
+			if (inc->check)
 				send_failed_elv_gfx(pl, zaap->gfx);
 			else
 				send_suc_elv_gfx(pl, zaap->gfx);
 		}
-		if (!ret)
+		if (!(inc->check))
 			dbz_fn(pl, zaap);
 		remove_inc(inc, zaap);
 	}
-	return (ret);
+	return (inc->check);
 }
 
 int			make_incant(t_action *act, t_player *pl, t_zaap *zaap)
