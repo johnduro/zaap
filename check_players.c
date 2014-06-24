@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 16:11:37 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 19:59:37 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 18:50:52 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static void		read_player(t_player *pl, t_zaap *zaap, t_team *t)
 				return ;
 			}
 			pl->buff_rd[ret] = '\0';
-			printf("Player %d in team %s: %s", pl->sock, t->name, pl->buff_rd);
+			printf("Player %d[%d][%s]: %s", pl->sock, pl->nba, t->name, pl->buff_rd);//n
 			treat_player(pl, zaap);
 		}
 	}
