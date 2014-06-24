@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 16:41:27 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 19:28:41 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 20:48:30 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,29 +42,10 @@ static t_player		*init_player(int sock, t_zaap *zaap)
 	new->inventory->food = START_FOOD;
 	new->a_first = NULL;
 	new->a_last = NULL;
-//	new->buff_wr[0] = '\0';
 	new->buff_rd[0] = '\0';
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
-}
-
-t_team				*check_teams(char *str, t_team *bwst)
-{
-	char	*trim;
-
-	trim = ft_strtrim(str);
-	while (bwst)
-	{
-		if (!ft_strcmp(trim, bwst->name))
-		{
-			free(trim);
-			return (bwst);
-		}
-		bwst = bwst->next;
-	}
-	free(trim);
-	return (NULL);
 }
 
 static void			set_new_msg(t_player *pl, t_zaap *zaap, t_team *team)
@@ -88,7 +69,6 @@ static void			set_new_msg(t_player *pl, t_zaap *zaap, t_team *team)
 	free(tmp);
 	ret = ft_strjoin(tmp2, "\n");
 	add_player_buff(pl, ret);
-//	ft_strcat(pl->buff_wr, ret);
 	free(tmp2);
 	free(ret);
 }

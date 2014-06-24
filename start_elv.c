@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 15:49:27 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/24 18:20:30 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 20:56:29 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,14 @@
 #include <stdlib.h>
 #include "zaap.h"
 #include "libft.h"
+
+void			send_failed_elv_gfx(t_player *pl, t_gfx *gfx)
+{
+	char		tmp[BUFF + 1];
+
+	sprintf(tmp, "pie %d %d 0\n", pl->pos_x, pl->pos_y);
+	add_to_gfx_buf(gfx, tmp);
+}
 
 static void		add_action_front(t_action *act, t_player *pl)
 {
@@ -34,46 +42,6 @@ static void		add_action_front(t_action *act, t_player *pl)
 		pl->a_first = cpy;
 	}
 	(pl->nba)++;
-}
-
-int				check_lvl_elev(t_caps *bwscps, int lvl, int nb)
-{
-	int		count;
-
-	count = 0;
-	while (bwscps)
-	{
-		if (bwscps->player && bwscps->player->lvl == lvl)
-			count++;
-		bwscps = bwscps->next;
-	}
-	if (count < nb)
-		return (-1);
-	return (0);
-}
-
-int				check_elev(t_player *pl, t_zaap *zaap)
-{
-	int		ret;
-
-	ret = -1;
-	if (pl->lvl == 1)
-		ret = check_lvl1(pl, zaap);
-	else if (pl->lvl == 2)
-		ret = check_lvl2(pl, zaap);
-	else if (pl->lvl == 3)
-		ret = check_lvl3(pl, zaap);
-	else if (pl->lvl == 4)
-		ret = check_lvl4(pl, zaap);
-	else if (pl->lvl == 5)
-		ret = check_lvl5(pl, zaap);
-	else if (pl->lvl == 6)
-		ret = check_lvl6(pl, zaap);
-	else if (pl->lvl == 7)
-		ret = check_lvl7(pl, zaap);
-	else if (pl->lvl == 8)
-		ret = -1;
-	return (ret);
 }
 
 static void		send_start_elv_gfx(t_player *pl, t_zaap *zaap)
@@ -103,39 +71,6 @@ static void		send_start_elv_gfx(t_player *pl, t_zaap *zaap)
 	ft_strjoin_free(&tmp3, "\n");
 	add_to_gfx_buf(zaap->gfx, tmp3);
 	ft_free_all_four(tmp3, tmp2, NULL, NULL);
-}
-
-t_inc			*init_inc(int count, struct timeval tm)
-{
-	t_inc		*new;
-
-	if ((new = (t_inc *)malloc(sizeof(*new))) == NULL)
-		zaap_error(-2);
-	new->nb = count;
-	new->check = -2;
-	new->ref.tv_sec = tm.tv_sec;
-	new->ref.tv_usec = tm.tv_usec;
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
-}
-
-void			add_new_inc(t_action *act, t_zaap *z, int c)
-{
-	t_inc		*inc;
-	t_inc		*bwsi;
-
-	inc = init_inc(c, act->finish);
-	if (z->inc == NULL)
-		z->inc = inc;
-	else
-	{
-		bwsi = z->inc;
-		while (bwsi->next)
-			bwsi = bwsi->next;
-		bwsi->next = inc;
-		inc->prev = bwsi;
-	}
 }
 
 void			add_elev(t_action *act, t_player *pl, t_zaap *zaap)

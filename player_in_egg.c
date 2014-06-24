@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 16:59:23 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 17:04:01 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 20:53:01 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,6 @@
 #include <stdio.h>
 #include "zaap.h"
 #include "libft.h"
-
-void			remove_dat_caps(t_caps *bwscps, t_egg *egg, t_zaap *zaap)
-{
-	if (bwscps->prev == NULL && bwscps->next == NULL)
-		zaap->map[egg->y][egg->x].list = NULL;
-	else if (bwscps->prev == NULL && bwscps->next)
-	{
-		zaap->map[egg->y][egg->x].list = bwscps->next;
-		bwscps->next->prev = NULL;
-	}
-	else if (bwscps->prev && bwscps->next)
-	{
-		bwscps->next->prev = bwscps->prev;
-		bwscps->prev->next = bwscps->next;
-	}
-	else if (bwscps->prev && bwscps->next == NULL)
-		bwscps->prev->next = NULL;
-	free(bwscps);
-}
 
 void			remove_egg_map(t_egg *egg, t_zaap *zaap)
 {

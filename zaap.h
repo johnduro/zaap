@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/24 19:14:55 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 20:57:41 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,5 +351,25 @@ int				check_elev(t_player *pl, t_zaap *zaap);
 char			*get_inv_gfx(int player, t_zaap *zaap);
 char			*get_lvl_gfx(int sock, t_zaap *zaap);
 t_buff			*init_buff(void);
+void			remove_player_buf(t_player *pl);
+void			fill_map(t_zaap *zp);
+void			add_res(t_stock *inv, int nb, int type);
+void			line_ns(t_fill f, int mod, t_zaap *zp, int type);
+void			line_ew(t_fill f, int mod, t_zaap *zp, int type);
+void			line_sn(t_fill f, int mod, t_zaap *zp, int type);
+void			line_we(t_fill f, int mod, t_zaap *zp, int type);
+void			dbz_fn(t_player *pl, t_zaap *zaap);
+void			dbz_lvl5(int x, int y, t_zaap *zaap);
+void			dbz_lvl6(int x, int y, t_zaap *zaap);
+void			dbz_lvl7(int x, int y, t_zaap *zaap);
+void			dbz_lin(int nb, int x, int y, t_zaap *zaap);
+void			dbz_der(int nb, int x, int y, t_zaap *zaap);
+void			dbz_sib(int nb, int x, int y, t_zaap *zaap);
+void			dbz_men(int nb, int x, int y, t_zaap *zaap);
+void			dbz_phi(int nb, int x, int y, t_zaap *zaap);
+void			dbz_thy(int nb, int x, int y, t_zaap *zaap);
+void			remove_dat_caps(t_caps *bwscps, t_egg *egg, t_zaap *zaap);
+void			add_new_inc(t_action *act, t_zaap *z, int c);
+int				make_game(t_zaap *zaap);
 
 #endif

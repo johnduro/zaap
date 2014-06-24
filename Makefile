@@ -6,7 +6,7 @@
 #    By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/05/16 15:00:18 by mle-roy           #+#    #+#              #
-#    Updated: 2014/06/19 16:57:52 by mle-roy          ###   ########.fr        #
+#    Updated: 2014/06/24 21:06:52 by mle-roy          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -21,7 +21,10 @@ SRC_S = serveur.c debug.c error_serv.c get_zaap.c init_map.c get_arg.c \
 		check_lvl1_4.c check_lvl5_7.c make_move.c mk_take_drop.c \
 		change_inv_fn.c make_see.c see_south_north.c see_east_west.c \
 		make_expulse.c make_incant.c make_fork.c make_broadcast.c \
-		ft_broadcast.c
+		ft_broadcast.c check_teams.c remove_player.c mine_xpl.c line_filmp.c \
+		dbz_fn_1_4.c dbz_5_7_lin.c dbz_res.c remove_caps.c check_add_inc.c \
+		make_game.c make_inv.c player_buff.c valid_coor.c make_connect.c \
+		ft_zaap.c
 
 OBJ_S = $(SRC_S:.c=.o)
 
