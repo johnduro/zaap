@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:50 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/24 18:02:51 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 19:14:55 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,12 @@ typedef struct			s_player
 	int					nba;
 	int					alive;
 	int					to_send;
-	t_buff				*list;
 	struct timeval		tick;
 	t_stock				*inventory;
 	t_action			*a_first;
 	t_action			*a_last;
 	t_team				*p_team;
-//	char				buff_wr[BUFF + 1];
+	t_buff				*list;
 	char				buff_rd[BUFF + 1];
 	struct s_player		*next;
 	struct s_player		*prev;
@@ -184,7 +183,9 @@ typedef struct			s_zaap
 	t_team				*teams;
 	t_inc				*inc;
 	t_gfx				*gfx;
+	struct timeval		regen;
 }						t_zaap;
+
 typedef struct			s_fill
 {
 	int					x;

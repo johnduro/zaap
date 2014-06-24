@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:28 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/24 18:28:41 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/24 19:26:02 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,19 +213,44 @@ int		make_game(t_zaap *zaap)
 	return (0);
 }
 
+void	regen_map(t_zaap *zp)
+{
+	t_stock		*inv;
+	int			i;
+	int			j;
+
+	i = 0;
+	while (i < zp->y)
+	{
+		j = 0;
+		while (j < zp->x)
+		{
+			inv = zp->map[i][j].ressources;
+			if (inv->food == 0)
+				inv->food = rand_a_b(1, 11);
+			j++;
+		}
+		i++;
+	}
+	action_time(&(zp->regen), zp->time, 1260 * 10);
+}
+
 void	loop_map(t_zaap *zaap)
 {
 	int					ret;
 	struct timeval		tv;
 
+	tv.tv_sec = 0;//ok ?
+	tv.tv_usec = 0;//ok ?
+	action_time(&(zaap->regen), zaap->time, 1260 * 10);
 	while (42)
 	{
 		ret = 0;
 		if (make_game(zaap))
 			break ;
+		if (is_time_yet(zaap->regen))
+			regen_map(zaap);
 		init_fd(zaap);
-		tv.tv_sec = 0;
-		tv.tv_usec = 0;
 		ret = select(zaap->max + 1, &zaap->fd_rd, &zaap->fd_wr, NULL, &tv);
 		check_fd(ret, zaap);
 	}
