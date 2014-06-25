@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 15:36:38 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/13 17:30:42 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/25 17:49:36 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,16 @@ static void		write_to_gfx(t_gfx *gfx)
 		to_send = tmp;
 		bwsbuf = bwsbuf->next;
 	}
-	send(gfx->sock, to_send, gfx->to_send, 0);//retour ?
+	if ((send(gfx->sock, to_send, gfx->to_send, 0)) == -1)
+		zaap_error(-8);
 	free(to_send);
 	remove_gfx_buff(gfx);
 }
 
-static void		remove_gfx(t_zaap *zaap)
+void			remove_gfx(t_zaap *zaap)
 {
 	remove_gfx_buff(zaap->gfx);
+	close(zaap->gfx->sock);
 	free(zaap->gfx);
 	zaap->gfx = NULL;
 }

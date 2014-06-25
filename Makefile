@@ -6,7 +6,7 @@
 #    By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/05/16 15:00:18 by mle-roy           #+#    #+#              #
-#    Updated: 2014/06/24 21:06:52 by mle-roy          ###   ########.fr        #
+#    Updated: 2014/06/25 18:22:22 by mle-roy          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -24,7 +24,7 @@ SRC_S = serveur.c debug.c error_serv.c get_zaap.c init_map.c get_arg.c \
 		ft_broadcast.c check_teams.c remove_player.c mine_xpl.c line_filmp.c \
 		dbz_fn_1_4.c dbz_5_7_lin.c dbz_res.c remove_caps.c check_add_inc.c \
 		make_game.c make_inv.c player_buff.c valid_coor.c make_connect.c \
-		ft_zaap.c
+		ft_zaap.c exit_zaapy.c
 
 OBJ_S = $(SRC_S:.c=.o)
 

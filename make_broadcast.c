@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:50:52 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 19:40:50 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/25 17:35:06 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void		bc_to_pl(t_action *act, t_player *s, t_player *bwspl, t_zaap *z)
 			ret = ft_broadcast(z, s, bwspl);
 			sprintf(tmp, "message %d,%s\n", ret, act->buff);
 			add_player_buff(bwspl, tmp);
-			printf("sending bc to %d frm %d\n-->%s", bwspl->sock, s->sock, tmp);
+			printf("sending bc to %d frm %d\n))>%s", bwspl->sock, s->sock, tmp);
 		}
 		bwspl = bwspl->next;
 	}

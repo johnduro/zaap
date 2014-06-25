@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/11 16:09:48 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/11 16:09:51 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/25 16:35:53 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,7 @@ int	zaap_error(int code)
 		ft_putstr_fd("Sock error\n", 2);
 	else if (code == -7)
 		ft_putstr_fd("Bind error\n", 2);
+	else if (code == -8)
+		ft_putstr_fd("Send error\n", 2);
 	exit(code);
 }

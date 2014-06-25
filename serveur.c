@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/09 17:36:28 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/24 21:10:35 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/25 18:26:51 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ void	loop_map(t_zaap *zaap)
 	int					ret;
 	struct timeval		tv;
 
-	tv.tv_sec = 0;//ok ?
-	tv.tv_usec = 0;//ok ?
+	tv.tv_sec = 0;
+	tv.tv_usec = 0;
 	action_time(&(zaap->regen), zaap->time, 1260 * 10);
 	while (42)
 	{
@@ -97,6 +97,6 @@ int		main(int argc, char **argv)
 	zaap = get_zaap(argv);
 	debug_1(zaap);
 	loop_map(zaap);
-//	exit_zaapy(zaap);
+	exit_zaapy(zaap);
 	return (0);
 }

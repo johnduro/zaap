@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 16:41:27 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/24 20:48:30 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/25 18:33:21 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void				add_new_client(t_team *team, int sock, t_zaap *zaap)
 	else
 		put_client_back(team->first, new);
 	if ((egg = egg_rdy(team->eggs)) != NULL)
-		place_player_in_egg(team, new, egg, zaap);
+		place_player_egg(team, new, egg, zaap);
 	else
 		place_player_rand(new, zaap);
 	if (zaap->gfx)

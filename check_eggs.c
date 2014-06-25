@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 15:36:26 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 17:17:34 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/25 18:22:44 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "zaap.h"
 #include "libft.h"
 
-static void			rotten_egg(t_egg *egg, t_team *team, t_zaap *zaap)
+void				rotten_egg(t_egg *egg, t_team *team, t_zaap *zaap)
 {
 	char		ret[BUFF + 1];
 

@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 16:59:23 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/24 20:53:01 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/25 18:34:00 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void			send_egg_connect(int sock, t_gfx *gfx)
 	add_to_gfx_buf(gfx, tmp);
 }
 
-void			place_player_in_egg(t_team *t, t_player *n, t_egg *e, t_zaap *z)
+void			place_player_egg(t_team *t, t_player *n, t_egg *e, t_zaap *z)
 {
 	n->pos_x = e->x;
 	n->pos_y = e->y;

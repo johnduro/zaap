@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/12 16:11:37 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/24 20:49:28 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/25 16:38:44 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void		write_player(t_player *player, t_zaap *zaap, t_team *team)
 		bwsbuf = bwsbuf->next;
 	}
 	if ((send(player->sock, to_send, player->to_send, 0)) == -1)
-		printf("SENDING FAILED\n");//retour ??
+		zaap_error(-8);
 	printf("sending to player: %d\n-->%s", player->sock, to_send);
 	free(to_send);
 	remove_player_buf(player);
@@ -78,7 +78,7 @@ static void		read_player(t_player *pl, t_zaap *zaap, t_team *t)
 				return ;
 			}
 			pl->buff_rd[ret] = '\0';
-			printf("Player %d[%d][%s]: %s", pl->sock, pl->nba, t->name, pl->buff_rd);//n
+			printf(RECV, pl->sock, pl->nba, t->name, pl->buff_rd);
 			treat_player(pl, zaap);
 		}
 	}

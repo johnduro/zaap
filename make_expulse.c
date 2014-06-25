@@ -6,7 +6,7 @@
 /*   By: mle-roy <mle-roy@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/06/19 16:28:46 by mle-roy           #+#    #+#             */
-/*   Updated: 2014/06/23 15:57:16 by mle-roy          ###   ########.fr       */
+/*   Updated: 2014/06/25 18:28:45 by mle-roy          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ int				make_expulse(t_action *act, t_player *pl, t_zaap *zaap)
 		gfx_expulse(pl->sock, zaap->gfx);
 	while (bwscps)
 	{
-		if (bwscps->player && bwscps->player != pl
-		&& (!bwscps->player->a_first || bwscps->player->a_first->type != ELV))
+		if (bwscps->player && bwscps->player != pl)
 		{
 			move_player(bwscps->player, zaap, pl->dir);
 			if (zaap->gfx)
